@@ -29,5 +29,36 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-05",
+    "market": "us",
+    "id": "CDW",
+    "name": "CDW Corporation",
+    "flagged_close": 134.58,
+    "flagged_change_pct": -12.61,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-05",
+    "market": "us",
+    "id": "PODD",
+    "name": "Insulet Corporation",
+    "flagged_close": 134.79,
+    "flagged_change_pct": -19.2,
+    "tags": []
+  },
+  {
+    "date": "2026-08-05",
+    "market": "us",
+    "id": "CCI",
+    "name": "Crown Castle",
+    "flagged_close": 69.97,
+    "flagged_change_pct": -9.9,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
