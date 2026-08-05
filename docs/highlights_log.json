@@ -60,5 +60,38 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-05",
+    "market": "us",
+    "id": "AMD",
+    "name": "Advanced Micro Devices",
+    "flagged_close": 482.05,
+    "flagged_change_pct": -7.04,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-05",
+    "market": "us",
+    "id": "HONA",
+    "name": "Honeywell Aerospace",
+    "flagged_close": 203.64,
+    "flagged_change_pct": -5.93,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-05",
+    "market": "us",
+    "id": "UBER",
+    "name": "Uber",
+    "flagged_close": 68.18,
+    "flagged_change_pct": -5.29,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
