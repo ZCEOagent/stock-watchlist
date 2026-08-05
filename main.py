@@ -16,9 +16,11 @@ from fetch_us_universe import get_us_universe
 from fetch_tw_all import get_tw_history
 from fetch_us_stock import get_us_stock_history
 from indicators import compute_indicators
-from screener import screen_market
+from screener import screen_market, pick_highlights
 from fetch_news import get_tw_news, get_us_news
 from report import save_report
+import tracking
+import config
 
 
 def build_watchlist(universe, history, id_key, name_key, market, close_key="close", volume_key="volume"):
@@ -74,9 +76,29 @@ def main():
     tw_news = get_tw_news()
     us_news = get_us_news()
 
+    print("正在整理今日焦點與追蹤紀錄...")
+    today_str = datetime.date.today().isoformat()
+    tw_highlights = pick_highlights(tw_watchlist, config.HIGHLIGHT_COUNT_PER_MARKET)
+    us_highlights = pick_highlights(us_watchlist, config.HIGHLIGHT_COUNT_PER_MARKET)
+
+    log = tracking.load_log()
+    followups = tracking.compute_followups(log, tw_history, us_history, today_str)
+
+    is_full_run = not args.tw_limit and not args.us_limit
+    if is_full_run:
+        # 只有跑「全市場」時才把今天的焦點寫進追蹤記錄，
+        # 避免小規模測試（--tw-limit 之類）產生不具代表性的焦點污染記錄檔
+        log = tracking.append_highlights(log, tw_highlights, "tw", today_str)
+        log = tracking.append_highlights(log, us_highlights, "us", today_str)
+        log = tracking.prune_log(log, today_str)
+        tracking.save_log(log)
+    else:
+        print("（測試模式：這次的焦點不會寫進追蹤記錄）")
+
     print("正在產生報告...")
     path = save_report(
-        tw_watchlist, us_watchlist, tw_news, us_news,
+        tw_watchlist, us_watchlist, tw_highlights, us_highlights,
+        tw_news, us_news, followups,
         tw_scanned=len(tw_universe), tw_success=len(tw_history),
         us_scanned=len(us_universe), us_success=len(us_history),
         tw_data_source=tw_data_source,

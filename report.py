@@ -12,7 +12,6 @@ import html
 import datetime
 
 import config
-from screener import pick_highlights
 
 # ------- 色票（已用 dataviz 六項檢查工具驗證過色盲可辨識度）-------
 COLOR_UP = ("#e34948", "#e66767")      # 紅漲：(亮色模式, 暗色模式)
@@ -67,15 +66,12 @@ def _highlight_card_html(item, price_prefix=""):
       </div>"""
 
 
-def _highlights_section_html(tw_watchlist, us_watchlist):
-    tw_hi = pick_highlights(tw_watchlist, config.HIGHLIGHT_COUNT_PER_MARKET)
-    us_hi = pick_highlights(us_watchlist, config.HIGHLIGHT_COUNT_PER_MARKET)
-
-    if not tw_hi and not us_hi:
+def _highlights_section_html(tw_highlights, us_highlights):
+    if not tw_highlights and not us_highlights:
         return '<p class="empty">今天沒有標的符合篩選條件，沒有焦點可顯示。</p>'
 
-    tw_cards = "\n".join(_highlight_card_html(i) for i in tw_hi)
-    us_cards = "\n".join(_highlight_card_html(i, price_prefix="$") for i in us_hi)
+    tw_cards = "\n".join(_highlight_card_html(i) for i in tw_highlights)
+    us_cards = "\n".join(_highlight_card_html(i, price_prefix="$") for i in us_highlights)
 
     blocks = []
     if tw_cards:
@@ -83,6 +79,38 @@ def _highlights_section_html(tw_watchlist, us_watchlist):
     if us_cards:
         blocks.append(f'<div class="tile-group"><h3>美股</h3><div class="tile-row">{us_cards}</div></div>')
     return "\n".join(blocks)
+
+
+def _tracking_section_html(followups):
+    if not followups:
+        return ('<p class="empty">還沒有足夠的歷史紀錄可以追蹤——'
+                '從今天開始累積，過幾天回來看看這幾檔後來怎麼走。</p>')
+
+    rows = []
+    for f in followups:
+        flagged_cls = _change_class(f["flagged_change_pct"])
+        cum_cls = _change_class(f["cumulative_pct"])
+        market_label = "台股" if f["market"] == "tw" else "美股"
+        price_prefix = "" if f["market"] == "tw" else "$"
+        badges = _tag_badges_html(f.get("tags", []))
+
+        rows.append(f"""
+        <tr>
+          <td class="muted">{f["days_ago"]}天前（{html.escape(f["date"])}）</td>
+          <td>{market_label}　{html.escape(f["name"])}<span class="tile-code">{html.escape(f["id"])}</span> {badges}</td>
+          <td class="num {flagged_cls}">當時 {_fmt_change(f["flagged_change_pct"])}</td>
+          <td class="num {cum_cls}">至今累積 {_fmt_change(f["cumulative_pct"])}</td>
+          <td class="num muted">{price_prefix}{f["flagged_close"]} → {price_prefix}{f["current_close"]}</td>
+        </tr>""")
+
+    return f"""
+  <p class="tracking-note">單純記錄「被列為焦點那天」到「現在」的價格變化，不是預測、也不是建議——被列為焦點時已經是當天的既成事實，這裡只是誠實記下後來發生了什麼。</p>
+  <div class="table-wrap">
+  <table>
+    <tr><th>被列為焦點</th><th>標的</th><th class="num">當時漲跌</th><th class="num">後續累積漲跌</th><th class="num">價格</th></tr>
+    {"".join(rows)}
+  </table>
+  </div>"""
 
 
 def _stock_rows_html(watchlist, price_prefix=""):
@@ -117,7 +145,8 @@ def _news_list_html(news_items):
     return f"<ul>{items}</ul>"
 
 
-def generate_html(tw_watchlist, us_watchlist, tw_news, us_news,
+def generate_html(tw_watchlist, us_watchlist, tw_highlights, us_highlights,
+                   tw_news, us_news, followups,
                    tw_scanned, tw_success, us_scanned, us_success, tw_data_source):
     today = datetime.date.today().isoformat()
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
@@ -219,6 +248,7 @@ def generate_html(tw_watchlist, us_watchlist, tw_news, us_news,
   .down {{ color: var(--down); font-weight: 600; }}
   .neutral {{ color: var(--neutral); font-weight: 600; }}
 
+  .tracking-note {{ color: var(--text-muted); font-size: 0.85em; margin-bottom: 10px; }}
   .empty {{ text-align: center; color: var(--text-muted); padding: 20px; }}
   ul {{ padding-left: 1.2em; }}
   li {{ margin-bottom: 6px; }}
@@ -236,7 +266,10 @@ def generate_html(tw_watchlist, us_watchlist, tw_news, us_news,
   </div>
 
   <h2>今日焦點</h2>
-  {_highlights_section_html(tw_watchlist, us_watchlist)}
+  {_highlights_section_html(tw_highlights, us_highlights)}
+
+  <h2>焦點追蹤成效</h2>
+  {_tracking_section_html(followups)}
 
   <h2>台股完整清單（共 {len(tw_watchlist)} 檔）</h2>
   <div class="table-wrap">
@@ -265,11 +298,13 @@ def generate_html(tw_watchlist, us_watchlist, tw_news, us_news,
 """
 
 
-def save_report(tw_watchlist, us_watchlist, tw_news, us_news,
+def save_report(tw_watchlist, us_watchlist, tw_highlights, us_highlights,
+                 tw_news, us_news, followups,
                  tw_scanned, tw_success, us_scanned, us_success, tw_data_source, path=None):
     path = path or config.REPORT_HTML_PATH
     content = generate_html(
-        tw_watchlist, us_watchlist, tw_news, us_news,
+        tw_watchlist, us_watchlist, tw_highlights, us_highlights,
+        tw_news, us_news, followups,
         tw_scanned, tw_success, us_scanned, us_success, tw_data_source,
     )
     with open(path, "w", encoding="utf-8") as f:

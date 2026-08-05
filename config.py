@@ -55,6 +55,11 @@ HISTORY_CALENDAR_DAYS = 60
 # ------- 輸出檔案位置 -------
 REPORT_HTML_PATH = "docs/index.html"
 
+# ------- 焦點追蹤（記錄「今日焦點」後續股價表現，純資料記錄不做判斷）-------
+HIGHLIGHTS_LOG_PATH = "docs/highlights_log.json"
+TRACKING_LOOKBACK_DISPLAY_DAYS = 30   # 報告裡最多顯示幾天內被列為焦點的追蹤紀錄
+TRACKING_LOG_RETENTION_DAYS = 120     # 記錄檔最多保留幾天的資料，避免檔案無限長大
+
 # ------- 新聞來源（RSS，不需要金鑰）-------
 TW_NEWS_RSS_FEEDS = [
     "https://tw.stock.yahoo.com/rss?q=tw-market",
