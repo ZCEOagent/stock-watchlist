@@ -60,6 +60,11 @@ HIGHLIGHTS_LOG_PATH = "docs/highlights_log.json"
 TRACKING_LOOKBACK_DISPLAY_DAYS = 30   # 報告裡最多顯示幾天內被列為焦點的追蹤紀錄
 TRACKING_LOG_RETENTION_DAYS = 120     # 記錄檔最多保留幾天的資料，避免檔案無限長大
 
+# ------- 台股/美股各自獨立排程用的資料快取 -------
+# 台股、美股現在分開排程執行，各自把結果存這裡，網站產生時兩邊都讀最新的一份組合起來
+TW_CACHE_PATH = "docs/tw_cache.json"
+US_CACHE_PATH = "docs/us_cache.json"
+
 # ------- 新聞來源（RSS，不需要金鑰）-------
 TW_NEWS_RSS_FEEDS = [
     "https://tw.stock.yahoo.com/rss?q=tw-market",

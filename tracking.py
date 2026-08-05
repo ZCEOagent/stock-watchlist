@@ -51,17 +51,14 @@ def prune_log(log, today_str, retention_days=None):
     return [e for e in log if datetime.date.fromisoformat(e["date"]) >= cutoff]
 
 
-def _latest_close(history, stock_id):
-    rows = history.get(stock_id)
-    if not rows:
-        return None
-    return max(rows, key=lambda r: r["date"]).get("close")
-
-
-def compute_followups(log, tw_history, us_history, today_str, display_days=None):
+def compute_followups(log, tw_prices, us_prices, today_str, display_days=None):
     """
     對「不是今天才記錄」的焦點，算出從被列為焦點那天到現在的累積漲跌。
     只回傳 display_days 天內的紀錄，避免報告越長越長。
+
+    tw_prices / us_prices: { 股票代號: 最新收盤價 }，來自各市場快取（見 data_cache.py）。
+    因為台股、美股現在各自獨立排程，這裡的「最新」是「該市場上一次執行時」的價格，
+    不一定跟另一個市場同一天，這是分開排程之後很合理的取捨。
     """
     display_days = display_days or config.TRACKING_LOOKBACK_DISPLAY_DAYS
     today = datetime.date.fromisoformat(today_str)
@@ -73,8 +70,8 @@ def compute_followups(log, tw_history, us_history, today_str, display_days=None)
         if entry_date == today or entry_date < cutoff:
             continue
 
-        history = tw_history if entry["market"] == "tw" else us_history
-        current_close = _latest_close(history, entry["id"])
+        prices = tw_prices if entry["market"] == "tw" else us_prices
+        current_close = prices.get(entry["id"])
         if current_close is None or not entry.get("flagged_close"):
             continue
 
