@@ -21,7 +21,7 @@ from fetch_news import get_tw_news, get_us_news
 from report import save_report
 
 
-def build_watchlist(universe, history, id_key, name_key, close_key="close", volume_key="volume"):
+def build_watchlist(universe, history, id_key, name_key, market, close_key="close", volume_key="volume"):
     items = []
     for entry in universe:
         code = entry[id_key]
@@ -30,7 +30,7 @@ def build_watchlist(universe, history, id_key, name_key, close_key="close", volu
             history.get(code, []), close_key=close_key, volume_key=volume_key
         )
         items.append((code, name, indicator))
-    return screen_market(items)
+    return screen_market(items, market=market)
 
 
 def main():
@@ -62,11 +62,11 @@ def main():
 
     print("正在計算技術指標並篩選...")
     tw_watchlist = build_watchlist(
-        tw_universe, tw_history, "stock_id", "stock_name",
+        tw_universe, tw_history, "stock_id", "stock_name", market="tw",
         close_key="close", volume_key="volume",
     )
     us_watchlist = build_watchlist(
-        us_universe, us_history, "symbol", "name",
+        us_universe, us_history, "symbol", "name", market="us",
         close_key="close", volume_key="volume",
     )
 

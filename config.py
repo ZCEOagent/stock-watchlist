@@ -8,6 +8,11 @@ PRICE_CHANGE_PCT_THRESHOLD = 3.0      # 漲跌幅超過正負多少 % 才算注�
 VOLUME_RATIO_THRESHOLD = 1.5          # 成交量是「近20日均量」的幾倍以上才算注意
 MA_CROSS_LOOKBACK_DAYS = 1            # 判斷「今天剛站上/跌破均線」時，往前比對幾天
 
+# ------- 報告「今日焦點」用的標籤門檻（純規則判斷，不是AI）-------
+TW_LIMIT_THRESHOLD_PCT = 9.5   # 台股當日漲跌幅達到這個%以上，視為「漲停/跌停」（台股法定單日上限10%）
+EXTREME_VOLUME_RATIO = 3.0     # 成交量達均量這個倍數以上，標記為「爆量」（比一般門檻更極端）
+HIGHLIGHT_COUNT_PER_MARKET = 3  # 「今日焦點」每個市場各挑幾檔
+
 # ------- 均線設定 -------
 MA_SHORT = 5     # 短期均線天數
 MA_LONG = 20     # 長期均線天數（同時也用來算「均量」的天數）
