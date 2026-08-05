@@ -41,6 +41,7 @@ def get_tw_universe():
             "stock_id": row["stock_id"],
             "stock_name": row["stock_name"],
             "type": row["type"],
+            "sector": row["industry_category"],
         })
 
     universe.sort(key=lambda x: x["stock_id"])

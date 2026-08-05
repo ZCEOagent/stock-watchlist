@@ -8,7 +8,7 @@ import requests
 import config
 
 def get_us_universe():
-    """回傳 [{"symbol": "AAPL", "name": "Apple Inc."}, ...]"""
+    """回傳 [{"symbol": "AAPL", "name": "Apple Inc.", "sector": "Information Technology"}, ...]"""
     resp = requests.get(config.SP500_LIST_URL, timeout=30)
     resp.raise_for_status()
 
@@ -19,7 +19,11 @@ def get_us_universe():
         symbol = row["Symbol"].strip()
         # yfinance 用 "-" 表示股份等級（例如 BRK-B），CSV 裡是用 "."（BRK.B），要轉換
         symbol = symbol.replace(".", "-")
-        universe.append({"symbol": symbol, "name": row["Security"].strip()})
+        universe.append({
+            "symbol": symbol,
+            "name": row["Security"].strip(),
+            "sector": row.get("GICS Sector", "").strip(),
+        })
 
     universe.sort(key=lambda x: x["symbol"])
     return universe

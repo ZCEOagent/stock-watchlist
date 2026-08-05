@@ -53,6 +53,8 @@ def _highlight_card_html(item, price_prefix=""):
     blurb = "、".join(item["reasons"])
     ma_text = _ma_status_text(item)
     ma_line = f"，{html.escape(ma_text)}" if ma_text != "—" else ""
+    sector = item.get("sector") or ""
+    sector_line = f'<div class="tile-sector">{html.escape(sector)}</div>' if sector else ""
 
     return f"""
       <div class="tile">
@@ -60,6 +62,7 @@ def _highlight_card_html(item, price_prefix=""):
           <span class="tile-name">{html.escape(item["name"])}<span class="tile-code">{html.escape(item["id"])}</span></span>
           {_tag_badges_html(item["tags"])}
         </div>
+        {sector_line}
         <div class="tile-value {cls}">{_fmt_change(item["change_pct"])}</div>
         <div class="tile-sub">{price_prefix}{item["close"]}｜{html.escape(volume_ratio)}{ma_line}</div>
         <div class="tile-blurb">{html.escape(blurb)}。同時符合 {item["signal_count"]} 項條件。</div>
@@ -79,6 +82,21 @@ def _highlights_section_html(tw_highlights, us_highlights):
     if us_cards:
         blocks.append(f'<div class="tile-group"><h3>美股</h3><div class="tile-row">{us_cards}</div></div>')
     return "\n".join(blocks)
+
+
+def _reading_guide_html():
+    return """
+  <div class="guide">
+    <p class="guide-lead">這份報告只整理「發生了什麼」，不會告訴你「該做什麼」——原因跟怎麼自己判讀，見下面：</p>
+    <ol>
+      <li><b>方向是什麼？</b>看 +/− 號，這是唯一的客觀事實，其他都是解讀。</li>
+      <li><b>有沒有「量」佐證「價」？</b>量增價漲代表比較多人同時在買，參與度較高；但也常常是「最後一批追高的人」——兩種解讀都成立，沒有公式能分辨。</li>
+      <li><b>均線位置是「已經發生」，不是「即將發生」。</b>均線是落後指標，看到訊號時，這段走勢往往已經進行一段時間了，這是這類指標天生的限制。</li>
+      <li><b>符合的條件數代表「訊號醒目」，不代表「機率更高」。</b>條件越多只是好幾個角度剛好指向同一件事，統計上不必然更可靠。</li>
+      <li><b>永遠先問：如果判斷錯了，會虧多少？</b>風險控管（部位大小、停損）的重要性，高過判斷方向對不對，這是專業交易者的共識。</li>
+    </ol>
+    <p class="guide-note">本報告用的指標（漲跌幅、量能倍數、均線）是股市討論中常見的敘述性數字，選它們是因為簡單透明、公式你自己查得到，<b>不是因為有實證研究證明符合這些條件的股票之後表現比較好或比較差</b>。門檻設定在 <code>config.py</code>，隨時可以自己調整查看。</p>
+  </div>"""
 
 
 def _tracking_section_html(followups):
@@ -126,13 +144,14 @@ def _stock_rows_html(watchlist, price_prefix=""):
         <tr>
           <td>{html.escape(item["id"])}</td>
           <td>{html.escape(item["name"])} {badges}</td>
+          <td class="muted">{html.escape(item.get("sector") or "—")}</td>
           <td class="num">{price_prefix}{item["close"]}</td>
           <td class="num {cls}">{_fmt_change(item["change_pct"])}</td>
           <td class="num">{volume_ratio}</td>
           <td>{html.escape(ma_status)}</td>
           <td class="muted">{html.escape(reasons)}</td>
         </tr>""")
-    return "\n".join(rows) if rows else '<tr><td colspan="7" class="empty">今天沒有標的符合篩選條件</td></tr>'
+    return "\n".join(rows) if rows else '<tr><td colspan="8" class="empty">今天沒有標的符合篩選條件</td></tr>'
 
 
 def _news_list_html(news_items):
@@ -231,8 +250,18 @@ def generate_html(tw_watchlist, us_watchlist, tw_highlights, us_highlights,
   .tile-code {{ color: var(--text-muted); font-weight: 400; font-size: 0.85em; margin-left: 6px; }}
   .tile-value {{ font-size: 1.7em; font-weight: 600; font-variant-numeric: proportional-nums;
                  margin: 2px 0 6px; }}
+  .tile-sector {{ color: var(--text-muted); font-size: 0.78em; margin-bottom: 2px; }}
   .tile-sub {{ color: var(--text-secondary); font-size: 0.88em; margin-bottom: 6px; }}
   .tile-blurb {{ color: var(--text-secondary); font-size: 0.85em; line-height: 1.5; }}
+
+  /* 完整清單：預設收合，點了才展開，版面優先呈現焦點而不是塞滿大表格 */
+  details.full-list {{ margin-top: 2.2em; }}
+  details.full-list summary {{ cursor: pointer; font-size: 1.15em; font-weight: 600;
+    padding-bottom: 8px; border-bottom: 1px solid var(--grid); list-style: none; }}
+  details.full-list summary::-webkit-details-marker {{ display: none; }}
+  details.full-list summary::before {{ content: "▸ "; color: var(--text-muted); }}
+  details.full-list[open] summary::before {{ content: "▾ "; }}
+  details.full-list .table-wrap {{ margin-top: 12px; }}
 
   .badge {{ display: inline-block; background: var(--badge-bg); color: var(--text-secondary);
             font-size: 0.75em; padding: 2px 7px; border-radius: 999px; margin-left: 4px;
@@ -247,6 +276,15 @@ def generate_html(tw_watchlist, us_watchlist, tw_highlights, us_highlights,
   .up {{ color: var(--up); font-weight: 600; }}
   .down {{ color: var(--down); font-weight: 600; }}
   .neutral {{ color: var(--neutral); font-weight: 600; }}
+
+  .guide {{ background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px;
+            padding: 16px 20px; }}
+  .guide-lead {{ margin-top: 0; color: var(--text-secondary); font-size: 0.92em; }}
+  .guide ol {{ padding-left: 1.3em; margin: 10px 0; }}
+  .guide li {{ margin-bottom: 8px; font-size: 0.92em; line-height: 1.6; }}
+  .guide-note {{ color: var(--text-muted); font-size: 0.85em; line-height: 1.6; margin-bottom: 0;
+                 border-top: 1px solid var(--grid); padding-top: 10px; }}
+  .guide code {{ background: var(--badge-bg); padding: 1px 5px; border-radius: 4px; font-size: 0.95em; }}
 
   .tracking-note {{ color: var(--text-muted); font-size: 0.85em; margin-bottom: 10px; }}
   .empty {{ text-align: center; color: var(--text-muted); padding: 20px; }}
@@ -268,24 +306,31 @@ def generate_html(tw_watchlist, us_watchlist, tw_highlights, us_highlights,
   <h2>今日焦點</h2>
   {_highlights_section_html(tw_highlights, us_highlights)}
 
+  <h2>怎麼讀這份報告</h2>
+  {_reading_guide_html()}
+
   <h2>焦點追蹤成效</h2>
   {_tracking_section_html(followups)}
 
-  <h2>台股完整清單（共 {len(tw_watchlist)} 檔）</h2>
-  <div class="table-wrap">
-  <table>
-    <tr><th>代號</th><th>名稱</th><th class="num">收盤價</th><th class="num">漲跌幅</th><th class="num">量比</th><th>均線狀態</th><th>符合原因</th></tr>
-    {_stock_rows_html(tw_watchlist)}
-  </table>
-  </div>
+  <details class="full-list">
+    <summary>台股完整清單（共 {len(tw_watchlist)} 檔，點這裡展開）</summary>
+    <div class="table-wrap">
+    <table>
+      <tr><th>代號</th><th>名稱</th><th>產業</th><th class="num">收盤價</th><th class="num">漲跌幅</th><th class="num">量比</th><th>均線狀態</th><th>符合原因</th></tr>
+      {_stock_rows_html(tw_watchlist)}
+    </table>
+    </div>
+  </details>
 
-  <h2>美股完整清單（S&amp;P 500，共 {len(us_watchlist)} 檔）</h2>
-  <div class="table-wrap">
-  <table>
-    <tr><th>代號</th><th>名稱</th><th class="num">收盤價</th><th class="num">漲跌幅</th><th class="num">量比</th><th>均線狀態</th><th>符合原因</th></tr>
-    {_stock_rows_html(us_watchlist, price_prefix="$")}
-  </table>
-  </div>
+  <details class="full-list">
+    <summary>美股完整清單（S&amp;P 500，共 {len(us_watchlist)} 檔，點這裡展開）</summary>
+    <div class="table-wrap">
+    <table>
+      <tr><th>代號</th><th>名稱</th><th>產業</th><th class="num">收盤價</th><th class="num">漲跌幅</th><th class="num">量比</th><th>均線狀態</th><th>符合原因</th></tr>
+      {_stock_rows_html(us_watchlist, price_prefix="$")}
+    </table>
+    </div>
+  </details>
 
   <h2>台股相關新聞</h2>
   {_news_list_html(tw_news)}

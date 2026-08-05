@@ -45,7 +45,12 @@ def build_watchlist(universe, history, id_key, name_key, market, close_key="clos
             history.get(code, []), close_key=close_key, volume_key=volume_key
         )
         items.append((code, name, indicator))
-    return screen_market(items, market=market)
+    watchlist = screen_market(items, market=market)
+
+    sector_lookup = {entry[id_key]: entry.get("sector", "") for entry in universe}
+    for item in watchlist:
+        item["sector"] = sector_lookup.get(item["id"], "")
+    return watchlist
 
 
 def _latest_prices(history):
