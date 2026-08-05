@@ -1,0 +1,33 @@
+[
+  {
+    "date": "2026-08-05",
+    "market": "us",
+    "id": "PODD",
+    "name": "Insulet Corporation",
+    "flagged_close": 135.6,
+    "flagged_change_pct": -18.71,
+    "tags": []
+  },
+  {
+    "date": "2026-08-05",
+    "market": "us",
+    "id": "CDW",
+    "name": "CDW Corporation",
+    "flagged_close": 135.88,
+    "flagged_change_pct": -11.77,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-05",
+    "market": "us",
+    "id": "WYNN",
+    "name": "Wynn Resorts",
+    "flagged_close": 107.75,
+    "flagged_change_pct": 10.39,
+    "tags": [
+      "均線同步"
+    ]
+  }
+]
