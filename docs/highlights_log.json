@@ -93,5 +93,41 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-06",
+    "market": "tw",
+    "id": "6186",
+    "name": "新潤",
+    "flagged_close": 36.55,
+    "flagged_change_pct": -13.9,
+    "tags": [
+      "跌停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-06",
+    "market": "tw",
+    "id": "2414",
+    "name": "精技",
+    "flagged_close": 56.5,
+    "flagged_change_pct": -6.77,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-06",
+    "market": "tw",
+    "id": "1256",
+    "name": "鮮活果汁-KY",
+    "flagged_close": 177.0,
+    "flagged_change_pct": -4.84,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
   }
 ]
