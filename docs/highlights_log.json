@@ -129,5 +129,39 @@
       "爆量",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-07",
+    "market": "us",
+    "id": "DDOG",
+    "name": "Datadog",
+    "flagged_close": 229.29,
+    "flagged_change_pct": -19.03,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-07",
+    "market": "us",
+    "id": "AXON",
+    "name": "Axon Enterprise",
+    "flagged_close": 522.46,
+    "flagged_change_pct": -14.28,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-07",
+    "market": "us",
+    "id": "HST",
+    "name": "Host Hotels & Resorts",
+    "flagged_close": 23.38,
+    "flagged_change_pct": -6.96,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
