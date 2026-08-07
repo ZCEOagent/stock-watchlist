@@ -201,5 +201,38 @@
       "爆量",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-07",
+    "market": "us",
+    "id": "MCHP",
+    "name": "Microchip Technology",
+    "flagged_close": 84.69,
+    "flagged_change_pct": 13.89,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-07",
+    "market": "us",
+    "id": "TTWO",
+    "name": "Take-Two Interactive",
+    "flagged_close": 246.5,
+    "flagged_change_pct": 6.04,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-07",
+    "market": "us",
+    "id": "ZTS",
+    "name": "Zoetis",
+    "flagged_close": 72.66,
+    "flagged_change_pct": -5.97,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
