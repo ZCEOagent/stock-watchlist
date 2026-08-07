@@ -163,5 +163,43 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-07",
+    "market": "tw",
+    "id": "7723",
+    "name": "築間",
+    "flagged_close": 20.35,
+    "flagged_change_pct": 10.0,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-07",
+    "market": "tw",
+    "id": "1435",
+    "name": "中福",
+    "flagged_close": 23.3,
+    "flagged_change_pct": 9.91,
+    "tags": [
+      "漲停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-07",
+    "market": "tw",
+    "id": "6735",
+    "name": "美達科技",
+    "flagged_close": 65.7,
+    "flagged_change_pct": -9.88,
+    "tags": [
+      "跌停",
+      "爆量",
+      "均線同步"
+    ]
   }
 ]
