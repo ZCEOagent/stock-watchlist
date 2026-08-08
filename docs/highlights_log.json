@@ -272,5 +272,38 @@
       "爆量",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-08",
+    "market": "us",
+    "id": "MCHP",
+    "name": "Microchip Technology",
+    "flagged_close": 84.69,
+    "flagged_change_pct": 13.89,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-08",
+    "market": "us",
+    "id": "UBER",
+    "name": "Uber",
+    "flagged_close": 75.02,
+    "flagged_change_pct": 6.46,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-08",
+    "market": "us",
+    "id": "TTWO",
+    "name": "Take-Two Interactive",
+    "flagged_close": 246.5,
+    "flagged_change_pct": 6.04,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
