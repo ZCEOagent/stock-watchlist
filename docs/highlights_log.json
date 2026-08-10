@@ -413,5 +413,36 @@
       "跌停",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-10",
+    "market": "us",
+    "id": "DDOG",
+    "name": "Datadog",
+    "flagged_close": 260.78,
+    "flagged_change_pct": 11.48,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-10",
+    "market": "us",
+    "id": "COHR",
+    "name": "Coherent Corp.",
+    "flagged_close": 325.15,
+    "flagged_change_pct": -14.24,
+    "tags": []
+  },
+  {
+    "date": "2026-08-10",
+    "market": "us",
+    "id": "MPC",
+    "name": "Marathon Petroleum",
+    "flagged_close": 320.32,
+    "flagged_change_pct": 7.42,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
