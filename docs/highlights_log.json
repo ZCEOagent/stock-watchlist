@@ -376,5 +376,42 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-10",
+    "market": "tw",
+    "id": "5904",
+    "name": "寶雅",
+    "flagged_close": 79.2,
+    "flagged_change_pct": -89.0,
+    "tags": [
+      "跌停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-10",
+    "market": "tw",
+    "id": "6962",
+    "name": "奕力-KY",
+    "flagged_close": 34.15,
+    "flagged_change_pct": 9.98,
+    "tags": [
+      "漲停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-10",
+    "market": "tw",
+    "id": "8069",
+    "name": "元太",
+    "flagged_close": 176.5,
+    "flagged_change_pct": -9.95,
+    "tags": [
+      "跌停",
+      "均線同步"
+    ]
   }
 ]
