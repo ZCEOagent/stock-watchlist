@@ -480,5 +480,34 @@
       "跌停",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-11",
+    "market": "us",
+    "id": "KKR",
+    "name": "KKR & Co.",
+    "flagged_close": 110.97,
+    "flagged_change_pct": 6.88,
+    "tags": []
+  },
+  {
+    "date": "2026-08-11",
+    "market": "us",
+    "id": "DDOG",
+    "name": "Datadog",
+    "flagged_close": 246.78,
+    "flagged_change_pct": -5.37,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-11",
+    "market": "us",
+    "id": "HON",
+    "name": "Honeywell Technologies",
+    "flagged_close": 230.12,
+    "flagged_change_pct": -5.27,
+    "tags": []
   }
 ]
