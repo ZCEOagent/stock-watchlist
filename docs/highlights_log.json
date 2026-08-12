@@ -509,5 +509,42 @@
     "flagged_close": 230.12,
     "flagged_change_pct": -5.27,
     "tags": []
+  },
+  {
+    "date": "2026-08-12",
+    "market": "tw",
+    "id": "5465",
+    "name": "富驊",
+    "flagged_close": 23.7,
+    "flagged_change_pct": 9.98,
+    "tags": [
+      "漲停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-12",
+    "market": "tw",
+    "id": "6221",
+    "name": "晉泰",
+    "flagged_close": 22.6,
+    "flagged_change_pct": 9.98,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-12",
+    "market": "tw",
+    "id": "3066",
+    "name": "李洲",
+    "flagged_close": 23.75,
+    "flagged_change_pct": 9.95,
+    "tags": [
+      "漲停",
+      "均線同步"
+    ]
   }
 ]
