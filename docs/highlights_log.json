@@ -575,5 +575,43 @@
     "flagged_close": 355.64,
     "flagged_change_pct": 8.24,
     "tags": []
+  },
+  {
+    "date": "2026-08-13",
+    "market": "tw",
+    "id": "8444",
+    "name": "綠河-KY",
+    "flagged_close": 4.86,
+    "flagged_change_pct": -10.0,
+    "tags": [
+      "跌停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-13",
+    "market": "tw",
+    "id": "3533",
+    "name": "嘉澤",
+    "flagged_close": 1810.0,
+    "flagged_change_pct": -9.95,
+    "tags": [
+      "跌停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-13",
+    "market": "tw",
+    "id": "2440",
+    "name": "太空梭",
+    "flagged_close": 14.35,
+    "flagged_change_pct": -8.31,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
   }
 ]
