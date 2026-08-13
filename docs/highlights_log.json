@@ -613,5 +613,38 @@
       "爆量",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-13",
+    "market": "us",
+    "id": "CSCO",
+    "name": "Cisco",
+    "flagged_close": 113.47,
+    "flagged_change_pct": -8.4,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-13",
+    "market": "us",
+    "id": "FDXF",
+    "name": "FedEx Freight",
+    "flagged_close": 151.99,
+    "flagged_change_pct": 7.61,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-13",
+    "market": "us",
+    "id": "WDAY",
+    "name": "Workday, Inc.",
+    "flagged_close": 206.45,
+    "flagged_change_pct": 17.78,
+    "tags": [
+      "爆量"
+    ]
   }
 ]
