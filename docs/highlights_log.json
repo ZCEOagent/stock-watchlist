@@ -683,5 +683,34 @@
       "爆量",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-14",
+    "market": "us",
+    "id": "AMAT",
+    "name": "Applied Materials",
+    "flagged_close": 507.18,
+    "flagged_change_pct": -5.12,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-14",
+    "market": "us",
+    "id": "CPRT",
+    "name": "Copart",
+    "flagged_close": 31.61,
+    "flagged_change_pct": 7.55,
+    "tags": []
+  },
+  {
+    "date": "2026-08-14",
+    "market": "us",
+    "id": "AVGO",
+    "name": "Broadcom",
+    "flagged_close": 392.99,
+    "flagged_change_pct": -5.94,
+    "tags": []
   }
 ]
