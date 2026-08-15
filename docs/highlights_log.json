@@ -712,5 +712,42 @@
     "flagged_close": 392.99,
     "flagged_change_pct": -5.94,
     "tags": []
+  },
+  {
+    "date": "2026-08-15",
+    "market": "tw",
+    "id": "2645",
+    "name": "長榮航太",
+    "flagged_close": 200.0,
+    "flagged_change_pct": 9.89,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-15",
+    "market": "tw",
+    "id": "3691",
+    "name": "碩禾",
+    "flagged_close": 110.0,
+    "flagged_change_pct": -9.84,
+    "tags": [
+      "跌停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-15",
+    "market": "tw",
+    "id": "6962",
+    "name": "奕力-KY",
+    "flagged_close": 30.75,
+    "flagged_change_pct": -8.75,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
   }
 ]
