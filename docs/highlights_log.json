@@ -844,5 +844,42 @@
     "flagged_close": 392.99,
     "flagged_change_pct": -5.94,
     "tags": []
+  },
+  {
+    "date": "2026-08-17",
+    "market": "tw",
+    "id": "6223",
+    "name": "旺矽",
+    "flagged_close": 5800.0,
+    "flagged_change_pct": -9.94,
+    "tags": [
+      "跌停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-17",
+    "market": "tw",
+    "id": "6967",
+    "name": "汎瑋材料",
+    "flagged_close": 75.6,
+    "flagged_change_pct": 9.88,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-17",
+    "market": "tw",
+    "id": "3691",
+    "name": "碩禾",
+    "flagged_close": 110.0,
+    "flagged_change_pct": -9.84,
+    "tags": [
+      "跌停",
+      "均線同步"
+    ]
   }
 ]
