@@ -881,5 +881,38 @@
       "跌停",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-17",
+    "market": "us",
+    "id": "STZ",
+    "name": "Constellation Brands",
+    "flagged_close": 130.56,
+    "flagged_change_pct": -6.19,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-17",
+    "market": "us",
+    "id": "ALGN",
+    "name": "Align Technology",
+    "flagged_close": 171.16,
+    "flagged_change_pct": -5.6,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-17",
+    "market": "us",
+    "id": "AMAT",
+    "name": "Applied Materials",
+    "flagged_close": 535.31,
+    "flagged_change_pct": 5.55,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
