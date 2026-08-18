@@ -914,5 +914,41 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-18",
+    "market": "tw",
+    "id": "6907",
+    "name": "雅特力-KY",
+    "flagged_close": 188.0,
+    "flagged_change_pct": 9.94,
+    "tags": [
+      "漲停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-18",
+    "market": "tw",
+    "id": "6869",
+    "name": "雲豹能源",
+    "flagged_close": 69.8,
+    "flagged_change_pct": 9.92,
+    "tags": [
+      "漲停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-18",
+    "market": "tw",
+    "id": "8085",
+    "name": "福華",
+    "flagged_close": 12.4,
+    "flagged_change_pct": 9.73,
+    "tags": [
+      "漲停",
+      "均線同步"
+    ]
   }
 ]
