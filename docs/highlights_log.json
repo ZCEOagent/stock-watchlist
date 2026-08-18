@@ -950,5 +950,38 @@
       "漲停",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-18",
+    "market": "us",
+    "id": "ADI",
+    "name": "Analog Devices",
+    "flagged_close": 376.63,
+    "flagged_change_pct": -3.5,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-18",
+    "market": "us",
+    "id": "COHR",
+    "name": "Coherent Corp.",
+    "flagged_close": 306.43,
+    "flagged_change_pct": -12.75,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-18",
+    "market": "us",
+    "id": "FLEX",
+    "name": "Flex Ltd.",
+    "flagged_close": 120.24,
+    "flagged_change_pct": -7.51,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
