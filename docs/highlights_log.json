@@ -983,5 +983,40 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-19",
+    "market": "tw",
+    "id": "8937",
+    "name": "合騏*",
+    "flagged_close": 25.55,
+    "flagged_change_pct": 9.89,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-19",
+    "market": "tw",
+    "id": "2241",
+    "name": "艾姆勒",
+    "flagged_close": 34.55,
+    "flagged_change_pct": 8.31,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-19",
+    "market": "tw",
+    "id": "6290",
+    "name": "良維",
+    "flagged_close": 223.5,
+    "flagged_change_pct": 6.68,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
