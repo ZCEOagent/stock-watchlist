@@ -1018,5 +1018,39 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-19",
+    "market": "us",
+    "id": "EL",
+    "name": "Estée Lauder Companies (The)",
+    "flagged_close": 98.01,
+    "flagged_change_pct": 16.3,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-19",
+    "market": "us",
+    "id": "COIN",
+    "name": "Coinbase",
+    "flagged_close": 160.2,
+    "flagged_change_pct": 9.55,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-19",
+    "market": "us",
+    "id": "PGR",
+    "name": "Progressive Corporation",
+    "flagged_close": 217.27,
+    "flagged_change_pct": 4.84,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
