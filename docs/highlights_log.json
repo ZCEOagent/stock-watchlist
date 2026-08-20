@@ -1090,5 +1090,38 @@
       "爆量",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-20",
+    "market": "us",
+    "id": "DE",
+    "name": "Deere & Company",
+    "flagged_close": 620.94,
+    "flagged_change_pct": 6.94,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-20",
+    "market": "us",
+    "id": "CBOE",
+    "name": "Cboe Global Markets",
+    "flagged_close": 294.11,
+    "flagged_change_pct": 4.76,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-20",
+    "market": "us",
+    "id": "YUM",
+    "name": "Yum! Brands",
+    "flagged_close": 152.33,
+    "flagged_change_pct": 4.39,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
