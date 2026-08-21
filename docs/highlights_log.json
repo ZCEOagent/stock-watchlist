@@ -1123,5 +1123,40 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-21",
+    "market": "tw",
+    "id": "6664",
+    "name": "群翊",
+    "flagged_close": 364.5,
+    "flagged_change_pct": 9.95,
+    "tags": [
+      "漲停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-21",
+    "market": "tw",
+    "id": "7777",
+    "name": "能率亞洲",
+    "flagged_close": 40.9,
+    "flagged_change_pct": 7.63,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-21",
+    "market": "tw",
+    "id": "3540",
+    "name": "曜越",
+    "flagged_close": 21.65,
+    "flagged_change_pct": 7.44,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
   }
 ]
