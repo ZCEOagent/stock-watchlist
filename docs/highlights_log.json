@@ -1158,5 +1158,36 @@
       "爆量",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-21",
+    "market": "us",
+    "id": "HCA",
+    "name": "HCA Healthcare",
+    "flagged_close": 429.19,
+    "flagged_change_pct": 5.64,
+    "tags": []
+  },
+  {
+    "date": "2026-08-21",
+    "market": "us",
+    "id": "SRE",
+    "name": "Sempra",
+    "flagged_close": 82.89,
+    "flagged_change_pct": -5.14,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-21",
+    "market": "us",
+    "id": "IBKR",
+    "name": "Interactive Brokers",
+    "flagged_close": 93.87,
+    "flagged_change_pct": 4.47,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
