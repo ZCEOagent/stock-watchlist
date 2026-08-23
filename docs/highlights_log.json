@@ -1256,5 +1256,41 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-23",
+    "market": "tw",
+    "id": "7750",
+    "name": "新代",
+    "flagged_close": 2215.0,
+    "flagged_change_pct": -9.96,
+    "tags": [
+      "跌停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-23",
+    "market": "tw",
+    "id": "6664",
+    "name": "群翊",
+    "flagged_close": 364.5,
+    "flagged_change_pct": 9.95,
+    "tags": [
+      "漲停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-23",
+    "market": "tw",
+    "id": "7610",
+    "name": "聯友金屬-創",
+    "flagged_close": 1685.0,
+    "flagged_change_pct": 9.77,
+    "tags": [
+      "漲停",
+      "均線同步"
+    ]
   }
 ]
