@@ -1357,5 +1357,36 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-24",
+    "market": "us",
+    "id": "HPQ",
+    "name": "HP Inc.",
+    "flagged_close": 28.58,
+    "flagged_change_pct": -3.8,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-24",
+    "market": "us",
+    "id": "A",
+    "name": "Agilent Technologies",
+    "flagged_close": 153.43,
+    "flagged_change_pct": -3.5,
+    "tags": []
+  },
+  {
+    "date": "2026-08-24",
+    "market": "us",
+    "id": "AWK",
+    "name": "American Water Works",
+    "flagged_close": 139.91,
+    "flagged_change_pct": 3.34,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
