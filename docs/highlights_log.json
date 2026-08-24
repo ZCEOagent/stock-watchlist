@@ -1323,5 +1323,39 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-24",
+    "market": "tw",
+    "id": "2314",
+    "name": "台揚",
+    "flagged_close": 11.9,
+    "flagged_change_pct": 9.68,
+    "tags": [
+      "漲停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-24",
+    "market": "tw",
+    "id": "6290",
+    "name": "良維",
+    "flagged_close": 229.0,
+    "flagged_change_pct": 8.27,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-24",
+    "market": "tw",
+    "id": "6807",
+    "name": "峰源-KY",
+    "flagged_close": 35.15,
+    "flagged_change_pct": -7.5,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
