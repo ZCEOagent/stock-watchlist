@@ -1426,5 +1426,38 @@
       "爆量",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-25",
+    "market": "us",
+    "id": "SNPS",
+    "name": "Synopsys",
+    "flagged_close": 408.79,
+    "flagged_change_pct": 3.62,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-25",
+    "market": "us",
+    "id": "CDW",
+    "name": "CDW Corporation",
+    "flagged_close": 142.09,
+    "flagged_change_pct": 7.23,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-25",
+    "market": "us",
+    "id": "RDDT",
+    "name": "Reddit",
+    "flagged_close": 162.45,
+    "flagged_change_pct": 6.39,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
