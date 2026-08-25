@@ -1388,5 +1388,43 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-25",
+    "market": "tw",
+    "id": "6482",
+    "name": "弘煜科",
+    "flagged_close": 25.0,
+    "flagged_change_pct": -13.79,
+    "tags": [
+      "跌停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-25",
+    "market": "tw",
+    "id": "4554",
+    "name": "橙的",
+    "flagged_close": 28.3,
+    "flagged_change_pct": -13.59,
+    "tags": [
+      "跌停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-25",
+    "market": "tw",
+    "id": "6248",
+    "name": "沛波",
+    "flagged_close": 16.9,
+    "flagged_change_pct": -7.65,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
   }
 ]
