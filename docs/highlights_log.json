@@ -1459,5 +1459,44 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-26",
+    "market": "tw",
+    "id": "6914",
+    "name": "阜爾運通",
+    "flagged_close": 121.5,
+    "flagged_change_pct": -18.18,
+    "tags": [
+      "跌停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-26",
+    "market": "tw",
+    "id": "6955",
+    "name": "邦睿生技-創",
+    "flagged_close": 107.0,
+    "flagged_change_pct": -10.83,
+    "tags": [
+      "跌停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-26",
+    "market": "tw",
+    "id": "6668",
+    "name": "中揚光",
+    "flagged_close": 39.05,
+    "flagged_change_pct": 10.0,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
   }
 ]
