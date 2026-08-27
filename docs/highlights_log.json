@@ -1498,5 +1498,38 @@
       "爆量",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-27",
+    "market": "us",
+    "id": "WMB",
+    "name": "Williams Companies",
+    "flagged_close": 74.41,
+    "flagged_change_pct": 4.68,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-27",
+    "market": "us",
+    "id": "CIEN",
+    "name": "Ciena",
+    "flagged_close": 404.03,
+    "flagged_change_pct": 4.22,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-27",
+    "market": "us",
+    "id": "KMI",
+    "name": "Kinder Morgan",
+    "flagged_close": 32.02,
+    "flagged_change_pct": 3.49,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
