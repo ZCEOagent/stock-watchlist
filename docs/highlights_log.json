@@ -1531,5 +1531,42 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-27",
+    "market": "tw",
+    "id": "4303",
+    "name": "信立",
+    "flagged_close": 42.1,
+    "flagged_change_pct": -22.89,
+    "tags": [
+      "跌停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-27",
+    "market": "tw",
+    "id": "4912",
+    "name": "聯德控股-KY",
+    "flagged_close": 98.2,
+    "flagged_change_pct": 9.97,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-27",
+    "market": "tw",
+    "id": "6449",
+    "name": "鈺邦",
+    "flagged_close": 233.0,
+    "flagged_change_pct": 9.91,
+    "tags": [
+      "漲停",
+      "均線同步"
+    ]
   }
 ]
