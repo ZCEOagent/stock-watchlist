@@ -1568,5 +1568,38 @@
       "漲停",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-28",
+    "market": "us",
+    "id": "CRWD",
+    "name": "CrowdStrike",
+    "flagged_close": 227.96,
+    "flagged_change_pct": 20.5,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-28",
+    "market": "us",
+    "id": "NVDA",
+    "name": "Nvidia",
+    "flagged_close": 227.98,
+    "flagged_change_pct": 8.74,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-28",
+    "market": "us",
+    "id": "BBY",
+    "name": "Best Buy",
+    "flagged_close": 83.56,
+    "flagged_change_pct": -4.44,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
