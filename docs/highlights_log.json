@@ -1601,5 +1601,42 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-28",
+    "market": "tw",
+    "id": "5283",
+    "name": "禾聯碩",
+    "flagged_close": 51.9,
+    "flagged_change_pct": -15.06,
+    "tags": [
+      "跌停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-28",
+    "market": "tw",
+    "id": "4198",
+    "name": "欣大健康",
+    "flagged_close": 44.0,
+    "flagged_change_pct": 10.0,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-28",
+    "market": "tw",
+    "id": "5386",
+    "name": "青雲",
+    "flagged_close": 258.5,
+    "flagged_change_pct": 10.0,
+    "tags": [
+      "漲停",
+      "均線同步"
+    ]
   }
 ]
