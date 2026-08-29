@@ -1638,5 +1638,38 @@
       "漲停",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-08-29",
+    "market": "us",
+    "id": "MRVL",
+    "name": "Marvell Technology",
+    "flagged_close": 216.62,
+    "flagged_change_pct": -10.28,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-29",
+    "market": "us",
+    "id": "ULTA",
+    "name": "Ulta Beauty",
+    "flagged_close": 517.5,
+    "flagged_change_pct": -4.18,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-29",
+    "market": "us",
+    "id": "PYPL",
+    "name": "PayPal",
+    "flagged_close": 53.66,
+    "flagged_change_pct": -12.71,
+    "tags": [
+      "爆量"
+    ]
   }
 ]
