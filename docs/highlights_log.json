@@ -1811,5 +1811,42 @@
     "tags": [
       "爆量"
     ]
+  },
+  {
+    "date": "2026-08-31",
+    "market": "tw",
+    "id": "4747",
+    "name": "強生*",
+    "flagged_close": 27.35,
+    "flagged_change_pct": -51.59,
+    "tags": [
+      "跌停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-31",
+    "market": "tw",
+    "id": "1531",
+    "name": "高林股",
+    "flagged_close": 12.1,
+    "flagged_change_pct": -11.68,
+    "tags": [
+      "跌停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-08-31",
+    "market": "tw",
+    "id": "6446",
+    "name": "藥華藥",
+    "flagged_close": 1395.0,
+    "flagged_change_pct": -9.71,
+    "tags": [
+      "跌停",
+      "均線同步"
+    ]
   }
 ]
