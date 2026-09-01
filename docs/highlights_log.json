@@ -1881,5 +1881,42 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-01",
+    "market": "tw",
+    "id": "3169",
+    "name": "亞信",
+    "flagged_close": 110.5,
+    "flagged_change_pct": 9.95,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-01",
+    "market": "tw",
+    "id": "6870",
+    "name": "騰雲",
+    "flagged_close": 277.0,
+    "flagged_change_pct": 9.92,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-01",
+    "market": "tw",
+    "id": "1560",
+    "name": "中砂",
+    "flagged_close": 744.0,
+    "flagged_change_pct": 8.93,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
