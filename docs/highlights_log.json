@@ -1848,5 +1848,38 @@
       "跌停",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-01",
+    "market": "us",
+    "id": "AON",
+    "name": "Aon plc",
+    "flagged_close": 321.52,
+    "flagged_change_pct": -9.53,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-01",
+    "market": "us",
+    "id": "ULTA",
+    "name": "Ulta Beauty",
+    "flagged_close": 537.1,
+    "flagged_change_pct": 3.79,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-01",
+    "market": "us",
+    "id": "CBRE",
+    "name": "CBRE Group",
+    "flagged_close": 145.81,
+    "flagged_change_pct": -3.32,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
