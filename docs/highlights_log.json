@@ -1949,5 +1949,41 @@
     "flagged_close": 187.01,
     "flagged_change_pct": -6.48,
     "tags": []
+  },
+  {
+    "date": "2026-09-02",
+    "market": "tw",
+    "id": "6669",
+    "name": "緯穎",
+    "flagged_close": 2610.0,
+    "flagged_change_pct": -66.54,
+    "tags": [
+      "跌停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-02",
+    "market": "tw",
+    "id": "6872",
+    "name": "浩宇生醫",
+    "flagged_close": 15.4,
+    "flagged_change_pct": 10.0,
+    "tags": [
+      "漲停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-02",
+    "market": "tw",
+    "id": "2464",
+    "name": "盟立",
+    "flagged_close": 202.0,
+    "flagged_change_pct": 9.49,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
