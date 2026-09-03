@@ -1985,5 +1985,38 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-03",
+    "market": "us",
+    "id": "PANW",
+    "name": "Palo Alto Networks",
+    "flagged_close": 362.09,
+    "flagged_change_pct": -5.24,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-03",
+    "market": "us",
+    "id": "CDNS",
+    "name": "Cadence Design Systems",
+    "flagged_close": 313.04,
+    "flagged_change_pct": -7.6,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-03",
+    "market": "us",
+    "id": "IBKR",
+    "name": "Interactive Brokers",
+    "flagged_close": 90.39,
+    "flagged_change_pct": -7.09,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
