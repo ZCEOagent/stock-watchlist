@@ -2018,5 +2018,43 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-03",
+    "market": "tw",
+    "id": "6874",
+    "name": "倍力",
+    "flagged_close": 70.1,
+    "flagged_change_pct": -16.15,
+    "tags": [
+      "跌停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-03",
+    "market": "tw",
+    "id": "3021",
+    "name": "鴻名",
+    "flagged_close": 22.1,
+    "flagged_change_pct": 9.95,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-03",
+    "market": "tw",
+    "id": "8021",
+    "name": "尖點",
+    "flagged_close": 413.5,
+    "flagged_change_pct": -9.91,
+    "tags": [
+      "跌停",
+      "均線同步"
+    ]
   }
 ]
