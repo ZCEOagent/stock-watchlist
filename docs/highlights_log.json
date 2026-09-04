@@ -2090,5 +2090,42 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-04",
+    "market": "tw",
+    "id": "6716",
+    "name": "應廣",
+    "flagged_close": 117.0,
+    "flagged_change_pct": -10.0,
+    "tags": [
+      "跌停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-04",
+    "market": "tw",
+    "id": "3022",
+    "name": "威強電",
+    "flagged_close": 95.9,
+    "flagged_change_pct": 9.98,
+    "tags": [
+      "漲停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-04",
+    "market": "tw",
+    "id": "2413",
+    "name": "環科",
+    "flagged_close": 45.8,
+    "flagged_change_pct": 9.96,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
   }
 ]
