@@ -2056,5 +2056,39 @@
       "跌停",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-04",
+    "market": "us",
+    "id": "DELL",
+    "name": "Dell Technologies",
+    "flagged_close": 492.2,
+    "flagged_change_pct": 15.81,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-04",
+    "market": "us",
+    "id": "BBY",
+    "name": "Best Buy",
+    "flagged_close": 87.0,
+    "flagged_change_pct": 5.29,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-04",
+    "market": "us",
+    "id": "RDDT",
+    "name": "Reddit",
+    "flagged_close": 158.1,
+    "flagged_change_pct": 9.31,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
