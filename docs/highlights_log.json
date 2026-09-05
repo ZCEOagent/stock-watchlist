@@ -2127,5 +2127,36 @@
       "爆量",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-05",
+    "market": "us",
+    "id": "PLTR",
+    "name": "Palantir Technologies",
+    "flagged_close": 182.53,
+    "flagged_change_pct": 7.71,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-05",
+    "market": "us",
+    "id": "TSN",
+    "name": "Tyson Foods",
+    "flagged_close": 51.76,
+    "flagged_change_pct": -7.26,
+    "tags": []
+  },
+  {
+    "date": "2026-09-05",
+    "market": "us",
+    "id": "PFG",
+    "name": "Principal Financial Group",
+    "flagged_close": 118.51,
+    "flagged_change_pct": 6.47,
+    "tags": [
+      "爆量"
+    ]
   }
 ]
