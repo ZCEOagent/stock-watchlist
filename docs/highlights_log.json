@@ -2300,5 +2300,42 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-07",
+    "market": "tw",
+    "id": "6949",
+    "name": "沛爾生醫*-創",
+    "flagged_close": 67.1,
+    "flagged_change_pct": -95.5,
+    "tags": [
+      "跌停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-07",
+    "market": "tw",
+    "id": "6441",
+    "name": "廣錠",
+    "flagged_close": 23.1,
+    "flagged_change_pct": 10.0,
+    "tags": [
+      "漲停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-07",
+    "market": "tw",
+    "id": "8021",
+    "name": "尖點",
+    "flagged_close": 462.0,
+    "flagged_change_pct": 10.0,
+    "tags": [
+      "漲停",
+      "均線同步"
+    ]
   }
 ]
