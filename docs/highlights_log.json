@@ -2371,5 +2371,42 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-08",
+    "market": "tw",
+    "id": "6590",
+    "name": "普鴻",
+    "flagged_close": 58.9,
+    "flagged_change_pct": -12.09,
+    "tags": [
+      "跌停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-08",
+    "market": "tw",
+    "id": "1591",
+    "name": "駿吉-KY",
+    "flagged_close": 39.1,
+    "flagged_change_pct": 9.99,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-08",
+    "market": "tw",
+    "id": "2059",
+    "name": "川湖",
+    "flagged_close": 12520.0,
+    "flagged_change_pct": -9.96,
+    "tags": [
+      "跌停",
+      "均線同步"
+    ]
   }
 ]
