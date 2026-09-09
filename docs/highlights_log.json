@@ -2442,5 +2442,43 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-09",
+    "market": "tw",
+    "id": "2460",
+    "name": "建通",
+    "flagged_close": 30.9,
+    "flagged_change_pct": 9.96,
+    "tags": [
+      "漲停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-09",
+    "market": "tw",
+    "id": "2338",
+    "name": "光罩",
+    "flagged_close": 41.5,
+    "flagged_change_pct": 9.93,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-09",
+    "market": "tw",
+    "id": "5211",
+    "name": "蒙恬",
+    "flagged_close": 21.15,
+    "flagged_change_pct": 9.87,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
   }
 ]
