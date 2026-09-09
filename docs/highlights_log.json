@@ -2408,5 +2408,39 @@
       "跌停",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-09",
+    "market": "us",
+    "id": "LULU",
+    "name": "Lululemon Athletica",
+    "flagged_close": 100.61,
+    "flagged_change_pct": -17.38,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-09",
+    "market": "us",
+    "id": "EFX",
+    "name": "Equifax",
+    "flagged_close": 177.05,
+    "flagged_change_pct": -6.37,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-09",
+    "market": "us",
+    "id": "BEN",
+    "name": "Franklin Resources",
+    "flagged_close": 34.73,
+    "flagged_change_pct": 3.52,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
