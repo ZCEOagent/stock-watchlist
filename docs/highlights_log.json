@@ -2513,5 +2513,42 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-10",
+    "market": "tw",
+    "id": "5906",
+    "name": "台南-KY",
+    "flagged_close": 37.35,
+    "flagged_change_pct": -10.11,
+    "tags": [
+      "跌停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-10",
+    "market": "tw",
+    "id": "3016",
+    "name": "嘉晶",
+    "flagged_close": 110.0,
+    "flagged_change_pct": 10.0,
+    "tags": [
+      "漲停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-10",
+    "market": "tw",
+    "id": "3346",
+    "name": "麗清",
+    "flagged_close": 20.35,
+    "flagged_change_pct": 10.0,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
   }
 ]
