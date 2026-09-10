@@ -2480,5 +2480,38 @@
       "爆量",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-10",
+    "market": "us",
+    "id": "TKO",
+    "name": "TKO Group Holdings",
+    "flagged_close": 195.32,
+    "flagged_change_pct": 5.01,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-10",
+    "market": "us",
+    "id": "FISV",
+    "name": "Fiserv",
+    "flagged_close": 50.86,
+    "flagged_change_pct": -4.04,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-10",
+    "market": "us",
+    "id": "VRSN",
+    "name": "Verisign",
+    "flagged_close": 282.2,
+    "flagged_change_pct": -3.38,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
