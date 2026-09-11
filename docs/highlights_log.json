@@ -2583,5 +2583,43 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-11",
+    "market": "tw",
+    "id": "3661",
+    "name": "世芯-KY",
+    "flagged_close": 3650.0,
+    "flagged_change_pct": -9.99,
+    "tags": [
+      "跌停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-11",
+    "market": "tw",
+    "id": "2468",
+    "name": "華經",
+    "flagged_close": 35.8,
+    "flagged_change_pct": 9.98,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-11",
+    "market": "tw",
+    "id": "3296",
+    "name": "勝德",
+    "flagged_close": 26.0,
+    "flagged_change_pct": 9.94,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
   }
 ]
