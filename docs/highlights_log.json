@@ -2550,5 +2550,38 @@
       "爆量",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-11",
+    "market": "us",
+    "id": "VRT",
+    "name": "Vertiv",
+    "flagged_close": 262.89,
+    "flagged_change_pct": -9.61,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-11",
+    "market": "us",
+    "id": "HCA",
+    "name": "HCA Healthcare",
+    "flagged_close": 421.83,
+    "flagged_change_pct": 4.93,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-11",
+    "market": "us",
+    "id": "TSCO",
+    "name": "Tractor Supply",
+    "flagged_close": 34.0,
+    "flagged_change_pct": -3.66,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
