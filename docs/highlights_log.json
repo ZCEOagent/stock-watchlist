@@ -2621,5 +2621,36 @@
       "爆量",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-12",
+    "market": "us",
+    "id": "FCX",
+    "name": "Freeport-McMoRan",
+    "flagged_close": 71.21,
+    "flagged_change_pct": -6.59,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-12",
+    "market": "us",
+    "id": "ELV",
+    "name": "Elevance Health",
+    "flagged_close": 416.54,
+    "flagged_change_pct": 4.95,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-12",
+    "market": "us",
+    "id": "BKR",
+    "name": "Baker Hughes",
+    "flagged_close": 59.4,
+    "flagged_change_pct": -6.66,
+    "tags": []
   }
 ]
