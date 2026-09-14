@@ -2786,5 +2786,43 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-14",
+    "market": "tw",
+    "id": "6865",
+    "name": "偉康科技",
+    "flagged_close": 27.7,
+    "flagged_change_pct": 9.92,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-14",
+    "market": "tw",
+    "id": "6230",
+    "name": "尼得科超眾",
+    "flagged_close": 116.5,
+    "flagged_change_pct": 9.91,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-14",
+    "market": "tw",
+    "id": "3675",
+    "name": "德微",
+    "flagged_close": 284.5,
+    "flagged_change_pct": 9.85,
+    "tags": [
+      "漲停",
+      "均線同步"
+    ]
   }
 ]
