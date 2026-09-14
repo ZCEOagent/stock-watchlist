@@ -2757,5 +2757,34 @@
       "爆量",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-14",
+    "market": "us",
+    "id": "HPE",
+    "name": "Hewlett Packard Enterprise",
+    "flagged_close": 62.09,
+    "flagged_change_pct": 12.44,
+    "tags": []
+  },
+  {
+    "date": "2026-09-14",
+    "market": "us",
+    "id": "DELL",
+    "name": "Dell Technologies",
+    "flagged_close": 567.29,
+    "flagged_change_pct": 11.98,
+    "tags": []
+  },
+  {
+    "date": "2026-09-14",
+    "market": "us",
+    "id": "NTAP",
+    "name": "NetApp",
+    "flagged_close": 199.28,
+    "flagged_change_pct": 8.54,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
