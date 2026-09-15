@@ -2853,5 +2853,43 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-15",
+    "market": "tw",
+    "id": "4807",
+    "name": "日成-KY",
+    "flagged_close": 30.8,
+    "flagged_change_pct": 10.0,
+    "tags": [
+      "漲停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-15",
+    "market": "tw",
+    "id": "8038",
+    "name": "長園科",
+    "flagged_close": 33.0,
+    "flagged_change_pct": 10.0,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-15",
+    "market": "tw",
+    "id": "3523",
+    "name": "迎輝",
+    "flagged_close": 15.85,
+    "flagged_change_pct": 9.69,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
   }
 ]
