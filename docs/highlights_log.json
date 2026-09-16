@@ -2891,5 +2891,38 @@
       "爆量",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-16",
+    "market": "us",
+    "id": "CRWD",
+    "name": "CrowdStrike",
+    "flagged_close": 235.38,
+    "flagged_change_pct": 13.85,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-16",
+    "market": "us",
+    "id": "GLW",
+    "name": "Corning Inc.",
+    "flagged_close": 143.6,
+    "flagged_change_pct": -13.7,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-16",
+    "market": "us",
+    "id": "TER",
+    "name": "Teradyne",
+    "flagged_close": 329.2,
+    "flagged_change_pct": -13.3,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
