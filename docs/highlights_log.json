@@ -2924,5 +2924,41 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-16",
+    "market": "tw",
+    "id": "4956",
+    "name": "光鋐",
+    "flagged_close": 35.25,
+    "flagged_change_pct": 9.98,
+    "tags": [
+      "漲停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-16",
+    "market": "tw",
+    "id": "2302",
+    "name": "麗正",
+    "flagged_close": 44.2,
+    "flagged_change_pct": 9.95,
+    "tags": [
+      "漲停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-16",
+    "market": "tw",
+    "id": "2493",
+    "name": "揚博",
+    "flagged_close": 188.0,
+    "flagged_change_pct": 9.94,
+    "tags": [
+      "漲停",
+      "均線同步"
+    ]
   }
 ]
