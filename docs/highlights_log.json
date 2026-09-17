@@ -2994,5 +2994,42 @@
       "爆量",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-17",
+    "market": "tw",
+    "id": "4960",
+    "name": "誠美材",
+    "flagged_close": 22.0,
+    "flagged_change_pct": 10.0,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-17",
+    "market": "tw",
+    "id": "6213",
+    "name": "聯茂",
+    "flagged_close": 495.0,
+    "flagged_change_pct": -10.0,
+    "tags": [
+      "跌停",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-17",
+    "market": "tw",
+    "id": "4770",
+    "name": "上品",
+    "flagged_close": 242.0,
+    "flagged_change_pct": 9.75,
+    "tags": [
+      "漲停",
+      "均線同步"
+    ]
   }
 ]
