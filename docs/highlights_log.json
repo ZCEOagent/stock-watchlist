@@ -2960,5 +2960,39 @@
       "漲停",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-17",
+    "market": "us",
+    "id": "COIN",
+    "name": "Coinbase",
+    "flagged_close": 172.11,
+    "flagged_change_pct": -10.1,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-17",
+    "market": "us",
+    "id": "CMG",
+    "name": "Chipotle Mexican Grill",
+    "flagged_close": 34.83,
+    "flagged_change_pct": -5.94,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-17",
+    "market": "us",
+    "id": "SYY",
+    "name": "Sysco",
+    "flagged_close": 79.6,
+    "flagged_change_pct": -4.72,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
   }
 ]
