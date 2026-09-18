@@ -3031,5 +3031,40 @@
       "漲停",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-18",
+    "market": "us",
+    "id": "JBHT",
+    "name": "J.B. Hunt",
+    "flagged_close": 236.73,
+    "flagged_change_pct": -13.3,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-18",
+    "market": "us",
+    "id": "LITE",
+    "name": "Lumentum",
+    "flagged_close": 919.4,
+    "flagged_change_pct": 9.59,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-18",
+    "market": "us",
+    "id": "FANG",
+    "name": "Diamondback Energy",
+    "flagged_close": 194.54,
+    "flagged_change_pct": -8.03,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
   }
 ]
