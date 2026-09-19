@@ -3105,5 +3105,39 @@
       "爆量",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-19",
+    "market": "us",
+    "id": "GNRC",
+    "name": "Generac",
+    "flagged_close": 207.23,
+    "flagged_change_pct": 18.34,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-19",
+    "market": "us",
+    "id": "SMCI",
+    "name": "Supermicro",
+    "flagged_close": 40.35,
+    "flagged_change_pct": 9.5,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-19",
+    "market": "us",
+    "id": "PSKY",
+    "name": "Paramount Skydance Corporation",
+    "flagged_close": 10.62,
+    "flagged_change_pct": -4.67,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
