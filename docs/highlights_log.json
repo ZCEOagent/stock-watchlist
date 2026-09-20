@@ -3211,5 +3211,44 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-20",
+    "market": "tw",
+    "id": "9906",
+    "name": "欣巴巴",
+    "flagged_close": 41.35,
+    "flagged_change_pct": 9.97,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-20",
+    "market": "tw",
+    "id": "6485",
+    "name": "點序",
+    "flagged_close": 65.3,
+    "flagged_change_pct": 9.93,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-20",
+    "market": "tw",
+    "id": "3432",
+    "name": "台端",
+    "flagged_close": 15.55,
+    "flagged_change_pct": 9.89,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
   }
 ]
