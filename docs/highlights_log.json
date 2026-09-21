@@ -3283,5 +3283,44 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-21",
+    "market": "tw",
+    "id": "4183",
+    "name": "福永生技",
+    "flagged_close": 14.35,
+    "flagged_change_pct": 9.96,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-21",
+    "market": "tw",
+    "id": "6986",
+    "name": "和迅",
+    "flagged_close": 44.2,
+    "flagged_change_pct": 9.95,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-21",
+    "market": "tw",
+    "id": "3288",
+    "name": "點晶",
+    "flagged_close": 22.2,
+    "flagged_change_pct": 9.9,
+    "tags": [
+      "漲停",
+      "爆量",
+      "均線同步"
+    ]
   }
 ]
