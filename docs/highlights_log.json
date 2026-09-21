@@ -3250,5 +3250,38 @@
       "爆量",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-21",
+    "market": "us",
+    "id": "COIN",
+    "name": "Coinbase",
+    "flagged_close": 194.25,
+    "flagged_change_pct": 11.66,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-21",
+    "market": "us",
+    "id": "HOOD",
+    "name": "Robinhood Markets",
+    "flagged_close": 119.82,
+    "flagged_change_pct": 9.12,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-21",
+    "market": "us",
+    "id": "NUE",
+    "name": "Nucor",
+    "flagged_close": 248.38,
+    "flagged_change_pct": -6.32,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
