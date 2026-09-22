@@ -7,13 +7,13 @@ import json
 import os
 
 import config
+from storage import write_json
 
 
 def save_market_cache(market: str, data: dict):
     # 內容可能有上千檔股票，不縮排存檔案比較小（反正是機器讀的，不是給人看的）
     path = config.TW_CACHE_PATH if market == "tw" else config.US_CACHE_PATH
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, separators=(",", ":"))
+    write_json(path, data)
 
 
 def load_market_cache(market: str):

@@ -78,3 +78,26 @@ NEWS_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 
 
 # ------- 美股清單來源（S&P 500 成分股，免費公開清單）-------
 SP500_LIST_URL = "https://raw.githubusercontent.com/datasets/s-and-p-500-companies/main/data/constituents.csv"
+
+# 波段雷達：待樣本外驗證的起始參數，不代表已驗證的獲利策略。
+RADAR_MODE = os.environ.get("RADAR_MODE", "shadow")  # shadow / live
+if RADAR_MODE not in ("shadow", "live"):
+    raise ValueError("RADAR_MODE 必須是 shadow 或 live")
+RADAR_CANDIDATE_LIMIT = 20
+RADAR_MIN_HISTORY = 120
+RADAR_MIN_COVERAGE = 0.90
+RADAR_MIN_AVG_TURNOVER = 20_000_000  # NT$, close*shares 的近似值
+RADAR_MIN_RR = 2.0
+RADAR_VALID_SESSIONS = 3
+RADAR_REVIEW_SESSIONS = 5
+RADAR_HOLD_SESSIONS = (10, 20)
+RADAR_MAX_HOLD_SESSIONS = 40
+RADAR_FEE_RATE = 0.001425  # 每邊佣金估計，使用前按券商調整
+RADAR_SELL_TAX_RATE = 0.003  # 一般股票非當沖賣出稅估計
+RADAR_SLIPPAGE_RATE = 0.001  # 每邊滑價假設，不是即時價差
+RADAR_STATE_PATH = "state/radar.json"
+RADAR_EVENTS_PATH = "state/radar_events.json"
+RADAR_EVIDENCE_PATH = "radar_evidence.json"
+RADAR_WATCHLIST_PATH = "watchlist.json"
+NOTIFICATION_STATE_PATH = "state/notifications.json"
+RUNTIME_CACHE_DIR = ".runtime"

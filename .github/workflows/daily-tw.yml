@@ -1,62 +1,83 @@
 name: Daily TW Close Report
-
 on:
   schedule:
-    # UTC 06:00 = 台灣時間 14:00（台股收盤約30分鐘後，資料應已到位）
-    - cron: "0 6 * * *"
+    # 14:17 初次收盤整理；21:17 複用行情，補查較晚更新的籌碼。
+    - cron: "17 6 * * 1-5"
+    - cron: "17 13 * * 1-5"
   workflow_dispatch:
     inputs:
       tw_limit:
-        description: "只抓前 N 檔台股（測試用，留空代表跑全市場）"
+        description: "測試數量；留空為正式全量執行。測試不更新網站或通知。"
         required: false
         default: ""
-
 permissions:
   contents: write
-
+concurrency:
+  group: stock-report-writer
+  cancel-in-progress: false
 jobs:
   build-report:
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     timeout-minutes: 350
+    env:
+      RADAR_MODE: shadow
+      MARKET_LIMIT: ${{ github.event.inputs.tw_limit }}
     steps:
-      - name: 取得程式碼
-        uses: actions/checkout@v4
-
-      - name: 安裝 Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
-
+          python-version: '3.11'
+      - uses: actions/cache@v4
+        with:
+          path: .runtime
+          key: radar-tw-${{ github.run_id }}
+          restore-keys: radar-tw-
       - name: 安裝套件
         run: pip install -r requirements.txt
-
-      - name: 執行台股收盤報告
+      - name: 驗證核心規則
+        run: python -m unittest discover -s tests -v
+      - name: 產生資料與報告
         env:
           FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
         run: |
-          if [ -n "${{ github.event.inputs.tw_limit }}" ]; then
-            python main.py --market tw --tw-limit "${{ github.event.inputs.tw_limit }}"
+          if [ -n "$MARKET_LIMIT" ]; then
+            python main.py --market tw --tw-limit "$MARKET_LIMIT"
           else
             python main.py --market tw
           fi
-
-      - name: 把最新報告推回 repo
+      - name: 發布報告與研究狀態
+        if: env.MARKET_LIMIT == ''
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/index.html docs/tw_cache.json docs/highlights_log.json
-          git diff --cached --quiet && echo "沒有變動，略過 commit" || git commit -m "更新台股收盤報告 $(date -u +%Y-%m-%d)"
-          git push
-
-      - name: 發送 Telegram 通知
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          mkdir -p state
+          git add docs/index.html docs/tw_cache.json docs/highlights_log.json state/
+          if ! git diff --cached --quiet; then
+            git commit -m "Update tw close report and radar state"
+            git push
+          fi
+      - name: 發送已驗證且去重的收盤通知
+        if: env.MARKET_LIMIT == ''
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python notify.py --market tw --send --checkpoint-git
+      - name: 失敗通知
+        if: failure() && env.MARKET_LIMIT == ''
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          if [ -z "$TELEGRAM_BOT_TOKEN" ] || [ -z "$TELEGRAM_CHAT_ID" ]; then
-            echo "還沒設定 Telegram 密鑰，略過通知"
-            exit 0
-          fi
-          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
-            -d chat_id="${TELEGRAM_CHAT_ID}" \
-            -d text="台股收盤報告已更新：https://zceoagent.github.io/stock-watchlist/"
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          python notify.py --market tw --failure --send --checkpoint-git
+      - name: 保存資料品質與測試診斷
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tw-quality-${{ github.run_id }}
+          path: |
+            .runtime/*quality.json
+            .runtime/test_*cache.json
+          if-no-files-found: ignore

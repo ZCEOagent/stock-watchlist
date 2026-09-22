@@ -3,3 +3,5 @@ pandas>=2.0
 yfinance>=0.2.40
 feedparser>=6.0
 lxml>=5.0
+exchange-calendars==4.13.2
+tzdata>=2025.2

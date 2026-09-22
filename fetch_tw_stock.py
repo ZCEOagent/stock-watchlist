@@ -20,19 +20,19 @@ def _fetch_one(stock_id: str, start_date: str, end_date: str, max_retries: int =
         "start_date": start_date,
         "end_date": end_date,
     }
-    if config.FINMIND_TOKEN:
-        params["token"] = config.FINMIND_TOKEN
+    headers = {"Authorization": f"Bearer {config.FINMIND_TOKEN}"} if config.FINMIND_TOKEN else {}
 
     for attempt in range(max_retries + 1):
         try:
-            resp = requests.get(FINMIND_URL, params=params, timeout=30)
+            resp = requests.get(FINMIND_URL, params=params, headers=headers, timeout=30)
+            resp.raise_for_status()
             data = resp.json()
             if data.get("status") == 200:
                 return data.get("data", [])
             # 額度用完或其他錯誤，稍等後重試
-            time.sleep(3)
-        except requests.RequestException:
-            time.sleep(3)
+            time.sleep(max(config.FINMIND_REQUEST_INTERVAL_SEC, 2 ** attempt))
+        except (requests.RequestException, ValueError):
+            time.sleep(max(config.FINMIND_REQUEST_INTERVAL_SEC, 2 ** attempt))
     return []
 
 

@@ -16,11 +16,13 @@ INCLUDED_TYPES = {"twse", "tpex"}
 def get_tw_universe():
     """回傳 [{"stock_id": "2330", "stock_name": "台積電", "type": "twse"}, ...]"""
     params = {"dataset": "TaiwanStockInfo"}
-    if config.FINMIND_TOKEN:
-        params["token"] = config.FINMIND_TOKEN
-    resp = requests.get(FINMIND_URL, params=params, timeout=30)
+    headers = {"Authorization": f"Bearer {config.FINMIND_TOKEN}"} if config.FINMIND_TOKEN else {}
+    resp = requests.get(FINMIND_URL, params=params, headers=headers, timeout=30)
     resp.raise_for_status()
-    rows = resp.json().get("data", [])
+    payload = resp.json()
+    if payload.get("status") != 200 or not payload.get("data"):
+        raise RuntimeError("股票清單來源失敗；不以空清單產生成功報告")
+    rows = payload["data"]
 
     # 同一檔股票在清單裡可能有多筆歷史紀錄（例如產業分類曾經變更），只保留最新一筆
     latest_by_id = {}

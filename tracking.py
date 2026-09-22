@@ -31,7 +31,7 @@ def append_highlights(log, highlights, market, date_str):
     """把今天的焦點加進記錄（回傳新的 log，不會動到原本已經記錄的資料）"""
     new_entries = [
         {
-            "date": date_str,
+            "date": item.get("latest_date", date_str),
             "market": market,
             "id": item["id"],
             "name": item["name"],
@@ -41,7 +41,11 @@ def append_highlights(log, highlights, market, date_str):
         }
         for item in highlights
     ]
-    return log + new_entries
+    # Preserve the first observation; repeat runs don't add duplicates.
+    unique = {}
+    for entry in log + new_entries:
+        unique.setdefault((entry["market"], entry["id"], entry["date"]), entry)
+    return list(unique.values())
 
 
 def prune_log(log, today_str, retention_days=None):
