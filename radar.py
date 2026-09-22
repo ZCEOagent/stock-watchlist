@@ -179,6 +179,10 @@ def evaluate(item, rows, context, facts, catalyst, as_of, previous=None):
         return output
     active = output["plan"]
     latest = rows[-1]
+    if output.get('triggered_on'):
+        elapsed = len(sessions_after(output['triggered_on'], as_of))
+        extended = bool(verified_catalyst(catalyst, as_of) and catalyst.get('extend_to_8_weeks') is True and gates['technical'])
+        ceiling = config.RADAR_MAX_HOLD_SESSIONS if extended else config.RADAR_HOLD_SESSIONS[1]
     # Inspect every intervening bar if the scheduler skipped days.
     since = previous.get("as_of", output["created_on"]) if previous else output["created_on"]
     intervening = [r for r in rows if since < r["date"] <= as_of]
@@ -187,6 +191,9 @@ def evaluate(item, rows, context, facts, catalyst, as_of, previous=None):
         output["reasons"].append("失效價已觸及，原計畫取消")
     elif latest["close"] >= active["target"]:
         output["status"] = "target"
+    elif output.get('triggered_on') and elapsed >= ceiling:
+        output['status'] = 'expired'
+        output['reasons'].append('交易計畫期限已到；缺少新證據不能延長持有')
     elif not output.get("triggered_on") and as_of > output["expires_on"]:
         output["status"] = "expired"
     elif not all(gates[k] for k in ("market", "sector", "fundamental", "catalyst", "chips")):

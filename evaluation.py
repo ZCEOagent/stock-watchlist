@@ -6,6 +6,7 @@ Same-bar stop/target ambiguity is stop-first. No implied real holdings.
 """
 import config
 from quality import clean_bars
+from market_clock import sessions_after
 
 
 def replay(plan, signal_day, bars, horizons=(3, 5, 10, 20, 40)):
@@ -15,6 +16,8 @@ def replay(plan, signal_day, bars, horizons=(3, 5, 10, 20, 40)):
     future = [r for r in ordered if r["date"] > signal_day]
     if not future:
         return {"status": "pending"}
+    if [r['date'] for r in future] != sessions_after(signal_day, future[-1]['date']):
+        return {"status": "invalid_data", "reason": "missing_trading_sessions"}
     entry = future[0]["open"]
     if not plan["entry_low"] <= entry <= plan["entry_high"]:
         return {"status": "not_filled", "reason": "next_open_outside_entry_range"}
@@ -38,11 +41,14 @@ def replay(plan, signal_day, bars, horizons=(3, 5, 10, 20, 40)):
             exit_price, reason = plan["stop"], "stop_first"
         elif bar["high"] >= plan["target"]:
             exit_price, reason = plan["target"], "target"
-        elif index >= plan.get("max_holding_sessions", config.RADAR_MAX_HOLD_SESSIONS):
+        elif index >= plan.get("simulation_holding_sessions", config.RADAR_HOLD_SESSIONS[1]):
             exit_price, reason = bar["close"], "time_exit"
         if reason:
             result.update(status="closed", exit=exit_price, exit_reason=reason,
                           exit_date=bar["date"], sessions_held=index, net_return_pct=round(net(exit_price), 4))
             break
+    if result['status'] == 'open':
+        result.update(mark_date=future[-1]['date'], mark=future[-1]['close'],
+                      sessions_held=len(future), net_return_pct=round(net(future[-1]['close']), 4))
     result.update(mae_pct=round((worst/entry-1)*100, 4), mfe_pct=round((best/entry-1)*100, 4))
     return result

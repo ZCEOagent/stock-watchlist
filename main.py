@@ -94,6 +94,7 @@ def run_tw(limit=None):
     else:
         history, data_source = get_tw_history(universe)
     history, quality = assess_market(universe, history, as_of, "stock_id", threshold=config.RADAR_MIN_COVERAGE)
+    print(f"台股資料品質：{quality['valid']}/{quality['total']}；拒絕原因：{quality['counts']}", flush=True)
     write_json(f"{config.RUNTIME_CACHE_DIR}/tw_quality.json", quality)
     if not quality["passed"]:
         raise RuntimeError(f"台股有效行情覆蓋率 {quality['coverage']:.1%}，未通過品質門檻；未覆蓋正式快取")

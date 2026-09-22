@@ -101,3 +101,4 @@ RADAR_EVIDENCE_PATH = "radar_evidence.json"
 RADAR_WATCHLIST_PATH = "watchlist.json"
 NOTIFICATION_STATE_PATH = "state/notifications.json"
 RUNTIME_CACHE_DIR = ".runtime"
+NOTIFY_REPORT_UPDATES = os.environ.get('NOTIFY_REPORT_UPDATES', 'false').lower() == 'true'

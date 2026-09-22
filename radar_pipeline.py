@@ -1,14 +1,19 @@
 """Build public radar output and durable, idempotent decision snapshots."""
 import hashlib
 import json
+from pathlib import Path
 import config
 from storage import read_json, write_json
 from radar import market_context, shortlist, evaluate
 from radar_data import EvidenceClient, adjusted_histories, summarize_evidence
+from performance import evaluate_signals, signal_snapshots
 
 
 def build_radar(universe, history, as_of, quality, persist=True):
     previous = read_json(config.RADAR_STATE_PATH, {})
+    events = read_json(config.RADAR_EVENTS_PATH, [])
+    performance_path = Path(config.RADAR_STATE_PATH).with_name('performance.json')
+    old_performance = read_json(performance_path, {}).get('records', {})
     reviewed = read_json(config.RADAR_EVIDENCE_PATH, {})
     forced = read_json(config.RADAR_WATCHLIST_PATH, [])
     if not isinstance(forced, list) or any(not isinstance(s, str) or not s.isdigit() or len(s) != 4 for s in forced):
@@ -22,9 +27,13 @@ def build_radar(universe, history, as_of, quality, persist=True):
     if not quality["passed"]:
         result["notice"] = "資料覆蓋不足，本次不產生或推進波段訊號；保留前次有效資料。"
         return result
-    adjusted, failures = adjusted_histories(selected, history, as_of)
+    pending_ids = {snap['id'] for key, snap in signal_snapshots(events).items()
+                   if old_performance.get(key, {}).get('outcome', {}).get('status') not in ('closed', 'not_filled')}
+    enrichment = {item['stock_id']: item for item in selected}
+    enrichment.update({item['stock_id']: item for item in universe if item['stock_id'] in pending_ids and item['stock_id'] in history})
+    adjusted, failures = adjusted_histories(list(enrichment.values()), history, as_of)
     client = EvidenceClient(as_of)
-    updates, events = {}, read_json(config.RADAR_EVENTS_PATH, [])
+    updates = {}
     for item in selected:
         sid = item["stock_id"]
         prior = previous.get(sid)
@@ -62,8 +71,11 @@ def build_radar(universe, history, as_of, quality, persist=True):
         result["items"].append({"id": sid, "name": lookup.get(sid, {}).get("stock_name", sid),
                                 "status": "unconfirmed", "as_of": as_of,
                                 "reasons": ["指定／原追蹤股票行情缺漏或過期，保留原計畫待確認"]})
+    performance = evaluate_signals(events, adjusted, as_of, old_performance)
+    result['performance'] = {key: value for key, value in performance.items() if key != 'records'}
     if persist:
         write_json(config.RADAR_STATE_PATH, {**previous, **updates})
         # Forward snapshots are not fabricated historical backtests.
         write_json(config.RADAR_EVENTS_PATH, events)
+        write_json(performance_path, performance)
     return result
