@@ -12,6 +12,45 @@ import html
 import datetime
 
 import config
+from market_clock import now_tw
+from radar import LABELS
+
+
+def _market_meta(label, meta):
+    meta = meta or {}
+    day = meta.get("as_of") or "舊快取未標示（請重新產生）"
+    generated = meta.get("generated_at", "未知")
+    return f'{label}行情日期：{html.escape(day)}｜該市場更新：{html.escape(generated)}<br>'
+
+
+def _radar_html(radar):
+    if not radar:
+        return '<p>尚未執行新版波段分析；舊異動焦點不是進場訊號。</p>'
+    rows = []
+    for item in radar.get("items", []):
+        plan = item.get("plan") or item.get("candidate_plan")
+        prices = "尚無完整交易計畫"
+        if plan:
+            prices = (f"觀察進場 {plan['entry_low']:.2f}～{plan['entry_high']:.2f}；"
+                      f"失效 {plan['stop']:.2f}；目標 {plan['target']:.2f}；"
+                      f"扣成本 R:R {item.get('current_rr', plan['rr']):.2f}")
+        reasons = "；".join(item.get("reasons", [])) or "條件通過；仍需盤中價格與成交性確認"
+        catalyst = item.get("catalyst") or {}
+        source = ""
+        if catalyst.get("source_url", "").startswith("https://"):
+            source = f'<a href="{html.escape(catalyst["source_url"], quote=True)}" rel="noopener" target="_blank">催化來源</a>'
+        rows.append(f'<tr><td>{html.escape(item["id"])} {html.escape(item["name"])}</td>'
+                    f'<td>{LABELS.get(item["status"], "待確認")}</td><td>{html.escape(prices)}</td>'
+                    f'<td>{html.escape(reasons)} {source}</td>'
+                    f'<td>{html.escape(item.get("expires_on", "—"))}</td></tr>')
+    mode = "影子驗證（不推送波段訊號）" if radar.get("mode") != "live" else "收盤訊號通知"
+    return (f'<p>{mode}。{html.escape(radar.get("notice", ""))}</p>'
+            '<p>預計2～4週；訊號有效3個交易日，觸發後第5個交易日重評。條件失效即取消，'
+            '4～8週延伸需重新確認；不是持倉或成交紀錄。</p>'
+            f'<p>有效行情 {radar.get("coverage", {}).get("market_valid", 0)} 檔；深入檢查 '
+            f'{radar.get("coverage", {}).get("deep_review", 0)} 檔。未深入檢查不代表通過。</p>'
+            '<div class="table-wrap"><table><tr><th>股票</th><th>狀態</th><th>價位</th><th>理由</th><th>訊號有效至</th></tr>'
+            + ''.join(rows) + '</table></div>')
 
 # ------- 色票（已用 dataviz 六項檢查工具驗證過色盲可辨識度）-------
 COLOR_UP = ("#e34948", "#e66767")      # 紅漲：(亮色模式, 暗色模式)
@@ -166,9 +205,9 @@ def _news_list_html(news_items):
 
 def generate_html(tw_watchlist, us_watchlist, tw_highlights, us_highlights,
                    tw_news, us_news, followups,
-                   tw_scanned, tw_success, us_scanned, us_success, tw_data_source):
-    today = datetime.date.today().isoformat()
-    now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+                   tw_scanned, tw_success, us_scanned, us_success, tw_data_source, tw_meta=None, us_meta=None):
+    today = now_tw().date().isoformat()
+    now = now_tw().isoformat(timespec="minutes")
     tw_failed = tw_scanned - tw_success
     us_failed = us_scanned - us_success
 
@@ -298,12 +337,16 @@ def generate_html(tw_watchlist, us_watchlist, tw_highlights, us_highlights,
   <h1>{today} 每日觀察清單</h1>
   <div class="meta">
     產生時間：{now}<br>
+    {_market_meta("台股", tw_meta)}
+    {_market_meta("美股", us_meta)}
     台股資料來源：{html.escape(tw_data_source)}｜成功取得 {tw_success}/{tw_scanned} 檔{f'（{tw_failed} 檔取得失敗）' if tw_failed else ''}，篩出 {len(tw_watchlist)} 檔<br>
     美股(S&amp;P500)：成功取得 {us_success}/{us_scanned} 檔{f'（{us_failed} 檔取得失敗）' if us_failed else ''}，篩出 {len(us_watchlist)} 檔
     <div class="disclaimer">本報告僅為資料整理，不構成任何投資建議。紅色代表上漲、綠色代表下跌（數字前的 + / − 符號永遠會標示方向，不是只靠顏色分辨）。</div>
   </div>
 
-  <h2>今日焦點</h2>
+  <h2>台股波段雷達</h2>
+  {_radar_html((tw_meta or {}).get("radar"))}
+  <h2>收盤異動焦點（非進場訊號）</h2>
   {_highlights_section_html(tw_highlights, us_highlights)}
 
   <h2>怎麼讀這份報告</h2>
@@ -345,12 +388,12 @@ def generate_html(tw_watchlist, us_watchlist, tw_highlights, us_highlights,
 
 def save_report(tw_watchlist, us_watchlist, tw_highlights, us_highlights,
                  tw_news, us_news, followups,
-                 tw_scanned, tw_success, us_scanned, us_success, tw_data_source, path=None):
+                   tw_scanned, tw_success, us_scanned, us_success, tw_data_source, path=None, tw_meta=None, us_meta=None):
     path = path or config.REPORT_HTML_PATH
     content = generate_html(
         tw_watchlist, us_watchlist, tw_highlights, us_highlights,
         tw_news, us_news, followups,
-        tw_scanned, tw_success, us_scanned, us_success, tw_data_source,
+        tw_scanned, tw_success, us_scanned, us_success, tw_data_source, tw_meta, us_meta,
     )
     with open(path, "w", encoding="utf-8") as f:
         f.write(content)

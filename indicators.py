@@ -6,6 +6,7 @@
 - 是否「今天剛站上/跌破」均線
 """
 import config
+from quality import clean_bars
 
 
 def _sma(values, n):
@@ -25,14 +26,12 @@ def compute_indicators(rows, close_key="close", volume_key="volume", date_key="d
     # 有些資料來源（例如FinMind）對「當天完全沒有成交」的股票，
     # 會回傳收盤價0、成交量0的假資料列，而不是乾脆不回傳那一天。
     # 這種列要整列排除，不然會被誤判成「暴跌到0元」。
-    sorted_rows = sorted(
-        (r for r in rows if r.get(close_key) not in (None, 0) and r.get(volume_key) not in (None, 0)),
-        key=lambda r: r[date_key],
-    )
-    closes = [float(r[close_key]) for r in sorted_rows]
-    volumes = [float(r[volume_key]) for r in sorted_rows]
+    normalized = [{**r, "date": r[date_key], "close": r.get(close_key), "volume": r.get(volume_key)} for r in rows]
+    sorted_rows, _ = clean_bars(normalized, max(r[date_key] for r in rows))
+    closes = [float(r["close"]) for r in sorted_rows]
+    volumes = [float(r["volume"]) for r in sorted_rows]
 
-    if len(closes) < 2 or len(volumes) < 2:
+    if len(closes) < config.MA_LONG + 1:
         return None
 
     latest_date = sorted_rows[-1][date_key]
@@ -43,7 +42,7 @@ def compute_indicators(rows, close_key="close", volume_key="volume", date_key="d
 
     ma_short = _sma(closes, config.MA_SHORT)
     ma_long = _sma(closes, config.MA_LONG)
-    avg_volume_long = _sma(volumes, config.MA_LONG)
+    avg_volume_long = _sma(volumes[:-1], config.MA_LONG)
     volume_ratio = (latest_volume / avg_volume_long) if avg_volume_long else None
 
     ma_short_prev = _sma(closes[:-1], config.MA_SHORT)

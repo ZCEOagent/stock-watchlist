@@ -29,6 +29,10 @@ from report import save_report
 import tracking
 import data_cache
 import config
+from market_clock import last_completed_session, now_tw, refresh_tw_sessions
+from quality import assess_market
+from storage import write_json, read_json
+from radar_pipeline import build_radar
 
 EMPTY_MARKET_CACHE = {
     "scanned": 0, "success": 0, "data_source": "尚無資料（這個市場還沒執行過）",
@@ -73,6 +77,8 @@ def _update_tracking_log(highlights, market, is_full_run):
 
 
 def run_tw(limit=None):
+    refresh_tw_sessions(persist=not limit)
+    as_of = last_completed_session("tw")
     print("正在取得台股清單...")
     universe = get_tw_universe()
     if limit:
@@ -80,7 +86,19 @@ def run_tw(limit=None):
     print(f"台股清單共 {len(universe)} 檔")
 
     print("正在抓台股股價（上市優先用官方API，上櫃用FinMind）...")
-    history, data_source = get_tw_history(universe)
+    raw_cache = read_json(f"{config.RUNTIME_CACHE_DIR}/tw_history.json", {}) if not limit else {}
+    ids = [s["stock_id"] for s in universe]
+    if raw_cache.get("as_of") == as_of and raw_cache.get("ids") == ids:
+        history, data_source = raw_cache["history"], raw_cache["source"]
+        print("使用本交易日已驗證行情快取，重新檢查籌碼與催化。")
+    else:
+        history, data_source = get_tw_history(universe)
+    history, quality = assess_market(universe, history, as_of, "stock_id", threshold=config.RADAR_MIN_COVERAGE)
+    write_json(f"{config.RUNTIME_CACHE_DIR}/tw_quality.json", quality)
+    if not quality["passed"]:
+        raise RuntimeError(f"台股有效行情覆蓋率 {quality['coverage']:.1%}，未通過品質門檻；未覆蓋正式快取")
+    if not limit:
+        write_json(f"{config.RUNTIME_CACHE_DIR}/tw_history.json", {"as_of": as_of, "ids": ids, "history": history, "source": data_source})
 
     print("正在計算技術指標並篩選...")
     watchlist = build_watchlist(universe, history, "stock_id", "stock_name", market="tw")
@@ -88,11 +106,13 @@ def run_tw(limit=None):
 
     print("正在抓台股新聞...")
     news = get_tw_news()
+    radar = build_radar(universe, history, as_of, quality, persist=not limit)
 
     _update_tracking_log(highlights, "tw", is_full_run=not limit)
 
     cache = {
-        "generated_at": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
+        "generated_at": now_tw().isoformat(timespec="minutes"),
+        "as_of": as_of, "quality": quality, "radar": radar,
         "scanned": len(universe),
         "success": len(history),
         "data_source": data_source,
@@ -101,12 +121,16 @@ def run_tw(limit=None):
         "news": news,
         "latest_prices": _latest_prices(history),
     }
-    data_cache.save_market_cache("tw", cache)
+    if limit:
+        write_json(f"{config.RUNTIME_CACHE_DIR}/test_tw_cache.json", cache)
+    else:
+        data_cache.save_market_cache("tw", cache)
     print(f"台股篩出 {len(watchlist)} 檔")
     return cache
 
 
 def run_us(limit=None):
+    as_of = last_completed_session("us")
     print("正在取得美股（S&P 500）清單...")
     universe = get_us_universe()
     if limit:
@@ -115,6 +139,10 @@ def run_us(limit=None):
 
     print("正在抓美股股價...")
     history = get_us_stock_history(universe)
+    history, quality = assess_market(universe, history, as_of, "symbol", threshold=config.RADAR_MIN_COVERAGE)
+    write_json(f"{config.RUNTIME_CACHE_DIR}/us_quality.json", quality)
+    if not quality["passed"]:
+        raise RuntimeError(f"美股有效行情覆蓋率 {quality['coverage']:.1%}，未通過品質門檻；未覆蓋正式快取")
 
     print("正在計算技術指標並篩選...")
     watchlist = build_watchlist(universe, history, "symbol", "name", market="us")
@@ -126,7 +154,8 @@ def run_us(limit=None):
     _update_tracking_log(highlights, "us", is_full_run=not limit)
 
     cache = {
-        "generated_at": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
+        "generated_at": now_tw().isoformat(timespec="minutes"),
+        "as_of": as_of, "quality": quality,
         "scanned": len(universe),
         "success": len(history),
         "data_source": "yfinance",
@@ -135,7 +164,10 @@ def run_us(limit=None):
         "news": news,
         "latest_prices": _latest_prices(history),
     }
-    data_cache.save_market_cache("us", cache)
+    if limit:
+        write_json(f"{config.RUNTIME_CACHE_DIR}/test_us_cache.json", cache)
+    else:
+        data_cache.save_market_cache("us", cache)
     print(f"美股篩出 {len(watchlist)} 檔")
     return cache
 
@@ -157,6 +189,7 @@ def render():
         tw_scanned=tw["scanned"], tw_success=tw["success"],
         us_scanned=us["scanned"], us_success=us["success"],
         tw_data_source=tw["data_source"],
+        tw_meta=tw, us_meta=us,
     )
     print(f"報告已存到：{path}")
 
@@ -168,6 +201,8 @@ def main():
     parser.add_argument("--tw-limit", type=int, default=None, help="只抓前 N 檔台股（測試用）")
     parser.add_argument("--us-limit", type=int, default=None, help="只抓前 N 檔美股（測試用）")
     args = parser.parse_args()
+    if any(v is not None and v <= 0 for v in (args.tw_limit, args.us_limit)):
+        parser.error("測試數量必須為正整數")
 
     start = time.time()
     print(f"[{datetime.datetime.now():%H:%M:%S}] 開始執行（市場：{args.market}）")
@@ -177,7 +212,10 @@ def main():
     if args.market in ("us", "both"):
         run_us(args.us_limit)
 
-    render()
+    if args.tw_limit is None and args.us_limit is None:
+        render()
+    else:
+        print("測試結果僅存於 .runtime，不更新正式網站、追蹤與通知。")
 
     elapsed_min = (time.time() - start) / 60
     print(f"[{datetime.datetime.now():%H:%M:%S}] 完成！耗時 {elapsed_min:.1f} 分鐘")

@@ -41,8 +41,8 @@ def compute_tags(indicator: dict, market: str):
     """
     tags = []
 
-    if market == "tw" and abs(indicator["change_pct"]) >= config.TW_LIMIT_THRESHOLD_PCT:
-        tags.append("漲停" if indicator["change_pct"] > 0 else "跌停")
+    # A percentage approximation cannot verify the exchange's actual limit price.
+    # Price limits never affect the separate swing-radar eligibility or ranking.
 
     if indicator["volume_ratio"] is not None and indicator["volume_ratio"] >= config.EXTREME_VOLUME_RATIO:
         tags.append("爆量")

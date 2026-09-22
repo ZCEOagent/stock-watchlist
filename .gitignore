@@ -1,3 +1,7 @@
 __pycache__/
 *.pyc
 finmind_token.txt
+.runtime/
+__pycache__/
+.venv/
+state/*.tmp
