@@ -1,0 +1,34 @@
+name: Radar data health
+on:
+  schedule:
+    - cron: '47 15 * * *'
+    - cron: '47 2 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: stock-report-writer
+  cancel-in-progress: false
+jobs:
+  check:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - name: Check both markets
+        run: |
+          python healthcheck.py --market tw
+          python healthcheck.py --market us
+      - name: Alert on stale data
+        if: failure()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          python notify.py --market tw --failure --send --checkpoint-git
