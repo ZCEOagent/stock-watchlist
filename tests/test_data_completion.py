@@ -86,6 +86,29 @@ class FilingTests(unittest.TestCase):
         self.assertFalse(financials.matches(row, dict(fin, eps=13)))
         self.assertFalse(financials.matches(row, dict(fin, net=3601714000)))
 
+    def test_individual_report_scope_must_be_explicit(self):
+        content = self.fixture().replace(b'Consolidated report', b'Individual report')
+        with self.assertRaises(ValueError):
+            self.parse(content)
+        row = financials.parse_filing(content, '6274', '2026Q2', '2026-09-23', 'A')
+        self.assertEqual(row['report_scope'], 'Individual report')
+        self.assertIn('REPORT_ID=A', row['source'])
+
+    def test_individual_fallback_only_on_explicit_missing_file(self):
+        from unittest.mock import Mock
+        with tempfile.TemporaryDirectory() as tmp:
+            store = Store(Path(tmp)/'s.db')
+            companies = [{'code': '6274', 'market': 'tpex'}]
+            store.ingest({('tpex', 'financial'): [{'code': '6274', 'period': '2026Q2', 'eps': 12.4, 'net': 3601714}]})
+            missing = Mock(status_code=200, content='檔案不存在!'.encode('cp950'))
+            individual = Mock(status_code=200, content=self.fixture().replace(b'Consolidated report', b'Individual report'))
+            with patch.object(financials.requests, 'get', side_effect=[missing, individual]) as fetch, patch.object(financials.time, 'sleep'):
+                rows, health = financials.complete(store, companies, '2026-09-23')
+                self.assertEqual(fetch.call_count, 2)
+                self.assertEqual(health['verified'], 1)
+                self.assertEqual(rows['6274']['report_scope'], 'Individual report')
+            store.close()
+
     def test_completion_caches_success_and_retries_failure_next_day(self):
         from unittest.mock import Mock
         with tempfile.TemporaryDirectory() as tmp:

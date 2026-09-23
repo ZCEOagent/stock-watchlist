@@ -1,5 +1,7 @@
 # 台股 Radar 財報補充來源查核
 
+後續補充實測：1342 2026Q2 的 REPORT_ID=C 明確回覆檔案不存在；[REPORT_ID=A](https://mopsov.twse.com.tw/server-java/t164sb01?step=1&CO_ID=1342&SYEAR=2026&SSEASON=2&REPORT_ID=A) 提供 Individual report，EPS4.10／同期2.67、淨利318,976千元與官方bulk一致，CFO179,323千元。允許此明確缺檔條件下的個體報表補件，保存類別並沿用相同期間、單位及損益比對；不得在下載或解析失敗時任意換報表範圍。
+
 查核日期：2026-09-23。範圍：已讀 sources.py、engine.py；官方 OpenAPI、兩份公開 inline XBRL、FinMind 無金鑰樣本與官方說明。沒有讀取任何秘密、沒有部署或更改程式。
 
 ## 建議

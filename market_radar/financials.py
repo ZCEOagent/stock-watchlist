@@ -12,7 +12,7 @@ URL = 'https://mopsov.twse.com.tw/server-java/t164sb01'
 NS = {'x': 'http://www.xbrl.org/2003/instance', 'ix': 'http://www.xbrl.org/2013/inlineXBRL'}
 
 
-def parse_filing(content, code, period, observed):
+def parse_filing(content, code, period, observed, report='C'):
     year, quarter = int(period[:4]), int(period[-1])
     end = f'{year}-{(3, 6, 9, 12)[quarter-1]:02d}-{(31, 30, 30, 31)[quarter-1]}'
     text = content.decode('cp950') if b'charset=big5' in content.lower() else content.decode('utf-8')
@@ -26,8 +26,9 @@ def parse_filing(content, code, period, observed):
     notes = {}
     for node in root.findall('.//ix:nonNumeric', NS):
         notes.setdefault(concept(node), set()).add(''.join(node.itertext()).strip())
+    category = {'C': 'Consolidated report', 'A': 'Individual report'}[report]
     for key, expected in [('CompanyID', code), ('Year', str(year)), ('Quarter', str(quarter)),
-                          ('ReportCategory', 'Consolidated report')]:
+                          ('ReportCategory', category)]:
         if notes.get(key) != {expected}:
             raise ValueError('Filing identity/period/scope mismatch')
     contexts = {}
@@ -74,7 +75,8 @@ def parse_filing(content, code, period, observed):
     start, prior_end = f'{year}-01-01', str(year-1) + end[4:]
     return {'code': code, 'period': period, 'basis': 'YTD', 'available_at': observed[:10],
             'observed_at': observed, 'fetched_at': observed, 'availability_basis': 'first_observed',
-            'source': URL + '?' + urlencode(dict(step=1, CO_ID=code, SYEAR=year, SSEASON=quarter, REPORT_ID='C')),
+            'report_scope': category,
+            'source': URL + '?' + urlencode(dict(step=1, CO_ID=code, SYEAR=year, SSEASON=quarter, REPORT_ID=report)),
             'content_sha256': hashlib.sha256(content).hexdigest(),
             'current_eps': value('BasicEarningsLossPerShare', start, end, True),
             'prior_year_eps': value('BasicEarningsLossPerShare', f'{year-1}-01-01', prior_end, True),
@@ -105,7 +107,7 @@ def complete(store, companies, stamp, limit=300):
         if cached and matches(cached, fin) and 0 <= age < 8:
             result[code] = cached
             continue
-        key = f"filing-attempt:{code}:{fin['period']}"
+        key = f"filing-attempt:v2:{code}:{fin['period']}"
         if store.meta(key) != today:
             pending.append((company, fin, key))
     pending.sort(key=lambda x: (x[0]['code'] not in ('2330', '6274'), store.meta(x[2]) or '', x[0]['code']))
@@ -126,7 +128,19 @@ def complete(store, companies, stamp, limit=300):
                 failed += 1
                 break
             response.raise_for_status()
-            row = parse_filing(response.content, code, fin['period'], stamp)
+            report = 'C'
+            # Only an explicit "file does not exist" permits individual-report fallback.
+            # A timeout, limit, parser error or mismatch must never change scope silently.
+            if '檔案不存在'.encode('cp950') in response.content:
+                time.sleep(1)
+                report = 'A'
+                response = requests.get(URL, params=dict(step=1, CO_ID=code, SYEAR=fin['period'][:4],
+                                        SSEASON=fin['period'][-1], REPORT_ID=report), timeout=25)
+                if response.status_code in (429, 503):
+                    failed += 1
+                    break
+                response.raise_for_status()
+            row = parse_filing(response.content, code, fin['period'], stamp, report)
             if not matches(row, fin):
                 raise ValueError('Bulk and filing disagree')
             old = next((r for r in store.history('supplement', code) if r['period'] == fin['period']), {})
