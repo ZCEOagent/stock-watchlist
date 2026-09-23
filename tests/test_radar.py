@@ -1,5 +1,5 @@
 import copy
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 import math
 from pathlib import Path
 import tempfile
@@ -7,7 +7,7 @@ import unittest
 from unittest.mock import patch
 import requests
 import config
-from market_clock import calendar, last_completed_session, completed_weeks, advance_session
+from market_clock import session_dates, last_completed_session, completed_weeks, advance_session
 from quality import assess_market, clean_bars
 from indicators import compute_indicators
 from radar import technical_plan, evaluate, net_rr, verified_catalyst
@@ -20,11 +20,13 @@ from report import generate_html
 
 
 def bars(end="2026-09-21", count=140):
-    dates = calendar("tw").sessions_window(calendar("tw").date_to_session(end), -(count - 1))
+    start = (datetime.fromisoformat(end) - timedelta(days=count * 3)).date().isoformat()
+    dates = session_dates(start, end, "tw")[-count:]
+    assert len(dates) == count, "Insufficient provider sessions for test fixture"
     result = []
     for i, day in enumerate(dates):
         close = 100 + i * 0.01
-        result.append(dict(date=day.date().isoformat(), open=close-0.1, high=close+0.4,
+        result.append(dict(date=day, open=close-0.1, high=close+0.4,
                            low=close-0.4, close=close, volume=3_000_000))
     result[20]["high"] = 125.0  # Independently observed overhead resistance.
     return result
