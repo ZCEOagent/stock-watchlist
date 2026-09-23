@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-24T00:01+08:00",
+  "generated_at": "2026-09-24T07:53+08:00",
   "as_of": "2026-09-23",
   "quality": {
     "as_of": "2026-09-23",
@@ -8,189 +8,186 @@
     "valid": 1805,
     "total": 1982,
     "rejected": {
-      "1240": "invalid_bars",
-      "1259": "stale",
-      "1441": "stale",
-      "1538": "stale",
+      "1240": "missing",
+      "1259": "missing",
+      "1441": "missing",
+      "1538": "missing",
       "1589": "missing",
-      "1781": "invalid_bars",
-      "1788": "invalid_bars",
-      "1796": "invalid_bars",
-      "1813": "invalid_bars",
-      "2035": "invalid_bars",
-      "2064": "invalid_bars",
-      "2073": "invalid_bars",
-      "2235": "stale",
-      "2321": "short_history",
-      "2601": "stale",
-      "2719": "invalid_bars",
-      "2724": "invalid_bars",
-      "2751": "invalid_bars",
-      "2752": "invalid_bars",
-      "2924": "invalid_bars",
-      "2926": "invalid_bars",
-      "2937": "stale",
-      "2941": "invalid_bars",
-      "2947": "invalid_bars",
-      "2948": "invalid_bars",
-      "2949": "stale",
-      "3064": "stale",
-      "3067": "invalid_bars",
-      "3085": "invalid_bars",
-      "3095": "invalid_bars",
-      "3115": "invalid_bars",
-      "3118": "stale",
-      "3158": "invalid_bars",
-      "3226": "invalid_bars",
-      "3252": "invalid_bars",
-      "3259": "invalid_bars",
-      "3285": "invalid_bars",
-      "3332": "invalid_bars",
-      "3531": "invalid_bars",
-      "3587": "invalid_bars",
-      "3629": "stale",
-      "3632": "invalid_bars",
-      "3646": "invalid_bars",
-      "3664": "invalid_bars",
-      "3666": "invalid_bars",
-      "3684": "stale",
-      "3718": "short_history",
-      "4154": "invalid_bars",
-      "4175": "invalid_bars",
-      "4183": "invalid_bars",
-      "4192": "invalid_bars",
-      "4198": "invalid_bars",
-      "4305": "stale",
-      "4402": "invalid_bars",
-      "4406": "invalid_bars",
-      "4413": "invalid_bars",
-      "4419": "invalid_bars",
-      "4433": "invalid_bars",
-      "4502": "invalid_bars",
-      "4530": "invalid_bars",
-      "4535": "invalid_bars",
-      "4550": "invalid_bars",
-      "4568": "invalid_bars",
-      "4584": "stale",
-      "4609": "invalid_bars",
-      "4706": "invalid_bars",
-      "4728": "invalid_bars",
+      "1781": "missing",
+      "1788": "missing",
+      "1796": "missing",
+      "1813": "missing",
+      "2035": "missing",
+      "2064": "missing",
+      "2073": "missing",
+      "2235": "missing",
+      "2321": "missing",
+      "2601": "missing",
+      "2719": "missing",
+      "2724": "missing",
+      "2751": "missing",
+      "2752": "missing",
+      "2924": "missing",
+      "2926": "missing",
+      "2937": "missing",
+      "2941": "missing",
+      "2947": "missing",
+      "2948": "missing",
+      "2949": "missing",
+      "3064": "missing",
+      "3067": "missing",
+      "3085": "missing",
+      "3095": "missing",
+      "3115": "missing",
+      "3118": "missing",
+      "3158": "missing",
+      "3226": "missing",
+      "3252": "missing",
+      "3259": "missing",
+      "3285": "missing",
+      "3332": "missing",
+      "3531": "missing",
+      "3587": "missing",
+      "3629": "missing",
+      "3632": "missing",
+      "3646": "missing",
+      "3664": "missing",
+      "3666": "missing",
+      "3684": "missing",
+      "3718": "missing",
+      "4154": "missing",
+      "4175": "missing",
+      "4183": "missing",
+      "4192": "missing",
+      "4198": "missing",
+      "4305": "missing",
+      "4402": "missing",
+      "4406": "missing",
+      "4413": "missing",
+      "4419": "missing",
+      "4433": "missing",
+      "4502": "missing",
+      "4530": "missing",
+      "4535": "missing",
+      "4550": "missing",
+      "4568": "missing",
+      "4584": "missing",
+      "4609": "missing",
+      "4706": "missing",
+      "4728": "missing",
       "4804": "missing",
-      "4806": "stale",
-      "4950": "invalid_bars",
-      "5013": "invalid_bars",
-      "5016": "invalid_bars",
-      "5205": "stale",
-      "5212": "invalid_bars",
-      "5245": "invalid_bars",
-      "5276": "stale",
-      "5301": "invalid_bars",
-      "5310": "invalid_bars",
-      "5348": "invalid_bars",
-      "5455": "invalid_bars",
-      "5514": "invalid_bars",
-      "5520": "invalid_bars",
-      "5523": "invalid_bars",
-      "5601": "stale",
-      "5703": "stale",
-      "5878": "invalid_bars",
-      "5902": "invalid_bars",
-      "6103": "invalid_bars",
-      "6124": "invalid_bars",
-      "6169": "invalid_bars",
-      "6171": "invalid_bars",
-      "6195": "invalid_bars",
-      "6198": "invalid_bars",
-      "6210": "invalid_bars",
-      "6212": "invalid_bars",
-      "6222": "invalid_bars",
-      "6228": "invalid_bars",
-      "6236": "invalid_bars",
-      "6242": "invalid_bars",
-      "6264": "invalid_bars",
-      "6482": "invalid_bars",
-      "6496": "invalid_bars",
-      "6512": "invalid_bars",
-      "6527": "invalid_bars",
-      "6542": "invalid_bars",
-      "6550": "stale",
-      "6560": "invalid_bars",
-      "6590": "invalid_bars",
-      "6597": "invalid_bars",
-      "6612": "invalid_bars",
-      "6615": "invalid_bars",
-      "6624": "invalid_bars",
-      "6649": "invalid_bars",
-      "6661": "stale",
-      "6662": "invalid_bars",
-      "6680": "stale",
-      "6692": "invalid_bars",
-      "6697": "invalid_bars",
-      "6708": "invalid_bars",
-      "6720": "invalid_bars",
-      "6721": "invalid_bars",
-      "6730": "invalid_bars",
-      "6751": "stale",
-      "6752": "invalid_bars",
-      "6762": "invalid_bars",
-      "6767": "invalid_bars",
-      "6843": "invalid_bars",
-      "6846": "invalid_bars",
-      "6855": "invalid_bars",
-      "6856": "invalid_bars",
-      "6865": "invalid_bars",
-      "6881": "stale",
-      "6884": "stale",
-      "6904": "invalid_bars",
-      "6929": "invalid_bars",
-      "6952": "stale",
-      "6997": "invalid_bars",
-      "7584": "invalid_bars",
-      "7708": "invalid_bars",
-      "7713": "invalid_bars",
-      "7716": "invalid_bars",
-      "7732": "stale",
-      "7743": "invalid_bars",
-      "7747": "invalid_bars",
-      "7757": "invalid_bars",
-      "7770": "invalid_bars",
-      "7782": "invalid_bars",
-      "7794": "invalid_bars",
-      "7811": "invalid_bars",
-      "7812": "short_history",
-      "7820": "invalid_bars",
-      "8047": "invalid_bars",
-      "8066": "invalid_bars",
-      "8077": "stale",
-      "8087": "invalid_bars",
-      "8093": "invalid_bars",
-      "8102": "invalid_bars",
-      "8107": "invalid_bars",
-      "8183": "stale",
-      "8272": "invalid_bars",
-      "8279": "invalid_bars",
-      "8342": "invalid_bars",
-      "8409": "invalid_bars",
-      "8416": "invalid_bars",
-      "8424": "invalid_bars",
-      "8433": "invalid_bars",
-      "8437": "invalid_bars",
-      "8444": "invalid_bars",
-      "8455": "invalid_bars",
-      "8905": "invalid_bars",
-      "8917": "invalid_bars",
-      "8921": "stale",
-      "8923": "stale",
-      "8929": "invalid_bars",
-      "8931": "invalid_bars",
-      "8941": "invalid_bars",
-      "9960": "invalid_bars"
+      "4806": "missing",
+      "4950": "missing",
+      "5013": "missing",
+      "5016": "missing",
+      "5205": "missing",
+      "5212": "missing",
+      "5245": "missing",
+      "5276": "missing",
+      "5301": "missing",
+      "5310": "missing",
+      "5348": "missing",
+      "5455": "missing",
+      "5514": "missing",
+      "5520": "missing",
+      "5523": "missing",
+      "5601": "missing",
+      "5703": "missing",
+      "5878": "missing",
+      "5902": "missing",
+      "6103": "missing",
+      "6124": "missing",
+      "6169": "missing",
+      "6171": "missing",
+      "6195": "missing",
+      "6198": "missing",
+      "6210": "missing",
+      "6212": "missing",
+      "6222": "missing",
+      "6228": "missing",
+      "6236": "missing",
+      "6242": "missing",
+      "6264": "missing",
+      "6482": "missing",
+      "6496": "missing",
+      "6512": "missing",
+      "6527": "missing",
+      "6542": "missing",
+      "6550": "missing",
+      "6560": "missing",
+      "6590": "missing",
+      "6597": "missing",
+      "6612": "missing",
+      "6615": "missing",
+      "6624": "missing",
+      "6649": "missing",
+      "6661": "missing",
+      "6662": "missing",
+      "6680": "missing",
+      "6692": "missing",
+      "6697": "missing",
+      "6708": "missing",
+      "6720": "missing",
+      "6721": "missing",
+      "6730": "missing",
+      "6751": "missing",
+      "6752": "missing",
+      "6762": "missing",
+      "6767": "missing",
+      "6843": "missing",
+      "6846": "missing",
+      "6855": "missing",
+      "6856": "missing",
+      "6865": "missing",
+      "6881": "missing",
+      "6884": "missing",
+      "6904": "missing",
+      "6929": "missing",
+      "6952": "missing",
+      "6997": "missing",
+      "7584": "missing",
+      "7708": "missing",
+      "7713": "missing",
+      "7716": "missing",
+      "7732": "missing",
+      "7743": "missing",
+      "7747": "missing",
+      "7757": "missing",
+      "7770": "missing",
+      "7782": "missing",
+      "7794": "missing",
+      "7811": "missing",
+      "7812": "missing",
+      "7820": "missing",
+      "8047": "missing",
+      "8066": "missing",
+      "8077": "missing",
+      "8087": "missing",
+      "8093": "missing",
+      "8102": "missing",
+      "8107": "missing",
+      "8183": "missing",
+      "8272": "missing",
+      "8279": "missing",
+      "8342": "missing",
+      "8409": "missing",
+      "8416": "missing",
+      "8424": "missing",
+      "8433": "missing",
+      "8437": "missing",
+      "8444": "missing",
+      "8455": "missing",
+      "8905": "missing",
+      "8917": "missing",
+      "8921": "missing",
+      "8923": "missing",
+      "8929": "missing",
+      "8931": "missing",
+      "8941": "missing",
+      "9960": "missing"
     },
     "counts": {
-      "invalid_bars": 142,
-      "stale": 30,
-      "missing": 2,
-      "short_history": 3
+      "missing": 177
     }
   },
   "radar": {
@@ -347,42 +344,161 @@
       {
         "id": "2362",
         "name": "藍天",
+        "sector": "產業代碼25",
         "as_of": "2026-09-23",
         "status": "unconfirmed",
         "reasons": [
-          "還原行情過期"
+          "尚未接近突破或回測觸發區",
+          "族群強度或樣本數未通過／待確認",
+          "有來源與時間的催化審核未通過／待確認",
+          "日週K／風險報酬未通過／待確認"
         ],
-        "facts": {}
+        "facts": {
+          "fundamental_ok": true,
+          "chips_ok": true,
+          "revenue_yoy": 12.1,
+          "revenue_period": "2026-08",
+          "profit_period": "2026-06-30",
+          "chips_date": "2026-09-23",
+          "chip_net_5d": 300197.0,
+          "source": "https://api.finmindtrade.com/api/v4/data",
+          "observed_on": "2026-09-23",
+          "notes": [
+            "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+          ],
+          "errors": [],
+          "provider_observed_on": "2026-09-08"
+        },
+        "catalyst": null,
+        "gates": {
+          "market": true,
+          "sector": false,
+          "fundamental": true,
+          "catalyst": false,
+          "technical": false,
+          "chips": true
+        },
+        "candidate_plan": null,
+        "observed_close": 47.75
       },
       {
         "id": "2476",
         "name": "鉅祥",
+        "sector": "產業代碼28",
         "as_of": "2026-09-23",
         "status": "unconfirmed",
         "reasons": [
-          "還原行情過期"
+          "日週K趨勢尚未配合",
+          "有來源與時間的催化審核未通過／待確認",
+          "日週K／風險報酬未通過／待確認"
         ],
-        "facts": {}
+        "facts": {
+          "fundamental_ok": true,
+          "chips_ok": true,
+          "revenue_yoy": 41.04,
+          "revenue_period": "2026-08",
+          "profit_period": "2026-06-30",
+          "chips_date": "2026-09-23",
+          "chip_net_5d": 547879.0,
+          "source": "https://api.finmindtrade.com/api/v4/data",
+          "observed_on": "2026-09-23",
+          "notes": [
+            "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+          ],
+          "errors": [],
+          "provider_observed_on": "2026-09-07"
+        },
+        "catalyst": null,
+        "gates": {
+          "market": true,
+          "sector": true,
+          "fundamental": true,
+          "catalyst": false,
+          "technical": false,
+          "chips": true
+        },
+        "candidate_plan": null,
+        "observed_close": 122.0
       },
       {
         "id": "4590",
         "name": "富田-創",
+        "sector": "產業代碼05",
         "as_of": "2026-09-23",
         "status": "unconfirmed",
         "reasons": [
-          "還原行情過期"
+          "日週K趨勢尚未配合",
+          "族群強度或樣本數未通過／待確認",
+          "基本面未通過／待確認",
+          "有來源與時間的催化審核未通過／待確認",
+          "日週K／風險報酬未通過／待確認"
         ],
-        "facts": {}
+        "facts": {
+          "fundamental_ok": false,
+          "chips_ok": true,
+          "revenue_yoy": null,
+          "revenue_period": "2026-08",
+          "profit_period": "2026-06-30",
+          "chips_date": "2026-09-23",
+          "chip_net_5d": 271075.0,
+          "source": "https://api.finmindtrade.com/api/v4/data",
+          "observed_on": "2026-09-23",
+          "notes": [
+            "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+          ],
+          "errors": [],
+          "provider_observed_on": "2026-09-08"
+        },
+        "catalyst": null,
+        "gates": {
+          "market": true,
+          "sector": false,
+          "fundamental": false,
+          "catalyst": false,
+          "technical": false,
+          "chips": true
+        },
+        "candidate_plan": null,
+        "observed_close": 89.7
       },
       {
         "id": "1708",
         "name": "東鹼",
+        "sector": "產業代碼21",
         "as_of": "2026-09-23",
         "status": "unconfirmed",
         "reasons": [
-          "還原行情過期"
+          "日週K趨勢尚未配合",
+          "有來源與時間的催化審核未通過／待確認",
+          "日週K／風險報酬未通過／待確認"
         ],
-        "facts": {}
+        "facts": {
+          "fundamental_ok": true,
+          "chips_ok": true,
+          "revenue_yoy": 33.17,
+          "revenue_period": "2026-08",
+          "profit_period": "2026-06-30",
+          "chips_date": "2026-09-23",
+          "chip_net_5d": 2566477.0,
+          "source": "https://api.finmindtrade.com/api/v4/data",
+          "observed_on": "2026-09-23",
+          "notes": [
+            "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+          ],
+          "errors": [],
+          "provider_observed_on": "2026-09-08"
+        },
+        "catalyst": null,
+        "gates": {
+          "market": true,
+          "sector": true,
+          "fundamental": true,
+          "catalyst": false,
+          "technical": false,
+          "chips": true
+        },
+        "candidate_plan": null,
+        "observed_close": 50.10000000000001
       },
       {
         "id": "7822",
@@ -390,159 +506,610 @@
         "as_of": "2026-09-23",
         "status": "unconfirmed",
         "reasons": [
-          "還原行情過期"
+          "還原日K缺漏或歷史不足"
         ],
         "facts": {}
       },
       {
         "id": "3694",
         "name": "海華",
+        "sector": "產業代碼27",
         "as_of": "2026-09-23",
         "status": "unconfirmed",
         "reasons": [
-          "還原行情過期"
+          "日週K趨勢尚未配合",
+          "基本面未通過／待確認",
+          "有來源與時間的催化審核未通過／待確認",
+          "日週K／風險報酬未通過／待確認"
         ],
-        "facts": {}
+        "facts": {
+          "fundamental_ok": false,
+          "chips_ok": true,
+          "revenue_yoy": -1.87,
+          "revenue_period": "2026-08",
+          "profit_period": "2026-06-30",
+          "chips_date": "2026-09-23",
+          "chip_net_5d": 371680.0,
+          "source": "https://api.finmindtrade.com/api/v4/data",
+          "observed_on": "2026-09-23",
+          "notes": [
+            "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+          ],
+          "errors": [],
+          "provider_observed_on": "2026-09-11"
+        },
+        "catalyst": null,
+        "gates": {
+          "market": true,
+          "sector": true,
+          "fundamental": false,
+          "catalyst": false,
+          "technical": false,
+          "chips": true
+        },
+        "candidate_plan": null,
+        "observed_close": 50.2
       },
       {
         "id": "6191",
         "name": "精成科",
+        "sector": "產業代碼28",
         "as_of": "2026-09-23",
         "status": "unconfirmed",
         "reasons": [
-          "還原行情過期"
+          "日週K趨勢尚未配合",
+          "有來源與時間的催化審核未通過／待確認",
+          "日週K／風險報酬未通過／待確認",
+          "最新籌碼未通過／待確認"
         ],
-        "facts": {}
+        "facts": {
+          "fundamental_ok": true,
+          "chips_ok": false,
+          "revenue_yoy": 20.45,
+          "revenue_period": "2026-08",
+          "profit_period": "2026-06-30",
+          "chips_date": "2026-09-23",
+          "chip_net_5d": -259141.0,
+          "source": "https://api.finmindtrade.com/api/v4/data",
+          "observed_on": "2026-09-23",
+          "notes": [
+            "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+          ],
+          "errors": [],
+          "provider_observed_on": "2026-09-08"
+        },
+        "catalyst": null,
+        "gates": {
+          "market": true,
+          "sector": true,
+          "fundamental": true,
+          "catalyst": false,
+          "technical": false,
+          "chips": false
+        },
+        "candidate_plan": null,
+        "observed_close": 82.8
       },
       {
         "id": "1513",
         "name": "中興電",
+        "sector": "產業代碼05",
         "as_of": "2026-09-23",
         "status": "unconfirmed",
         "reasons": [
-          "還原行情過期"
+          "日週K趨勢尚未配合",
+          "族群強度或樣本數未通過／待確認",
+          "有來源與時間的催化審核未通過／待確認",
+          "日週K／風險報酬未通過／待確認"
         ],
-        "facts": {}
+        "facts": {
+          "fundamental_ok": true,
+          "chips_ok": true,
+          "revenue_yoy": 8.93,
+          "revenue_period": "2026-08",
+          "profit_period": "2026-06-30",
+          "chips_date": "2026-09-23",
+          "chip_net_5d": 2664856.0,
+          "source": "https://api.finmindtrade.com/api/v4/data",
+          "observed_on": "2026-09-23",
+          "notes": [
+            "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+          ],
+          "errors": [],
+          "provider_observed_on": "2026-09-09"
+        },
+        "catalyst": null,
+        "gates": {
+          "market": true,
+          "sector": false,
+          "fundamental": true,
+          "catalyst": false,
+          "technical": false,
+          "chips": true
+        },
+        "candidate_plan": null,
+        "observed_close": 165.5
       },
       {
         "id": "8131",
         "name": "福懋科",
+        "sector": "產業代碼24",
         "as_of": "2026-09-23",
         "status": "unconfirmed",
         "reasons": [
-          "還原行情過期"
+          "日週K趨勢尚未配合",
+          "有來源與時間的催化審核未通過／待確認",
+          "日週K／風險報酬未通過／待確認",
+          "最新籌碼未通過／待確認"
         ],
-        "facts": {}
+        "facts": {
+          "fundamental_ok": true,
+          "chips_ok": false,
+          "revenue_yoy": 29.25,
+          "revenue_period": "2026-08",
+          "profit_period": "2026-06-30",
+          "chips_date": "2026-09-23",
+          "chip_net_5d": -977217.0,
+          "source": "https://api.finmindtrade.com/api/v4/data",
+          "observed_on": "2026-09-23",
+          "notes": [
+            "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+          ],
+          "errors": [],
+          "provider_observed_on": "2026-09-07"
+        },
+        "catalyst": null,
+        "gates": {
+          "market": true,
+          "sector": true,
+          "fundamental": true,
+          "catalyst": false,
+          "technical": false,
+          "chips": false
+        },
+        "candidate_plan": null,
+        "observed_close": 61.4
       },
       {
         "id": "3592",
         "name": "瑞鼎",
+        "sector": "產業代碼24",
         "as_of": "2026-09-23",
         "status": "unconfirmed",
         "reasons": [
-          "還原行情過期"
+          "日週K趨勢尚未配合",
+          "有來源與時間的催化審核未通過／待確認",
+          "日週K／風險報酬未通過／待確認"
         ],
-        "facts": {}
+        "facts": {
+          "fundamental_ok": true,
+          "chips_ok": true,
+          "revenue_yoy": 22.85,
+          "revenue_period": "2026-08",
+          "profit_period": "2026-06-30",
+          "chips_date": "2026-09-23",
+          "chip_net_5d": 99012.0,
+          "source": "https://api.finmindtrade.com/api/v4/data",
+          "observed_on": "2026-09-23",
+          "notes": [
+            "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+          ],
+          "errors": [],
+          "provider_observed_on": "2026-09-08"
+        },
+        "catalyst": null,
+        "gates": {
+          "market": true,
+          "sector": true,
+          "fundamental": true,
+          "catalyst": false,
+          "technical": false,
+          "chips": true
+        },
+        "candidate_plan": null,
+        "observed_close": 223.0
       },
       {
         "id": "2428",
         "name": "興勤",
+        "sector": "產業代碼28",
         "as_of": "2026-09-23",
         "status": "unconfirmed",
         "reasons": [
-          "還原行情過期"
+          "日週K趨勢尚未配合",
+          "有來源與時間的催化審核未通過／待確認",
+          "日週K／風險報酬未通過／待確認",
+          "最新籌碼未通過／待確認"
         ],
-        "facts": {}
+        "facts": {
+          "fundamental_ok": true,
+          "chips_ok": false,
+          "revenue_yoy": 51.21,
+          "revenue_period": "2026-08",
+          "profit_period": "2026-06-30",
+          "chips_date": "2026-09-23",
+          "chip_net_5d": -410974.0,
+          "source": "https://api.finmindtrade.com/api/v4/data",
+          "observed_on": "2026-09-23",
+          "notes": [
+            "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+          ],
+          "errors": [],
+          "provider_observed_on": "2026-09-08"
+        },
+        "catalyst": null,
+        "gates": {
+          "market": true,
+          "sector": true,
+          "fundamental": true,
+          "catalyst": false,
+          "technical": false,
+          "chips": false
+        },
+        "candidate_plan": null,
+        "observed_close": 254.5
       },
       {
         "id": "2903",
         "name": "遠百",
+        "sector": "產業代碼18",
         "as_of": "2026-09-23",
         "status": "unconfirmed",
         "reasons": [
-          "還原行情過期"
+          "日週K趨勢尚未配合",
+          "基本面未通過／待確認",
+          "有來源與時間的催化審核未通過／待確認",
+          "日週K／風險報酬未通過／待確認"
         ],
-        "facts": {}
+        "facts": {
+          "fundamental_ok": false,
+          "chips_ok": true,
+          "revenue_yoy": -0.64,
+          "revenue_period": "2026-08",
+          "profit_period": "2026-06-30",
+          "chips_date": "2026-09-23",
+          "chip_net_5d": 552597.0,
+          "source": "https://api.finmindtrade.com/api/v4/data",
+          "observed_on": "2026-09-23",
+          "notes": [
+            "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+          ],
+          "errors": [],
+          "provider_observed_on": "2026-09-10"
+        },
+        "catalyst": null,
+        "gates": {
+          "market": true,
+          "sector": true,
+          "fundamental": false,
+          "catalyst": false,
+          "technical": false,
+          "chips": true
+        },
+        "candidate_plan": null,
+        "observed_close": 22.25
       },
       {
         "id": "1904",
         "name": "正隆",
+        "sector": "產業代碼09",
         "as_of": "2026-09-23",
         "status": "unconfirmed",
         "reasons": [
-          "還原行情過期"
+          "尚未接近突破或回測觸發區",
+          "族群強度或樣本數未通過／待確認",
+          "有來源與時間的催化審核未通過／待確認",
+          "日週K／風險報酬未通過／待確認"
         ],
-        "facts": {}
+        "facts": {
+          "fundamental_ok": true,
+          "chips_ok": true,
+          "revenue_yoy": 23.12,
+          "revenue_period": "2026-08",
+          "profit_period": "2026-06-30",
+          "chips_date": "2026-09-23",
+          "chip_net_5d": 1492445.0,
+          "source": "https://api.finmindtrade.com/api/v4/data",
+          "observed_on": "2026-09-23",
+          "notes": [
+            "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+          ],
+          "errors": [],
+          "provider_observed_on": "2026-09-09"
+        },
+        "catalyst": null,
+        "gates": {
+          "market": true,
+          "sector": false,
+          "fundamental": true,
+          "catalyst": false,
+          "technical": false,
+          "chips": true
+        },
+        "candidate_plan": null,
+        "observed_close": 24.85
       },
       {
         "id": "8255",
         "name": "朋程",
+        "sector": "產業代碼05",
         "as_of": "2026-09-23",
         "status": "unconfirmed",
         "reasons": [
-          "還原行情過期"
+          "日週K趨勢尚未配合",
+          "族群強度或樣本數未通過／待確認",
+          "有來源與時間的催化審核未通過／待確認",
+          "日週K／風險報酬未通過／待確認",
+          "最新籌碼未通過／待確認"
         ],
-        "facts": {}
+        "facts": {
+          "fundamental_ok": true,
+          "chips_ok": false,
+          "revenue_yoy": 4.61,
+          "revenue_period": "2026-08",
+          "profit_period": "2026-06-30",
+          "chips_date": "2026-09-23",
+          "chip_net_5d": -145337.0,
+          "source": "https://api.finmindtrade.com/api/v4/data",
+          "observed_on": "2026-09-23",
+          "notes": [
+            "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+          ],
+          "errors": [],
+          "provider_observed_on": "2026-09-09"
+        },
+        "catalyst": null,
+        "gates": {
+          "market": true,
+          "sector": false,
+          "fundamental": true,
+          "catalyst": false,
+          "technical": false,
+          "chips": false
+        },
+        "candidate_plan": null,
+        "observed_close": 141.0
       },
       {
         "id": "2727",
         "name": "王品",
+        "sector": "產業代碼16",
         "as_of": "2026-09-23",
         "status": "unconfirmed",
         "reasons": [
-          "還原行情過期"
+          "日週K趨勢尚未配合",
+          "族群強度或樣本數未通過／待確認",
+          "有來源與時間的催化審核未通過／待確認",
+          "日週K／風險報酬未通過／待確認",
+          "最新籌碼未通過／待確認"
         ],
-        "facts": {}
+        "facts": {
+          "fundamental_ok": true,
+          "chips_ok": false,
+          "revenue_yoy": 11.31,
+          "revenue_period": "2026-08",
+          "profit_period": "2026-06-30",
+          "chips_date": "2026-09-23",
+          "chip_net_5d": -134570.0,
+          "source": "https://api.finmindtrade.com/api/v4/data",
+          "observed_on": "2026-09-23",
+          "notes": [
+            "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+          ],
+          "errors": [],
+          "provider_observed_on": "2026-09-09"
+        },
+        "catalyst": null,
+        "gates": {
+          "market": true,
+          "sector": false,
+          "fundamental": true,
+          "catalyst": false,
+          "technical": false,
+          "chips": false
+        },
+        "candidate_plan": null,
+        "observed_close": 230.0
       },
       {
         "id": "5309",
         "name": "系統電",
+        "sector": "產業代碼28",
         "as_of": "2026-09-23",
         "status": "unconfirmed",
         "reasons": [
-          "還原行情過期"
+          "日週K趨勢尚未配合",
+          "基本面未通過／待確認",
+          "有來源與時間的催化審核未通過／待確認",
+          "日週K／風險報酬未通過／待確認"
         ],
-        "facts": {}
+        "facts": {
+          "fundamental_ok": false,
+          "chips_ok": true,
+          "revenue_yoy": 27.55,
+          "revenue_period": "2026-08",
+          "profit_period": "2026-06-30",
+          "chips_date": "2026-09-23",
+          "chip_net_5d": 552759.0,
+          "source": "https://api.finmindtrade.com/api/v4/data",
+          "observed_on": "2026-09-23",
+          "notes": [
+            "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+          ],
+          "errors": [],
+          "provider_observed_on": "2026-09-07"
+        },
+        "catalyst": null,
+        "gates": {
+          "market": true,
+          "sector": true,
+          "fundamental": false,
+          "catalyst": false,
+          "technical": false,
+          "chips": true
+        },
+        "candidate_plan": null,
+        "observed_close": 51.5
       },
       {
         "id": "9933",
         "name": "中鼎",
+        "sector": "產業代碼20",
         "as_of": "2026-09-23",
         "status": "unconfirmed",
         "reasons": [
-          "還原行情過期"
+          "現有支撐壓力無法提供合格風險報酬",
+          "族群強度或樣本數未通過／待確認",
+          "有來源與時間的催化審核未通過／待確認",
+          "日週K／風險報酬未通過／待確認",
+          "最新籌碼未通過／待確認"
         ],
-        "facts": {}
+        "facts": {
+          "fundamental_ok": true,
+          "chips_ok": false,
+          "revenue_yoy": 5.25,
+          "revenue_period": "2026-08",
+          "profit_period": "2026-06-30",
+          "chips_date": "2026-09-23",
+          "chip_net_5d": -1422306.0,
+          "source": "https://api.finmindtrade.com/api/v4/data",
+          "observed_on": "2026-09-23",
+          "notes": [
+            "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+          ],
+          "errors": [],
+          "provider_observed_on": "2026-09-09"
+        },
+        "catalyst": null,
+        "gates": {
+          "market": true,
+          "sector": false,
+          "fundamental": true,
+          "catalyst": false,
+          "technical": false,
+          "chips": false
+        },
+        "candidate_plan": null,
+        "observed_close": 41.1
       },
       {
         "id": "2364",
         "name": "倫飛",
+        "sector": "產業代碼25",
         "as_of": "2026-09-23",
         "status": "unconfirmed",
         "reasons": [
-          "還原行情過期"
+          "日週K趨勢尚未配合",
+          "族群強度或樣本數未通過／待確認",
+          "有來源與時間的催化審核未通過／待確認",
+          "日週K／風險報酬未通過／待確認"
         ],
-        "facts": {}
+        "facts": {
+          "fundamental_ok": true,
+          "chips_ok": true,
+          "revenue_yoy": 32.6,
+          "revenue_period": "2026-08",
+          "profit_period": "2026-06-30",
+          "chips_date": "2026-09-23",
+          "chip_net_5d": 274523.0,
+          "source": "https://api.finmindtrade.com/api/v4/data",
+          "observed_on": "2026-09-23",
+          "notes": [
+            "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+          ],
+          "errors": [],
+          "provider_observed_on": "2026-09-09"
+        },
+        "catalyst": null,
+        "gates": {
+          "market": true,
+          "sector": false,
+          "fundamental": true,
+          "catalyst": false,
+          "technical": false,
+          "chips": true
+        },
+        "candidate_plan": null,
+        "observed_close": 66.3
       },
       {
         "id": "6462",
         "name": "神盾",
+        "sector": "產業代碼24",
         "as_of": "2026-09-23",
         "status": "unconfirmed",
         "reasons": [
-          "還原行情過期"
+          "日週K趨勢尚未配合",
+          "基本面未通過／待確認",
+          "有來源與時間的催化審核未通過／待確認",
+          "日週K／風險報酬未通過／待確認"
         ],
-        "facts": {}
+        "facts": {
+          "fundamental_ok": false,
+          "chips_ok": true,
+          "revenue_yoy": 11.1,
+          "revenue_period": "2026-08",
+          "profit_period": "2026-06-30",
+          "chips_date": "2026-09-23",
+          "chip_net_5d": 131958.0,
+          "source": "https://api.finmindtrade.com/api/v4/data",
+          "observed_on": "2026-09-23",
+          "notes": [
+            "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+          ],
+          "errors": [],
+          "provider_observed_on": "2026-09-10"
+        },
+        "catalyst": null,
+        "gates": {
+          "market": true,
+          "sector": true,
+          "fundamental": false,
+          "catalyst": false,
+          "technical": false,
+          "chips": true
+        },
+        "candidate_plan": null,
+        "observed_close": 99.20000000000002
       },
       {
         "id": "3034",
         "name": "聯詠",
+        "sector": "產業代碼24",
         "as_of": "2026-09-23",
         "status": "unconfirmed",
         "reasons": [
-          "還原行情過期"
+          "尚未接近突破或回測觸發區",
+          "有來源與時間的催化審核未通過／待確認",
+          "日週K／風險報酬未通過／待確認"
         ],
-        "facts": {}
+        "facts": {
+          "fundamental_ok": true,
+          "chips_ok": true,
+          "revenue_yoy": 26.33,
+          "revenue_period": "2026-08",
+          "profit_period": "2026-06-30",
+          "chips_date": "2026-09-23",
+          "chip_net_5d": 2952127.0,
+          "source": "https://api.finmindtrade.com/api/v4/data",
+          "observed_on": "2026-09-23",
+          "notes": [
+            "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+          ],
+          "errors": [],
+          "provider_observed_on": "2026-09-07"
+        },
+        "catalyst": null,
+        "gates": {
+          "market": true,
+          "sector": true,
+          "fundamental": true,
+          "catalyst": false,
+          "technical": false,
+          "chips": true
+        },
+        "candidate_plan": null,
+        "observed_close": 545.0
       }
     ],
     "coverage": {
@@ -17709,54 +18276,54 @@
       "published": "Mon, 31 Aug 2026 13:53:46 GMT"
     },
     {
-      "title": "台股創高進場怕被套、一賣就反彈？專家點名這檔ETF攻守兼備：報酬79%更勝0050",
-      "link": "https://tw.news.yahoo.com/%E5%8F%B0%E8%82%A1%E5%89%B5%E9%AB%98%E9%80%B2%E5%A0%B4%E6%80%95%E8%A2%AB%E5%A5%97-%E8%B3%A3%E5%B0%B1%E5%8F%8D%E5%BD%88-%E5%B0%88%E5%AE%B6%E9%BB%9E%E5%90%8D%E9%80%99%E6%AA%94etf%E6%94%BB%E5%AE%88%E5%85%BC%E5%82%99-%E5%A0%B1%E9%85%AC79-%E6%9B%B4%E5%8B%9D0050-152834376.html",
-      "published": "Wed, 23 Sep 2026 15:28:34 +0800"
+      "title": "恆生指數公司推出八項新指數，聚焦科技、算力與半導體領域",
+      "link": "https://tw.stock.yahoo.com/news/%E6%81%86%E7%94%9F%E6%8C%87%E6%95%B8%E5%85%AC%E5%8F%B8%E6%8E%A8%E5%87%BA%E5%85%AB%E9%A0%85%E6%96%B0%E6%8C%87%E6%95%B8-%E8%81%9A%E7%84%A6%E7%A7%91%E6%8A%80-%E7%AE%97%E5%8A%9B%E8%88%87%E5%8D%8A%E5%B0%8E%E9%AB%94%E9%A0%98%E5%9F%9F-233107578.html",
+      "published": "Wed, 23 Sep 2026 23:31:07 +0800"
     },
     {
-      "title": "《盤勢話中話》中秋變盤說再起？觀察2指標!",
-      "link": "https://tw.stock.yahoo.com/news/%E7%9B%A4%E5%8B%A2%E8%A9%B1%E4%B8%AD%E8%A9%B1-%E4%B8%AD%E7%A7%8B%E8%AE%8A%E7%9B%A4%E8%AA%AA%E5%86%8D%E8%B5%B7-%E8%A7%80%E5%AF%9F2%E6%8C%87%E6%A8%99-152802952.html",
-      "published": "Wed, 23 Sep 2026 15:28:02 +0800"
+      "title": "記憶體又成箭靶！國家隊捲款「2檔」近19億元　出貨名單前10一次看",
+      "link": "https://tw.stock.yahoo.com/news/%E8%A8%98%E6%86%B6%E9%AB%94%E5%8F%88%E6%88%90%E7%AE%AD%E9%9D%B6-%E5%9C%8B%E5%AE%B6%E9%9A%8A%E6%8D%B2%E6%AC%BE-2%E6%AA%94-%E8%BF%9119%E5%84%84%E5%85%83-%E5%87%BA%E8%B2%A8%E5%90%8D%E5%96%AE%E5%89%8D10-233000180.html",
+      "published": "Wed, 23 Sep 2026 23:30:00 +0800"
     },
     {
-      "title": "元大看盤室/「臺股儀表板」藏數字玄機！外資態度轉積極　報告揭市場風向",
-      "link": "https://tw.stock.yahoo.com/news/%E5%85%83%E5%A4%A7%E7%9C%8B%E7%9B%A4%E5%AE%A4-%E8%87%BA%E8%82%A1%E5%84%80%E8%A1%A8%E6%9D%BF-%E8%97%8F%E6%95%B8%E5%AD%97%E7%8E%84%E6%A9%9F-%E5%A4%96%E8%B3%87%E6%85%8B%E5%BA%A6%E8%BD%89%E7%A9%8D%E6%A5%B5-%E5%A0%B1%E5%91%8A%E6%8F%AD%E5%B8%82%E5%A0%B4%E9%A2%A8%E5%90%91-152502818.html",
-      "published": "Wed, 23 Sep 2026 15:25:02 +0800"
+      "title": "貝森特透露，美、中AI溝通管道範圍尚未確定",
+      "link": "https://tw.stock.yahoo.com/news/%E8%B2%9D%E6%A3%AE%E7%89%B9%E9%80%8F%E9%9C%B2-%E7%BE%8E-%E4%B8%ADai%E6%BA%9D%E9%80%9A%E7%AE%A1%E9%81%93%E7%AF%84%E5%9C%8D%E5%B0%9A%E6%9C%AA%E7%A2%BA%E5%AE%9A-232850667.html",
+      "published": "Wed, 23 Sep 2026 23:28:50 +0800"
     },
     {
-      "title": "外資越賣股價越高？「華邦電金雞」近5日累漲15.5%　自營商反手清倉579張、抱回7976萬元",
-      "link": "https://tw.stock.yahoo.com/news/%E5%A4%96%E8%B3%87%E8%B6%8A%E8%B3%A3%E8%82%A1%E5%83%B9%E8%B6%8A%E9%AB%98-%E8%8F%AF%E9%82%A6%E9%9B%BB%E9%87%91%E9%9B%9E-%E8%BF%915%E6%97%A5%E7%B4%AF%E6%BC%B215-5-%E8%87%AA%E7%87%9F%E5%95%86%E5%8F%8D%E6%89%8B%E6%B8%85%E5%80%89579%E5%BC%B5-151000824.html",
-      "published": "Wed, 23 Sep 2026 15:10:00 +0800"
+      "title": "全台最低價預售屋曝光！台南每坪15.9萬　北市最低逼近90萬「價差超過5倍」",
+      "link": "https://tw.stock.yahoo.com/news/%E5%85%A8%E5%8F%B0%E6%9C%80%E4%BD%8E%E5%83%B9%E9%A0%90%E5%94%AE%E5%B1%8B%E6%9B%9D%E5%85%89%EF%BC%81%E5%8F%B0%E5%8D%97%E6%AF%8F%E5%9D%AA159%E8%90%AC-%E5%8C%97%E5%B8%82%E6%9C%80%E4%BD%8E%E9%80%BC%E8%BF%9190%E8%90%AC%E3%80%8C%E5%83%B9%E5%B7%AE%E8%B6%85%E9%81%8E5%E5%80%8D%E3%80%8D-232500087.html",
+      "published": "Wed, 23 Sep 2026 23:25:00 +0800"
     },
     {
-      "title": "高通驍龍8 Elite Gen 6亮相　台積2奈米再下一城",
-      "link": "https://tw.news.yahoo.com/%E9%AB%98%E9%80%9A%E9%A9%8D%E9%BE%8D8-elite-gen-6%E4%BA%AE%E7%9B%B8-%E5%8F%B0%E7%A9%8D2%E5%A5%88%E7%B1%B3%E5%86%8D%E4%B8%8B-145300902.html",
-      "published": "Wed, 23 Sep 2026 14:53:00 +0800"
+      "title": "美國上半年IPO募資飆近4倍 達1379億美元",
+      "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E5%9C%8B%E4%B8%8A%E5%8D%8A%E5%B9%B4ipo%E5%8B%9F%E8%B3%87%E9%A3%86%E8%BF%914%E5%80%8D-%E9%81%941379%E5%84%84%E7%BE%8E%E5%85%83-232245120.html",
+      "published": "Wed, 23 Sep 2026 23:22:45 +0800"
     },
     {
-      "title": "0050輸了！1檔ETF狂飆106%奪冠 他揭關鍵原因：大象難跳",
-      "link": "https://tw.news.yahoo.com/0050%E8%BC%B8%E4%BA%86-1%E6%AA%94etf%E7%8B%82%E9%A3%86106-%E5%A5%AA%E5%86%A0-%E4%BB%96%E6%8F%AD%E9%97%9C%E9%8D%B5%E5%8E%9F%E5%9B%A0-%E5%A4%A7%E8%B1%A1%E9%9B%A3%E8%B7%B3-144300565.html",
-      "published": "Wed, 23 Sep 2026 14:43:00 +0800"
+      "title": "全球通膨陰霾難散，OECD料聯準會將再次升息",
+      "link": "https://tw.stock.yahoo.com/news/%E5%85%A8%E7%90%83%E9%80%9A%E8%86%A8%E9%99%B0%E9%9C%BE%E9%9B%A3%E6%95%A3-oecd%E6%96%99%E8%81%AF%E6%BA%96%E6%9C%83%E5%B0%87%E5%86%8D%E6%AC%A1%E5%8D%87%E6%81%AF-232110826.html",
+      "published": "Wed, 23 Sep 2026 23:21:10 +0800"
     },
     {
-      "title": "攜手台商走向世界 賴清德：台灣需要一座座護國群山",
-      "link": "https://tw.stock.yahoo.com/news/%E6%94%9C%E6%89%8B%E5%8F%B0%E5%95%86%E8%B5%B0%E5%90%91%E4%B8%96%E7%95%8C-%E8%B3%B4%E6%B8%85%E5%BE%B7-%E5%8F%B0%E7%81%A3%E9%9C%80%E8%A6%81-%E5%BA%A7%E5%BA%A7%E8%AD%B7%E5%9C%8B%E7%BE%A4%E5%B1%B1-144005354.html",
-      "published": "Wed, 23 Sep 2026 14:40:05 +0800"
+      "title": "京華城案》檢方要扣押鼎越開發土地失敗　鼎越抗告成功理由卻不是主張柯文哲無罪",
+      "link": "https://tw.news.yahoo.com/%E4%BA%AC%E8%8F%AF%E5%9F%8E%E6%A1%88-%E6%AA%A2%E6%96%B9%E8%A6%81%E6%89%A3%E6%8A%BC%E9%BC%8E%E8%B6%8A%E9%96%8B%E7%99%BC%E5%9C%9F%E5%9C%B0%E5%A4%B1%E6%95%97-%E9%BC%8E%E8%B6%8A%E6%8A%97%E5%91%8A%E6%88%90%E5%8A%9F%E7%90%86%E7%94%B1%E5%8D%BB%E4%B8%8D%E6%98%AF%E4%B8%BB%E5%BC%B5%E6%9F%AF%E6%96%87%E5%93%B2%E7%84%A1%E7%BD%AA-232047857.html",
+      "published": "Wed, 23 Sep 2026 23:20:47 +0800"
     },
     {
-      "title": "「川習會」倒數計時！市場觀望情緒升溫　美股4大指數全面下挫",
-      "link": "https://tw.stock.yahoo.com/news/%E5%B7%9D%E7%BF%92%E6%9C%83-%E5%80%92%E6%95%B8%E8%A8%88%E6%99%82-%E5%B8%82%E5%A0%B4%E8%A7%80%E6%9C%9B%E6%83%85%E7%B7%92%E5%8D%87%E6%BA%AB-%E7%BE%8E%E8%82%A14%E5%A4%A7%E6%8C%87%E6%95%B8%E5%85%A8%E9%9D%A2%E4%B8%8B%E6%8C%AB-143600069.html",
-      "published": "Wed, 23 Sep 2026 14:36:00 +0800"
+      "title": "投資紀律夠不夠？股市崩盤見真章！策略比追問大跌原因更重要",
+      "link": "https://tw.news.yahoo.com/%E6%8A%95%E8%B3%87%E7%B4%80%E5%BE%8B%E5%A4%A0%E4%B8%8D%E5%A4%A0-%E8%82%A1%E5%B8%82%E5%B4%A9%E7%9B%A4%E8%A6%8B%E7%9C%9F%E7%AB%A0-%E7%AD%96%E7%95%A5%E6%AF%94%E8%BF%BD%E5%95%8F%E5%A4%A7%E8%B7%8C%E5%8E%9F%E5%9B%A0%E6%9B%B4%E9%87%8D%E8%A6%81-230900170.html",
+      "published": "Wed, 23 Sep 2026 23:09:00 +0800"
     },
     {
-      "title": "航空四雄火拼載客率！華航再拓機上餐飲版圖　星宇擴北美航網啟動聯營航班",
-      "link": "https://tw.news.yahoo.com/%E8%88%AA%E7%A9%BA%E5%9B%9B%E9%9B%84%E7%81%AB%E6%8B%BC%E8%BC%89%E5%AE%A2%E7%8E%87-%E8%8F%AF%E8%88%AA%E5%86%8D%E6%8B%93%E6%A9%9F%E4%B8%8A%E9%A4%90%E9%A3%B2%E7%89%88%E5%9C%96-%E6%98%9F%E5%AE%87%E6%93%B4%E5%8C%97%E7%BE%8E%E8%88%AA%E7%B6%B2%E5%95%9F%E5%8B%95%E8%81%AF%E7%87%9F%E8%88%AA%E7%8F%AD-143121715.html",
-      "published": "Wed, 23 Sep 2026 14:31:21 +0800"
+      "title": "RBC Capital 看好 Meta Platforms 維持 770 美元目標價",
+      "link": "https://tw.stock.yahoo.com/news/rbc-capital-%E7%9C%8B%E5%A5%BD-meta-platforms-230753352.html",
+      "published": "Wed, 23 Sep 2026 23:07:53 +0800"
     },
     {
-      "title": "美債殖利率飆19年新高 那指急挫300點 台指期夜盤失守48K",
-      "link": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E4%BC%8A%E5%B1%80%E5%8B%A2%E5%86%8D%E8%BF%8E%E8%AE%8A%E6%95%B8-%E9%82%A3%E6%8C%87%E6%80%A5%E6%8C%AB300%E9%BB%9E-%E5%8F%B0%E6%8C%87%E6%9C%9F%E5%A4%9C%E7%9B%A4%E5%A4%B1%E5%AE%8848k-142607098.html",
-      "published": "Wed, 23 Sep 2026 14:26:07 +0800"
+      "title": "南亞科抓內鬼1／AI獲利絕密武器「HKMG」前腳被盜！　中國記憶體龍頭「長鑫存儲」後腳開趴內幕",
+      "link": "https://tw.stock.yahoo.com/news/%E5%8D%97%E4%BA%9E%E7%A7%91%E6%8A%93%E5%85%A7%E9%AC%BC1-ai%E7%8D%B2%E5%88%A9%E7%B5%95%E5%AF%86%E6%AD%A6%E5%99%A8-hkmg-%E5%89%8D%E8%85%B3%E8%A2%AB%E7%9B%9C-%E4%B8%AD%E5%9C%8B%E8%A8%98%E6%86%B6%E9%AB%94%E9%BE%8D%E9%A0%AD-230300562.html",
+      "published": "Wed, 23 Sep 2026 23:03:00 +0800"
     }
   ],
   "latest_prices": {
