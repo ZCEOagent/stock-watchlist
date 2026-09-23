@@ -33,26 +33,6 @@
   {
     "date": "2026-08-05",
     "market": "us",
-    "id": "CDW",
-    "name": "CDW Corporation",
-    "flagged_close": 134.58,
-    "flagged_change_pct": -12.61,
-    "tags": [
-      "均線同步"
-    ]
-  },
-  {
-    "date": "2026-08-05",
-    "market": "us",
-    "id": "PODD",
-    "name": "Insulet Corporation",
-    "flagged_close": 134.79,
-    "flagged_change_pct": -19.2,
-    "tags": []
-  },
-  {
-    "date": "2026-08-05",
-    "market": "us",
     "id": "CCI",
     "name": "Crown Castle",
     "flagged_close": 69.97,
@@ -3353,6 +3333,40 @@
     "flagged_close": 248.38,
     "flagged_change_pct": -6.32,
     "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-23",
+    "market": "tw",
+    "id": "1442",
+    "name": "名軒",
+    "flagged_close": 27.8,
+    "flagged_change_pct": -10.75,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-23",
+    "market": "tw",
+    "id": "4188",
+    "name": "安克",
+    "flagged_close": 14.85,
+    "flagged_change_pct": 10.0,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-23",
+    "market": "tw",
+    "id": "6243",
+    "name": "迅杰",
+    "flagged_close": 41.25,
+    "flagged_change_pct": 10.0,
+    "tags": [
+      "爆量",
       "均線同步"
     ]
   }

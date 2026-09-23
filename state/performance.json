@@ -1,0 +1,12 @@
+{
+  "as_of": "2026-09-23",
+  "method": "forward-next-open-v2",
+  "records": {},
+  "summary": {
+    "counts": {},
+    "closed": 0,
+    "win_rate": null,
+    "mean_net_return_pct": null
+  },
+  "notice": "訊號次日開盤模擬；不是實際成交或投資組合報酬，無訊號時不產生績效。"
+}
