@@ -21,6 +21,7 @@ jobs:
     timeout-minutes: 60
     env:
       RADAR_MODE: shadow
+      PYTHONUNBUFFERED: '1'
       MARKET_LIMIT: ${{ github.event.inputs.us_limit }}
     steps:
       - uses: actions/checkout@v4
@@ -76,6 +77,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: us-quality-${{ github.run_id }}
+          include-hidden-files: true
           path: |
             .runtime/*quality.json
             .runtime/test_*cache.json

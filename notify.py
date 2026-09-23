@@ -42,14 +42,19 @@ def build_messages(market, cache):
         return []
     day = cache["as_of"]
     label = "台股" if market == "tw" else "美股"
-    messages = [(f"report:{market}:{day}", f"{label}收盤報告已更新｜行情日期 {day}\nhttps://zceoagent.github.io/stock-watchlist/")]
+    messages = [(f"report:{market}:{day}", f"{label}收盤報告已更新｜行情日期 {day}\nhttps://zceoagent.github.io/stock-watchlist/")] if config.NOTIFY_REPORT_UPDATES else []
     if market == "tw" and config.RADAR_MODE == "live":
-        for item in cache.get("radar", {}).get("items", []):
+        items = cache.get('radar', {}).get('items', [])
+        # One new research idea per market day, including repeat evening runs.
+        ideas = sorted([i for i in items if i.get('status') == 'triggered' and i.get('triggered_on') == day and i.get('plan')],
+                       key=lambda i: (-i.get('current_rr', 0), i['id']))[:1]
+        updates = [i for i in items if i.get('triggered_on') and i.get('status') in ('invalid', 'expired', 'review', 'target')]
+        for item in ideas + updates:
             if item["status"] not in ("waiting", "triggered", "invalid", "expired", "review", "target") or not item.get("plan"):
                 continue
             p = item["plan"]
             # One notification per state per plan, not per daily scan.
-            key = f"radar:{item['id']}:{item['created_on']}:{item['status']}"
+            key = f"research-idea:tw:{day}" if item in ideas else f"radar:{item['id']}:{item['created_on']}:{item['status']}"
             text = (f"【波段雷達｜{LABELS[item['status']]}】{item['id']} {item['name']}\n"
                     f"行情日期：{day}（收盤資料，非即時報價）\n"
                     f"觀察進場區：{p['entry_low']:.2f}～{p['entry_high']:.2f}\n"
@@ -57,7 +62,7 @@ def build_messages(market, cache):
                     f"扣成本 R:R：{item.get('current_rr', p['rr']):.2f}\n"
                     f"有效至：{item['expires_on']}｜預計2～4週，第5交易日重評\n"
                     "實際進場仍需即時價格與可成交性確認。")
-            messages.append((key, text))
+            messages.append((key, text + '\n研究計畫追蹤；不是你的實際持倉或成交紀錄。'))
     return messages
 
 

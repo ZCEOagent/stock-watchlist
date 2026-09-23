@@ -1,53 +1,54 @@
 """
 抓「台股有哪些股票代號」的清單。
-資料來源：FinMind 的 TaiwanStockInfo。
+資料來源：證交所與櫃買中心官方現行公司名冊。
 只保留：4碼純數字、上市(twse)或上櫃(tpex)、排除 ETF 和存託憑證(TDR)的一般股票。
 """
 import re
 import requests
+from datetime import date
+from market_clock import now_tw
 
-import config
 
-FINMIND_URL = "https://api.finmindtrade.com/api/v4/data"
-EXCLUDED_CATEGORIES = {"ETF", "存託憑證"}
-INCLUDED_TYPES = {"twse", "tpex"}
+
+
+def parse_roster(rows, market, today):
+    fields = ('出表日期', '公司代號', '公司簡稱', '產業別') if market == 'twse' else ('Date', 'SecuritiesCompanyCode', 'CompanyAbbreviation', 'SecuritiesIndustryCode')
+    result = {}
+    if not isinstance(rows, list):
+        raise ValueError('Official roster must be a list')
+    for row in rows:
+        stamp, sid, name, sector = (str(row[key]).strip() for key in fields)
+        if len(stamp) != 7 or not stamp.isdigit():
+            raise ValueError('Unexpected official roster date')
+        published = date(int(stamp[:3]) + 1911, int(stamp[3:5]), int(stamp[5:7]))
+        if not 0 <= (today - published).days <= 7:
+            raise ValueError('Official roster stale or future dated')
+        if re.fullmatch(r'\d{4}', sid):
+            if sid in result:
+                raise ValueError('Duplicate company in official roster')
+            result[sid] = dict(stock_id=sid, stock_name=name, type=market,
+                               sector='產業代碼' + sector, roster_date=published.isoformat())
+    return result
 
 
 def get_tw_universe():
-    """回傳 [{"stock_id": "2330", "stock_name": "台積電", "type": "twse"}, ...]"""
-    params = {"dataset": "TaiwanStockInfo"}
-    headers = {"Authorization": f"Bearer {config.FINMIND_TOKEN}"} if config.FINMIND_TOKEN else {}
-    resp = requests.get(FINMIND_URL, params=params, headers=headers, timeout=30)
-    resp.raise_for_status()
-    payload = resp.json()
-    if payload.get("status") != 200 or not payload.get("data"):
-        raise RuntimeError("股票清單來源失敗；不以空清單產生成功報告")
-    rows = payload["data"]
+    """Current official common-share roster, not a historical ticker directory.
 
-    # 同一檔股票在清單裡可能有多筆歷史紀錄（例如產業分類曾經變更），只保留最新一筆
-    latest_by_id = {}
-    for row in rows:
-        sid = row["stock_id"]
-        if sid not in latest_by_id or row["date"] > latest_by_id[sid]["date"]:
-            latest_by_id[sid] = row
-
-    universe = []
-    for row in latest_by_id.values():
-        if row["type"] not in INCLUDED_TYPES:
-            continue
-        if not re.fullmatch(r"\d{4}", row["stock_id"]):
-            continue
-        if row["industry_category"] in EXCLUDED_CATEGORIES:
-            continue
-        universe.append({
-            "stock_id": row["stock_id"],
-            "stock_name": row["stock_name"],
-            "type": row["type"],
-            "sector": row["industry_category"],
-        })
-
-    universe.sort(key=lambda x: x["stock_id"])
-    return universe
+Suspensions and insufficient history still count in quality failures. Never
+filter the universe by whether price download happened to succeed.
+"""
+    today = now_tw().date()
+    universe = {}
+    sources = [('twse', 'https://openapi.twse.com.tw/v1/opendata/t187ap03_L', 800),
+               ('tpex', 'https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap03_O', 500)]
+    for market, url, minimum in sources:
+        response = requests.get(url, timeout=30)
+        response.raise_for_status()
+        roster = parse_roster(response.json(), market, today)
+        if len(roster) < minimum or universe.keys() & roster.keys():
+            raise RuntimeError('官方現行名冊不足或重複，停止掃描')
+        universe.update(roster)
+    return sorted(universe.values(), key=lambda item: item['stock_id'])
 
 
 if __name__ == "__main__":
