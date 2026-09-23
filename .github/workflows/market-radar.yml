@@ -6,6 +6,8 @@ on:
     - cron: '20 10 * * *'
     - cron: '0 0 * * 1'
     - cron: '17,47 0-14 * * 1-5'
+    # Silent/resumable filing maintenance at 02:20 Taiwan time.
+    - cron: '20 18 * * *'
   workflow_dispatch:
     inputs:
       mode:
@@ -16,6 +18,11 @@ on:
         description: 'Send to the existing Telegram chat'
         type: boolean
         default: false
+      financial_limit:
+        description: 'Maximum filings this run (300 daily, 2200 for initial backfill)'
+        type: choice
+        options: ['300', '2200']
+        default: '300'
 
 permissions:
   contents: read
@@ -30,7 +37,7 @@ jobs:
     # Never consume production state or send from a feature branch.
     if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 120
     env:
       TZ: Asia/Taipei
       GH_TOKEN: ${{ github.token }}
@@ -61,6 +68,7 @@ jobs:
           SCHEDULE: ${{ github.event.schedule }}
           INPUT_MODE: ${{ inputs.mode }}
           INPUT_SEND: ${{ inputs.send }}
+          FINANCIAL_LIMIT: ${{ inputs.financial_limit || '300' }}
         run: |
           mode=daily
           if [ "$EVENT_NAME" = workflow_dispatch ]; then
@@ -70,10 +78,12 @@ jobs:
           elif [ "$SCHEDULE" = '17,47 0-14 * * 1-5' ]; then
             mode=events
           fi
-          if [ "$EVENT_NAME" = schedule ] || [ "$INPUT_SEND" = true ]; then
-            python -m market_radar.cli "$mode" --send
+          if [ "$SCHEDULE" = '20 18 * * *' ]; then
+            python -m market_radar.cli daily --financial-limit 2200
+          elif [ "$EVENT_NAME" = schedule ] || [ "$INPUT_SEND" = true ]; then
+            python -m market_radar.cli "$mode" --financial-limit "$FINANCIAL_LIMIT" --send
           else
-            python -m market_radar.cli "$mode"
+            python -m market_radar.cli "$mode" --financial-limit "$FINANCIAL_LIMIT"
           fi
       - name: Preserve public data and delivery receipts even after a delivery failure
         if: always()

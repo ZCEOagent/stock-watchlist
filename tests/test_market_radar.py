@@ -48,10 +48,10 @@ class RadarTests(unittest.TestCase):
     def test_cashflow_gate_and_buy(self):
         self.populate()
         r = self.evaluate()
-        self.assertEqual(r['coverage'], 95)
+        self.assertEqual(r['coverage'], 80)
         self.assertNotEqual(r['status'], 'BUY')
         extra = {'2330': {'period': '2026Q2', 'basis': 'YTD', 'source': 'https://example.org/filing',
-                          'available_at': '2026-08-14', 'operating_cash_flow': 30}}
+                          'available_at': '2026-08-14', 'prior_year_eps': 5, 'operating_cash_flow': 30}}
         r = self.evaluate(supplements=extra)
         self.assertEqual(r['status'], 'BUY')
         self.assertEqual(r['coverage'], 100)
