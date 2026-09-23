@@ -1,0 +1,69 @@
+name: Radar cloud monitor
+on:
+  schedule:
+    # Six-hour watchdog, NOT a six-hour full-market scan. Avoid the busy hour boundary.
+    - cron: '41 1,7,13,19 * * *'
+  workflow_run:
+    workflows: [Taiwan Market Radar Digest, Daily TW Close Report]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      send:
+        description: Send only meaningful changes to the existing Telegram chat
+        type: boolean
+        default: false
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: radar-cloud-monitor
+  cancel-in-progress: false
+jobs:
+  monitor:
+    if: >-
+      github.ref == format('refs/heads/{0}', github.event.repository.default_branch) &&
+      (github.event_name != 'workflow_run' ||
+       (github.event.workflow_run.head_branch == github.event.repository.default_branch &&
+        github.event.workflow_run.head_repository.full_name == github.repository))
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RADAR_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Inspect completed scans and checkpoint meaningful notifications
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          SEND: ${{ github.event_name != 'workflow_dispatch' || inputs.send }}
+        run: |
+          if [ "$SEND" = true ]; then
+            python -m market_radar.monitor --send
+          else
+            python -m market_radar.monitor
+          fi
+      - name: Preserve monitor receipts independently of market data
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: radar-monitor-state
+          path: .monitor/state/monitor.sqlite
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: error
+      - name: Preserve public diagnostic summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: radar-monitor-summary
+          path: .monitor/summary.json
+          include-hidden-files: true
+          retention-days: 30
+          if-no-files-found: ignore
