@@ -1,0 +1,86 @@
+name: Taiwan Market Radar Digest
+
+on:
+  schedule:
+    # Asia/Taipei: daily 18:20; Monday 08:00; weekdays 08:17-22:47 every 30 minutes.
+    - cron: '20 10 * * *'
+    - cron: '0 0 * * 1'
+    - cron: '17,47 0-14 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      mode:
+        type: choice
+        options: [daily, weekly, events]
+        default: daily
+      send:
+        description: 'Send to the existing Telegram chat'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: taiwan-market-radar-state
+  cancel-in-progress: false
+
+jobs:
+  radar:
+    # Never consume production state or send from a feature branch.
+    if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      TZ: Asia/Taipei
+      GH_TOKEN: ${{ github.token }}
+      RADAR_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install the Bot dependencies
+        run: pip install -r requirements.txt
+      - uses: actions/cache/restore@v4
+        with:
+          path: .runtime
+          key: market-radar-history-${{ github.run_id }}
+          restore-keys: radar-tw-
+      - name: Validate original Bot and added reports
+        run: python -m unittest discover -s tests -q
+      - name: Restore public market history and delivery receipts
+        run: python -m market_radar.restore
+      - name: Run radar
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          RADAR_HOLDINGS_JSON: ${{ secrets.RADAR_HOLDINGS_JSON || '{}' }}
+          RADAR_FINANCIALS_JSON: ${{ secrets.RADAR_FINANCIALS_JSON || '{}' }}
+          EVENT_NAME: ${{ github.event_name }}
+          SCHEDULE: ${{ github.event.schedule }}
+          INPUT_MODE: ${{ inputs.mode }}
+          INPUT_SEND: ${{ inputs.send }}
+        run: |
+          mode=daily
+          if [ "$EVENT_NAME" = workflow_dispatch ]; then
+            mode="$INPUT_MODE"
+          elif [ "$SCHEDULE" = '0 0 * * 1' ]; then
+            mode=weekly
+          elif [ "$SCHEDULE" = '17,47 0-14 * * 1-5' ]; then
+            mode=events
+          fi
+          if [ "$EVENT_NAME" = schedule ] || [ "$INPUT_SEND" = true ]; then
+            python -m market_radar.cli "$mode" --send
+          else
+            python -m market_radar.cli "$mode"
+          fi
+      - name: Preserve public data and delivery receipts even after a delivery failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: market-radar-state
+          path: .radar/state.sqlite
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: ignore
