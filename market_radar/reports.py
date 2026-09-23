@@ -29,7 +29,7 @@ def select(snapshot, previous, holdings, priority=('2330', '6274')):
     if comparable_version:
         for r in stocks:
             p = old.get(r['code'])
-            if p and r['candidate'] and not p['candidate'] and not r['risks']:
+            if p and set(r['parts']) == set(p['parts']) and r['candidate'] and not p['candidate'] and not r['risks']:
                 new.append(r)
             # Changed availability/model is not a change in business performance.
             if (p and set(r['parts']) == set(p['parts']) and r['coverage'] >= 60 and
@@ -56,6 +56,10 @@ def render(snapshot, previous, holdings, weekly=False):
              f"掃描 {snapshot['scanned']} 檔｜行情日期 {', '.join(snapshot['price_dates']) or '未知'}"]
     if snapshot.get('strategy_mode') == 'shadow':
         lines.append('沿用原波段策略影子模式；本報告提供研究摘要，不啟用交易訊號。')
+    completion = snapshot.get('completion', {})
+    if completion:
+        f, h = completion['financials'], completion['history']
+        lines.append(f"財報交叉核實 {f['verified']}/{f['eligible']} 檔；待補 {f['pending']} 檔；歷史行情失敗 {h['failed_days']} 個市場交易日。")
     failed = [h for h in snapshot['health'] if not h['ok']]
     if failed:
         lines.append(f'本輪 {len(failed)} 項來源失敗；受影響股票不產生新進決策。')
@@ -66,7 +70,7 @@ def render(snapshot, previous, holdings, weekly=False):
                 ([brief(r) + '\n  ' + '；'.join(r['risks'][:2]) for r in risks[:3]] or
                  ['尚未設定持股，風險監測未啟用。' if not holdings else '已設定持股，本輪未觸發警報；仍須留意資料限制。']),
                 ([brief(r) for r in trades[:3]] or ['目前沒有符合 BUY 門檻的標的，不需為週期而交易。'])]
-    sections[3] += [brief(r) + '\n  優先追蹤：' + ('；'.join(r['missing'][:2]) or '；'.join(r['reasons'][:2])) for r in follow]
+    sections[3] += [brief(r) + '\n  優先追蹤：' + ('；'.join(r['risks'][:2]) or '；'.join(r['missing'][:2]) or '；'.join(r['reasons'][:2])) for r in follow]
     if len(risks) > 3:
         sections[2].append(f'另 {len(risks)-3} 檔觸發持股警報，完整清單見附檔。')
     for heading, items in zip(HEADINGS, sections):

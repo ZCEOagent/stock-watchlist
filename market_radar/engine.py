@@ -3,7 +3,7 @@ import datetime as dt
 import statistics
 from indicators import compute_indicators
 
-VERSION = 'radar-1.0'
+VERSION = 'radar-1.1'
 PRIORITY = ('2330', '6274')
 
 
@@ -49,16 +49,13 @@ def evaluate(company, store, today, peers, failed, supplements=None, expected_da
     eps = fin.get('eps') if fin_ok else None
     add('eps_positive', 5, None if eps is None else 5 if eps > 0 else 0,
         '一般業 EPS 待補／過期；金融業另需模型' if eps is None else f"{fin['period']} 累計 EPS {eps:.2f} 元（不可直接年化）")
-    prior_period = str(int(fin['period'][:4])-1) + fin['period'][4:] if fin else None
-    prev = next((r for r in store.history('financial', code) if r['period'] == prior_period and r.get('basis') == 'YTD'), {})
     extra = (supplements or {}).get(code, {})
     # Supplements are accepted only with an explicit source, availability date and exact period.
     extra_ok = (extra.get('period') == fin.get('period') and extra.get('basis') == 'YTD' and
                 str(extra.get('source', '')).startswith('https://') and
                 fresh(extra.get('available_at'), today, 210))
-    prev_eps = prev.get('eps')
-    if prev_eps is None and extra_ok:
-        prev_eps = extra.get('prior_year_eps')
+    # Same-filing comparative EPS reflects retrospective share-count adjustments.
+    prev_eps = extra.get('prior_year_eps') if extra_ok else None
     growth = (eps / prev_eps - 1) * 100 if eps is not None and prev_eps is not None and prev_eps > 0 else None
     add('eps_growth', 15, None if growth is None else 15 if growth >= 30 else 10 if growth >= 15 else 5 if growth > 0 else 0,
         '缺去年同期累計 EPS／去年為負，成長率不適用' if growth is None else f'同期間 EPS 年增 {growth:.1f}%')
@@ -78,7 +75,7 @@ def evaluate(company, store, today, peers, failed, supplements=None, expected_da
     median = statistics.median(sector_values) if len(sector_values) >= 5 else None
     relative = pe / median if pe and median else None
     add('valuation', 20, None if relative is None else 20 if relative <= .8 else 15 if relative <= 1 else 8 if relative <= 1.3 else 0,
-        '有效本益比／至少 5 家同業樣本待補' if relative is None else f'本益比 {pe:.1f} 倍；同業中位數 {median:.1f} 倍')
+        '同交易日有效本益比／至少 5 家同業樣本待補' if relative is None else f'本益比 {pe:.1f} 倍；同業中位數 {median:.1f} 倍')
     history = [r for r in store.history('price', code) if r.get('date') and r['date'] <= today]
     indicator = compute_indicators(history) if price_ok else None
     technical_ok = indicator and indicator.get('latest_date') == price.get('date') and indicator.get('ma_long') is not None

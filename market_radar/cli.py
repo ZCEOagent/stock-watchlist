@@ -6,10 +6,10 @@ import os
 from pathlib import Path
 from zoneinfo import ZoneInfo
 import config
-from market_clock import last_completed_session
+from market_clock import last_completed_session, session_dates
 from storage import read_json
 
-from . import engine, notify, reports, sources
+from . import engine, notify, reports, sources, history, financials
 from .store import Store
 
 
@@ -110,9 +110,16 @@ def run(args):
             if any(not h['ok'] for h in health):
                 raise RuntimeError('重大事件來源不完整；已保留資料及送達紀錄，等待下次重試')
             return
+        companies = [r for (_, kind), rows in feeds.items() if kind == 'universe' for r in rows]
+        as_of = last_completed_session('tw')
+        days = session_dates((dt.date.fromisoformat(as_of)-dt.timedelta(days=65)).isoformat(), as_of)[-30:]
+        history_health = history.backfill(store, companies, days)
+        automatic, financial_health = financials.complete(store, companies, stamp, args.financial_limit)
+        # Verified same-filing facts take precedence over optional manual supplements.
+        supplements.update(automatic)
         try:
             snapshot = engine.scan(feeds, health, store, today, supplements,
-                                   expected_date=last_completed_session('tw'))
+                                   expected_date=as_of)
         except RuntimeError:
             text = (f'台股雷達 {today}｜全市場資料不完整，保留上次排名。\n\n'
                     '① 今日新進雷達\n無法確認。\n\n② 評分大幅變化\n暫停比較。\n\n'
@@ -122,6 +129,7 @@ def run(args):
                 notify.deliver(store, token, chat, reports.message_key('outage', today), text, stamp)
             raise
         snapshot['fetched_at'] = stamp
+        snapshot['completion'] = {'history': history_health, 'financials': financial_health}
         engine.apply_swing_gate(snapshot, read_json(config.TW_CACHE_PATH, {}), config.RADAR_MODE)
         # Public research snapshots contain no position sizes, stops or ownership flags.
         store.snapshot(today, snapshot)
@@ -150,6 +158,7 @@ def main():
     parser.add_argument('--output', default='.radar/reports')
     parser.add_argument('--price-seed', default='.runtime/tw_history.json')
     parser.add_argument('--send', action='store_true')
+    parser.add_argument('--financial-limit', type=int, choices=range(0, 2201), default=300, metavar='0..2200')
     args = parser.parse_args()
     try:
         run(args)

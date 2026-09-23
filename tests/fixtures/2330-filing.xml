@@ -1,0 +1,42 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ifrs-full="https://xbrl.ifrs.org/taxonomy/2025-03-27/ifrs-full" xmlns:iso4217="http://www.xbrl.org/2003/iso4217" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:xbrldi="http://xbrl.org/2006/xbrldi" xmlns:xbrldt="http://xbrl.org/2005/xbrldt" xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ix="http://www.xbrl.org/2013/inlineXBRL" xmlns:ixt="http://www.xbrl.org/inlineXBRL/transformation/2015-02-26" xmlns:tifrs-SCF="http://www.xbrl.org/tifrs/scf/2026-03-31" xmlns:tifrs-ar="http://www.xbrl.org/tifrs/ar/2026-03-31" xmlns:tifrs-bsci-ci="http://www.xbrl.org/tifrs/bsci/ci/2026-03-31" xmlns:tifrs-es="http://www.xbrl.org/tifrs/es/2026-03-31" xmlns:tifrs-notes="http://www.xbrl.org/tifrs/notes/2026-03-31"><ix:nonNumeric name="tifrs-notes:CompanyID" contextRef="From20260101To20260630">2330</ix:nonNumeric> 
+				<ix:nonNumeric name="tifrs-notes:Year" contextRef="From20260101To20260630">2026</ix:nonNumeric> 
+				<ix:nonNumeric name="tifrs-notes:Quarter" contextRef="From20260101To20260630">2</ix:nonNumeric> 
+				<ix:nonNumeric name="tifrs-notes:ReportCategory" contextRef="From20260101To20260630">Consolidated report</ix:nonNumeric> 
+				<xbrli:context id="From20250101To20250630"> 
+					<xbrli:entity> 
+						<xbrli:identifier scheme="http://www.twse.com.tw">2330</xbrli:identifier> 
+					</xbrli:entity> 
+					<xbrli:period> 
+						<xbrli:startDate>2025-01-01</xbrli:startDate> 
+						<xbrli:endDate>2025-06-30</xbrli:endDate> 
+					</xbrli:period> 
+				</xbrli:context> 
+				<xbrli:context id="From20260101To20260630"> 
+					<xbrli:entity> 
+						<xbrli:identifier scheme="http://www.twse.com.tw">2330</xbrli:identifier> 
+					</xbrli:entity> 
+					<xbrli:period> 
+						<xbrli:startDate>2026-01-01</xbrli:startDate> 
+						<xbrli:endDate>2026-06-30</xbrli:endDate> 
+					</xbrli:period> 
+				</xbrli:context> 
+				<xbrli:unit id="TWD"> 
+					<xbrli:measure>iso4217:TWD</xbrli:measure> 
+				</xbrli:unit> 
+				<xbrli:unit id="Shares"> 
+					<xbrli:measure>xbrli:shares</xbrli:measure> 
+				</xbrli:unit> 
+				<xbrli:unit id="EarningsPerShare"> 
+					<xbrli:divide> 
+						<xbrli:unitNumerator> 
+							<xbrli:measure>iso4217:TWD</xbrli:measure> 
+						</xbrli:unitNumerator> 
+						<xbrli:unitDenominator> 
+							<xbrli:measure>xbrli:shares</xbrli:measure> 
+						</xbrli:unitDenominator> 
+					</xbrli:divide> 
+				</xbrli:unit> 
+				<xbrli:unit id="Pure"> 
+					<xbrli:measure>xbrli:pure</xbrli:measure> 
+				</xbrli:unit> 
+			<ix:nonFraction name="ifrs-full:ProfitLoss" contextRef="From20260101To20260630" format="ixt:numdotdecimal" scale="3" decimals="-3" unitRef="TWD">1,279,582,227</ix:nonFraction> <ix:nonFraction name="ifrs-full:ProfitLoss" contextRef="From20250101To20250630" format="ixt:numdotdecimal" scale="3" decimals="-3" unitRef="TWD">758,226,085</ix:nonFraction> <ix:nonFraction name="ifrs-full:BasicEarningsLossPerShare" contextRef="From20260101To20260630" format="ixt:numdotdecimal" scale="0" decimals="2" unitRef="EarningsPerShare">49.33</ix:nonFraction> <ix:nonFraction name="ifrs-full:BasicEarningsLossPerShare" contextRef="From20250101To20250630" format="ixt:numdotdecimal" scale="0" decimals="2" unitRef="EarningsPerShare">29.31</ix:nonFraction> <ix:nonFraction name="ifrs-full:CashFlowsFromUsedInOperatingActivities" contextRef="From20260101To20260630" format="ixt:numdotdecimal" scale="3" decimals="-3" unitRef="TWD">1,482,341,242</ix:nonFraction> <ix:nonFraction name="ifrs-full:CashFlowsFromUsedInOperatingActivities" contextRef="From20250101To20250630" format="ixt:numdotdecimal" scale="3" decimals="-3" unitRef="TWD">1,122,637,757</ix:nonFraction> </html>
