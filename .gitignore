@@ -5,3 +5,7 @@ finmind_token.txt
 __pycache__/
 .venv/
 state/*.tmp
+.radar/
+.env
+.env.*
+radar-holdings*.json
