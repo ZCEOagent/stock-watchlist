@@ -3369,5 +3369,41 @@
       "爆量",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-24",
+    "market": "tw",
+    "id": "1235",
+    "name": "興泰",
+    "flagged_close": 35.5,
+    "flagged_change_pct": -13.73,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-24",
+    "market": "tw",
+    "id": "6533",
+    "name": "晶心科",
+    "flagged_close": 276.0,
+    "flagged_change_pct": 9.96,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-24",
+    "market": "tw",
+    "id": "3114",
+    "name": "好德",
+    "flagged_close": 34.25,
+    "flagged_change_pct": 9.95,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
   }
 ]
