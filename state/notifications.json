@@ -55,7 +55,8 @@
     "error": null
   },
   "627e54b78f82a8eb5d38c152c6281b575feb8295b33f3a57978dec47afcb5363": {
-    "status": "sending",
-    "key": "failure:tw:36111534204"
+    "status": "sent",
+    "key": "failure:tw:36111534204",
+    "error": null
   }
 }
