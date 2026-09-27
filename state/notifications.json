@@ -80,7 +80,8 @@
     "error": null
   },
   "e04f9d2a9cd71cccba73a0efbc0cf89c2d4ce049dbaf839871292c5fabe8f69b": {
-    "status": "sending",
-    "key": "failure:tw:36306588527"
+    "status": "sent",
+    "key": "failure:tw:36306588527",
+    "error": null
   }
 }
