@@ -10,7 +10,6 @@ WATCH = {'2330': 'tse', '6274': 'otc', '3042': 'tse'}
 
 def fetch():
     with requests.Session() as session:
-        session.get('https://mis.twse.com.tw/stock/index.jsp', timeout=25).raise_for_status()
         response = session.get(URL, params={'ex_ch': '|'.join(f'{m}_{c}.tw' for c,m in WATCH.items()),
                                            'json': '1', 'delay': '0'}, timeout=25)
         response.raise_for_status()
@@ -49,11 +48,15 @@ def signals(row, now):
 
 def check(store, now, token=None, chat=None, send=False):
     today = now.date().isoformat()
-    if not dt.time(9) <= now.time().replace(tzinfo=None) <= dt.time(15) or not session_dates(today,today):
+    if not dt.time(9) <= now.time().replace(tzinfo=None) <= dt.time(23) or not session_dates(today,today):
+        return 0
+    if now.time() >= dt.time(13,30) and store.meta('watch-close:' + today) == 'checked':
         return 0
     rows = fetch()
     if set(WATCH) - {r.get('c') for r in rows}:
         raise ValueError('watch quote response incomplete')
+    if any(sources.date(r.get('d')) != today for r in rows if r.get('c') in WATCH):
+        raise ValueError('watch quote date stale')
     count = 0
     for row in rows:
         selected = signals(row,now)
@@ -76,4 +79,6 @@ def check(store, now, token=None, chat=None, send=False):
                 notify.deliver(store,token,chat,reports.message_key(prefix,signal['level']),text,now.isoformat())
                 store.mark_sent(prefix+str(signal['level']),now.isoformat())
             count += 1
+    if send and now.time() >= dt.time(13,30) and all(sources.number(r.get('z')) and r.get('t') for r in rows if r.get('c') in WATCH):
+        store.meta('watch-close:' + today, 'checked')
     return count

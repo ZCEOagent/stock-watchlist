@@ -1,6 +1,7 @@
 """Telegram delivery; acknowledge only successful API responses, no secret logging."""
 import json
 import hashlib
+import datetime as dt
 import time
 import urllib.error
 import urllib.request
@@ -66,16 +67,17 @@ def send_once(store, key, now, token, method, body, content_type='application/js
     store.meta('delivery:' + key, 'sending')
     try:
         result = call(token, method, body, content_type)
+        accepted = dt.datetime.now(dt.timezone.utc).isoformat()
         # Keep audit metadata only; never persist chat IDs or message bodies.
         store.meta('delivery-audit:' + key, json.dumps({'payload_sha256':hashlib.sha256(body).hexdigest(),
-                   'message_id':(result or {}).get('message_id'), 'accepted_at':now, 'method':method}))
+                   'message_id':(result or {}).get('message_id'), 'accepted_at':accepted, 'method':method}))
     except DeliveryRejected:
         store.meta('delivery:' + key, 'failed')
         raise
     except Exception:
         store.meta('delivery:' + key, 'uncertain')
         raise
-    store.mark_sent(key, now)
+    store.mark_sent(key, accepted)
     store.meta('delivery:' + key, 'sent')
     return 1
 
