@@ -1,8 +1,9 @@
 """Only four Telegram sections; portfolio data stays in this transient projection."""
 import hashlib
 from .engine import PRIORITY
+from . import decision
 
-DELIVERY_VERSION = "readable-1"
+DELIVERY_VERSION = "decision-1"
 
 HEADINGS = ('① 今日新進雷達', '② 評分大幅變化', '③ 持股風險警報', '④ 本週真正值得考慮交易的標的')
 
@@ -77,6 +78,15 @@ def readable_time(value):
 
 def plain(text):
     translations = (
+        ('現金流品質未核實', '還缺同一期的營運現金流核對結果。'),
+        ('營收年增待補', '先等最新月份營收更新。'),
+        ('營收加速待補', '還缺營收比較資料，無法確認成長是否加快。'),
+        ('一般業 EPS 待補', '每股獲利尚未更新或不適用一般產業模型。'),
+        ('缺去年同期累計 EPS', '還不能核實去年同期獲利比較，先不判定成長率。'),
+        ('營益率待補', '還缺本業獲利比率。'),
+        ('業外占比待補', '還不能確認獲利有多少來自本業以外。'),
+        ('近 20 個交易日行情', '先補齊最近交易日股價，才能判斷走勢。'),
+        ('量比待補', '先補齊成交量資料，才能比較是否放量。'),
         ('同交易日有效本益比', '還缺同一天的股價估值與同業比較，無法確認價格是否合理。'),
         ('價格資料缺漏', '最新股價還沒補齊，先不要依這份資料做買進判斷。'),
         ('營收／財報期別', '營收或財報還不是需要的最新一期，先等資料更新。'),
@@ -91,10 +101,23 @@ def plain(text):
     return next((meaning for key, meaning in translations if key in text), text)
 
 
-def stock_card(r):
+def stock_card(r, previous=None, compact=False):
     labels = {'BUY': '🟢 條件通過，仍需人工決定', 'WATCH': '🟡 先觀察',
               'HOLD': '🔵 已持有，繼續觀察', 'REMOVE': '🔴 暫不列入買進候選'}
     lines = [f"{r['name']}（{r['code']}）｜{labels.get(r['status'], '待確認')}"]
+    details = decision.issues(r)
+    if compact and not decision.changes(r, previous):
+        pending = []
+        short = (('同交易日有效本益比', '估值資料'), ('價格資料缺漏', '最新股價'),
+                 ('營業現金流為負', '營運現金流仍為負'), ('尚未審核', '交易計畫審核'),
+                 ('原交易規則尚未放行', '交易規則尚未放行'))
+        for key, label in (('risks', '仍需留意'), ('data', '仍等資料'), ('conditions', '仍等條件')):
+            if details[key]:
+                raw = details[key][0]
+                item = next((value for word, value in short if word in raw), plain(raw))
+                pending.append(label + '：' + item)
+        lines.append('條件無重大變化。' + '；'.join(pending))
+        return '\n'.join(lines)
     reasons = r.get('reasons', [])
     revenue = next((x for x in reasons if '營收年增' in x), None)
     earnings = next((x for x in reasons if '同期間 EPS 年增' in x), None)
@@ -106,11 +129,14 @@ def stock_card(r):
     evidence = [x for x in (revenue, earnings) if x]
     if evidence:
         lines.append('看點：' + '；'.join(evidence).replace('同期間 EPS 年增', period + '每股獲利比去年同期成長'))
-    caveats = r.get('risks', []) or r.get('missing', [])
-    if caveats:
-        lines.extend('留意：' + plain(item) for item in caveats[:2])
-    elif r['status'] == 'WATCH':
-        lines.append('下一步：等買進條件全部確認，目前只是觀察名單。')
+    for key, label in (('risks', '風險／待查事件'), ('data', '等資料'), ('conditions', '等條件')):
+        for item in details[key][:(1 if key == 'data' else 2)]:
+            lines.append(label + '：' + plain(item))
+    reference = decision.price_reference(r)
+    if reference:
+        lines.append(reference)
+    if not any(details.values()) and r['status'] == 'WATCH':
+        lines.append('下一步：初篩未發現其他缺口，仍等原交易策略審核；觀察模式不發正式買進訊號。')
     if r.get('close') is not None:
         lines.append(f"收盤 {r['close']:g} 元（{r.get('price_date') or '日期未知'}）")
     return '\n'.join(lines)
@@ -119,29 +145,40 @@ def stock_card(r):
 def render(snapshot, previous, holdings, weekly=False):
     new, changed, risks, trades, follow = select(snapshot, previous, holdings)
     baseline = previous is None or previous.get('version') != snapshot.get('version')
+    old = {} if baseline else {r['code']: r for r in previous.get('stocks', [])}
+    card = lambda r: stock_card(r, old.get(r['code']), compact=not weekly)
+    monitored = {r['code']: r for r in follow + research(snapshot, holdings) + trades + risks + changed}
+    if not baseline:
+        prior_codes = {r['code'] for r in research(previous, holdings)}
+        monitored.update({r['code']:r for r in snapshot['stocks'] if r['code'] in prior_codes})
+    updates = [] if baseline else [(r, decision.changes(r, old.get(r['code']))) for r in monitored.values()]
+    updates = [(r, items) for r, items in updates if items]
+    updates.sort(key=lambda pair: (not bool(decision.issues(pair[0])['risks']), pair[0]['code']))
     lines = [f"台股雷達｜{snapshot['day']} {'週一決策' if weekly else '每日重點'}", '',
              ('今日結論：有標的通過篩選，請先看條件與風險，再決定是否交易。' if trades else
               '今日結論：先觀察，目前沒有可列為買進的標的。')]
     if snapshot.get('strategy_mode') == 'shadow':
         lines.append('目前只做觀察與研究，不發正式買進訊號。')
-    sections = [([stock_card(r) for r in new] or
+    sections = [([card(r) for r in new] or
                  ['今天先建立比較基準，還不能判斷哪些是新加入的。' if baseline else '今天沒有新加入的觀察標的。']),
-                ([f"{r['name']}（{r['code']}）｜評分{'上升' if r['delta'] > 0 else '下降'} {abs(r['delta']):g} 分\n評分變化不等於股價漲跌；仍要看資料與風險。" for r in changed] or
-                 ['還沒有可比較的舊評分。' if baseline else '沒有明顯變化（增減未達10分）。']),
-                ([stock_card(r) for r in risks[:3]] or
+                ([f"{r['name']}（{r['code']}）\n" + '\n'.join(items[:2]) for r,items in updates[:3]] or
+                 ['尚無同版本已送達報告可比較。' if baseline else '追蹤與研究名單的資料、風險及門檻沒有重大變化。']),
+                ([card(r) for r in risks[:3]] or
                  ['你目前沒有設定持股，所以沒有持股警報。' if not holdings else '本輪沒有觸發持股警報。']),
-                [stock_card(r) for r in trades[:3]]]
+                [card(r) for r in trades[:3]]]
     candidates = research(snapshot, holdings)
     if candidates:
-        sections[3] += ['值得先研究的股票（尚未達買進條件）：', *[stock_card(r) for r in candidates]]
+        sections[3] += ['值得先研究的股票（尚未達買進條件）：', *[card(r) for r in candidates]]
     elif not trades:
         sections[3].append('本輪沒有符合條件的研究候選。')
     if follow:
-        sections[3] += ['你指定持續追蹤：', *[stock_card(r) for r in follow]]
+        sections[3] += ['你指定持續追蹤：', *[card(r) for r in follow]]
     if len(risks) > 3:
         sections[2].append(f'另有 {len(risks)-3} 檔持股警報，請看完整報告。')
     for heading, items in zip(HEADINGS, sections):
         lines += ['', heading, '\n\n'.join(items)]
+    if updates:
+        lines.append('比較基準：上次成功送出的日／週報；資料補齊與公司變化分開說明。')
     lines += ['', '──────────']
     completion = snapshot.get('completion', {})
     if completion:
@@ -169,7 +206,7 @@ def full_report(snapshot, previous, holdings):
     lines += ['資料擷取開始：' + snapshot.get('fetched_at', '未記錄')]
     picked = {r['code']: r for r in trades + research(snapshot, holdings) + follow + risks}
     for r in picked.values():
-        lines += ['', brief(r), f"行情 {r.get('price_date')}；營收 {r.get('revenue_period')}；財報 {r.get('financial_period')}；估值 {r.get('valuation_date')}"]
+        lines += ['', stock_card(r), brief(r), f"行情 {r.get('price_date')}；營收 {r.get('revenue_period')}；財報 {r.get('financial_period')}；估值 {r.get('valuation_date')}"]
         lines += ['依據：' + x for x in r.get('reasons', [])]
         lines += ['待補：' + x for x in r.get('missing', [])]
         lines += ['風險／否決條件：' + x for x in r.get('risks', [])]
@@ -186,7 +223,8 @@ def full_report(snapshot, previous, holdings):
               'BUY：≥80 分、完整度≥90%、EPS年增>0、現金流核實為正、價格在MA20上且PE不高於同業中位數、無風險旗標。',
               '股價與公告並非逐筆即時資料；例假日／停牌／除權息需人工確認。EPS為累計，不將單月自結加到季度報表。',
               '產業、EPS虧轉盈、一次性損益與公司治理仍需人工研究；目前不是經回測驗證的獲利策略。',
-              '全市場排名保存供查核，不會把全部股票推送到 Telegram。']
+              '全市場排名保存供查核，不會把全部股票推送到 Telegram。',
+              '完整門檻與後續驗證計畫：https://github.com/ZCEOagent/stock-watchlist/blob/master/RADAR_SELECTION_GUIDE.md']
     return '\n'.join(lines)
 
 

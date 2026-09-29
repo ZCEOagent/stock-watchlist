@@ -156,6 +156,8 @@ def evaluate(company, store, today, peers, failed, supplements=None, expected_da
             'status': status, 'candidate': candidate, 'reasons': reasons, 'missing': missing,
             'risks': risks, 'close': close, 'price_date': price.get('date'), 'ma20': ma,
             'revenue_period': rev.get('period'), 'financial_period': fin.get('period'),
+            'metrics': {'revenue_yoy': y, 'eps': eps, 'prior_year_eps': prev_eps, 'eps_growth': growth,
+                        'operating_margin': margin, 'cash_flow_ratio': cf_ratio},
             'pe': pe, 'peer_median': median, 'valuation_date': val.get('source_date'),
             'condition_price_ceiling': round(min(ma * 1.02, close * median / pe), 2) if ma and close and median and pe else None,
             'sources': sorted(set(r['source'] for r in (rev, fin, val, price) if r.get('source')) |
