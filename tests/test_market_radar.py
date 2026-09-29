@@ -34,6 +34,27 @@ class RadarTests(unittest.TestCase):
     def evaluate(self, **kwargs):
         return engine.evaluate(self.company, self.store, self.today, {'24': [20]*5}, set(), **kwargs)
 
+    def test_old_revenue_and_financial_periods_cannot_be_buy(self):
+        self.populate()
+        base={'code':'2330','source':'https://example.org','source_date':'2026-09-04'}
+        self.store.db.execute("DELETE FROM facts WHERE kind='revenue'")
+        self.store.ingest({('twse','revenue'):[dict(base,period='2026-06',yoy=40,ytd_yoy=20)]})
+        r=self.evaluate()
+        self.assertNotIn('revenue_yoy',r['parts'])
+        self.store.db.execute("DELETE FROM facts WHERE kind='financial'")
+        self.store.ingest({('twse','financial'):[dict(base,period='2026Q1',period_end='2026-03-31',eps=10)]})
+        self.assertNotIn('eps_positive',self.evaluate()['parts'])
+
+    def test_missing_actual_session_blocks_technical_points(self):
+        from market_clock import session_dates
+        self.populate()
+        self.store.db.execute("DELETE FROM facts WHERE kind='price'")
+        days=session_dates('2026-07-01','2026-09-04')[-30:]
+        self.store.ingest({('twse','price'):[{'code':'2330','date':d,'close':100,'volume':1000} for d in days if d != days[-5]]})
+        r=self.evaluate(expected_date='2026-09-04')
+        self.assertNotIn('trend',r['parts'])
+        self.assertNotEqual(r['status'],'BUY')
+
     def test_dates_numbers_and_missing(self):
         self.assertEqual(sources.date('115/09/04'), '2026-09-04')
         self.assertEqual(sources.month('11507'), '2026-07')

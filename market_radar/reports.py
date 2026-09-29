@@ -59,7 +59,12 @@ def render(snapshot, previous, holdings, weekly=False):
     completion = snapshot.get('completion', {})
     if completion:
         f, h = completion['financials'], completion['history']
-        lines.append(f"財報交叉核實 {f['verified']}/{f['eligible']} 檔；待補 {f['pending']} 檔；歷史行情失敗 {h['failed_days']} 個市場交易日。")
+        lines.append(f"財報交叉核實 {f['verified']}/{f['eligible']} 檔；待補 {f['pending']} 檔；歷史行情待補 {h.get('pending_days', h['failed_days'])} 個市場交易日。")
+        if f.get('excluded'):
+            lines.append(f"另 {f['excluded']} 檔未納入一般業財報模型，明確排除 BUY；不算已核實。")
+    freshness = snapshot.get('freshness', {})
+    if freshness:
+        lines.append(f"預期行情日 {freshness['expected_date']}；符合日期 {freshness['current_prices']}/{snapshot['scanned']} 檔。")
     failed = [h for h in snapshot['health'] if not h['ok']]
     if failed:
         lines.append(f'本輪 {len(failed)} 項來源失敗；受影響股票不產生新進決策。')

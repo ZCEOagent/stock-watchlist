@@ -1,0 +1,50 @@
+name: Taiwan Radar Data Maintenance
+on:
+  schedule:
+    # Hourly Taiwan :05. Independent queue and artifact; cannot block reports.
+    - cron: '5 * * * *'
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: Maximum companies in this bounded maintenance batch
+        type: choice
+        options: ['3', '25', '100']
+        default: '100'
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: taiwan-radar-maintenance
+  cancel-in-progress: false
+jobs:
+  maintenance:
+    if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      TZ: Asia/Taipei
+      GH_TOKEN: ${{ github.token }}
+      RADAR_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - name: Restore separate maintenance and existing verified facts
+        run: |
+          python -m market_radar.restore
+          python -m market_radar.restore --name market-radar-maintenance --destination .maintenance
+      - name: Resume bounded maintenance
+        env:
+          BATCH_LIMIT: ${{ inputs.limit || '100' }}
+        run: python -u -m market_radar.maintenance --limit "$BATCH_LIMIT"
+      - name: Preserve partial progress independently of report delivery
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: market-radar-maintenance
+          path: .maintenance/state.sqlite
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: error

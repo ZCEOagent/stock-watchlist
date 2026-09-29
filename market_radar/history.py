@@ -1,4 +1,5 @@
 """Bulk official historical quotes; exact date validation, persistent retries."""
+import datetime as dt
 import concurrent.futures
 import time
 import requests
@@ -52,10 +53,20 @@ def fetch_day(market, day):
             time.sleep(2)
 
 
-def backfill(store, companies, days):
+def status(store, companies, days):
+    markets = {c['market'] for c in companies}
+    cached = sum(bool(store.meta(f'history:{m}:{d}')) for m in markets for d in days)
+    return {'fetched_days': 0, 'cached_days': cached, 'failed_days': 0,
+            'pending_days': len(markets)*len(days)-cached}
+
+
+def backfill(store, companies, days, limit=8):
     markets = sorted({c['market'] for c in companies})
     ids = {c['code'] for c in companies}
     pending = [(m, d) for m in markets for d in days if not store.meta(f'history:{m}:{d}')]
+    # Rotate failures so an unavailable old day cannot starve all newer dates.
+    pending.sort(key=lambda job: (store.meta(f'history-attempt:{job[0]}:{job[1]}') or '',
+                                  -dt.date.fromisoformat(job[1]).toordinal(), job[0]))
     failed, fetched, cached = 0, 0, len(markets)*len(days)-len(pending)
     def one(job):
         m, d = job
@@ -68,11 +79,12 @@ def backfill(store, companies, days):
             time.sleep(.6)
     # No SQLite writes occur in worker threads. Only two public API requests in flight.
     with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
-        for market, day, rows in pool.map(one, pending):
+        for market, day, rows in pool.map(one, pending[:limit]):
+            store.meta(f'history-attempt:{market}:{day}', dt.datetime.now(dt.timezone.utc).isoformat())
             if rows is None:
                 failed += 1
                 continue
             store.ingest({(market, 'price'): [r for r in rows if r['code'] in ids]})
             store.meta(f'history:{market}:{day}', 'ok')
             fetched += 1
-    return {'fetched_days': fetched, 'cached_days': cached, 'failed_days': failed}
+    return {'fetched_days': fetched, 'cached_days': cached, 'failed_days': failed, 'pending_days': len(pending)-fetched}

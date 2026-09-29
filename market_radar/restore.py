@@ -1,4 +1,5 @@
 """Restore latest same-branch artifact. GitHub CLI handles download authentication."""
+import argparse
 import json
 import os
 from pathlib import Path
@@ -21,4 +22,8 @@ def restore(name, destination):
 
 
 if __name__ == '__main__':
-    restore('market-radar-state', '.radar')
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--name', default='market-radar-state')
+    parser.add_argument('--destination', default='.radar')
+    args = parser.parse_args()
+    restore(args.name, args.destination)
