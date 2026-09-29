@@ -9,7 +9,7 @@ import config
 from market_clock import last_completed_session, session_dates
 from storage import read_json
 
-from . import engine, notify, reports, sources, history, financials
+from . import engine, notify, reports, sources, history, financials, watch
 from .store import Store
 from .maintenance import import_public
 
@@ -97,6 +97,13 @@ def run(args):
             print('Unavailable sources: '+json.dumps(failures),flush=True)
         store.ingest(feeds)
         if args.mode == 'events':
+            try:
+                quote_count = watch.check(store, now, token, chat, args.send)
+                print(f'Watch price check: {quote_count} signals')
+            except Exception as exc:
+                health.append({'market':'watch','kind':'price','ok':False,'error':type(exc).__name__})
+                print('Watch price check failed: '+type(exc).__name__)
+            store.meta('source-health:latest', json.dumps({'fetched_at':stamp,'health':health}))
             snapshot = store.latest()
             candidates = {r['code'] for r in [s for s in (snapshot or {}).get('stocks', []) if s['candidate']][:5]}
             relevant = set(engine.PRIORITY) | set(holdings) | candidates
@@ -145,6 +152,9 @@ def run(args):
                 notify.deliver(store, token, chat, reports.message_key('outage', today), text, stamp)
             raise
         snapshot['fetched_at'] = stamp
+        snapshot['scan_completed_at'] = dt.datetime.now(ZoneInfo('Asia/Taipei')).isoformat()
+        if os.environ.get('GITHUB_RUN_ID') and os.environ.get('GITHUB_REPOSITORY'):
+            snapshot['run_url'] = f"https://github.com/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}"
         snapshot['completion'] = {'history': history_health, 'financials': financial_health}
         engine.apply_swing_gate(snapshot, read_json(config.TW_CACHE_PATH, {}), config.RADAR_MODE)
         # Public research snapshots contain no position sizes, stops or ownership flags.
@@ -158,7 +168,7 @@ def run(args):
         (output / 'decision-report.txt').write_text(full, encoding='utf-8')
         (output / 'ranking.json').write_text(json.dumps(snapshot, ensure_ascii=False), encoding='utf-8')
         if args.send:
-            key = reports.message_key(args.mode, today, engine.VERSION, getattr(args, 'delivery_slot', 'manual'))
+            key = reports.message_key(args.mode, today, engine.VERSION, reports.DELIVERY_VERSION, getattr(args, 'delivery_slot', 'manual'))
             notify.deliver(store, token, chat, key, summary, stamp)
             risks = reports.holding_risks(snapshot['stocks'], holdings)
             if args.mode == 'weekly' or len(risks) > 3:

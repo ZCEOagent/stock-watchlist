@@ -6,7 +6,7 @@ from indicators import compute_indicators
 from market_clock import session_dates
 
 VERSION = 'radar-1.2'
-PRIORITY = ('2330', '6274')
+PRIORITY = ('2330', '6274', '3042')
 
 
 def fresh(value, today, days):

@@ -1,5 +1,6 @@
 """Telegram delivery; acknowledge only successful API responses, no secret logging."""
 import json
+import hashlib
 import time
 import urllib.error
 import urllib.request
@@ -37,7 +38,7 @@ def call(token, method, data, content_type='application/json'):
             with urllib.request.urlopen(req, timeout=30) as response:
                 result = json.load(response)
             if result.get('ok'):
-                return
+                return result.get('result', {})
             raise DeliveryRejected('Telegram rejected request')
         except urllib.error.HTTPError as e:
             # 429 is explicitly not accepted; safe bounded retry. Network timeouts are ambiguous.
@@ -64,7 +65,10 @@ def send_once(store, key, now, token, method, body, content_type='application/js
         raise DeliveryUncertain('Prior delivery needs manual reconciliation; no automatic resend')
     store.meta('delivery:' + key, 'sending')
     try:
-        call(token, method, body, content_type)
+        result = call(token, method, body, content_type)
+        # Keep audit metadata only; never persist chat IDs or message bodies.
+        store.meta('delivery-audit:' + key, json.dumps({'payload_sha256':hashlib.sha256(body).hexdigest(),
+                   'message_id':(result or {}).get('message_id'), 'accepted_at':now, 'method':method}))
     except DeliveryRejected:
         store.meta('delivery:' + key, 'failed')
         raise
