@@ -42,6 +42,33 @@ class HistoricalCompletionTests(unittest.TestCase):
 
 
 class FilingTests(unittest.TestCase):
+    def test_company_errors_do_not_stop_other_filings_but_transport_errors_do(self):
+        from unittest.mock import Mock
+        import requests
+        for transport in (False, True):
+            with self.subTest(transport=transport), tempfile.TemporaryDirectory() as tmp:
+                store = Store(Path(tmp)/'s.db')
+                codes = [str(1000+i) for i in range(6)]
+                companies = [{'code': c, 'market': 'twse'} for c in codes]
+                store.ingest({('twse', 'financial'): [dict(code=c, period='2026Q2', eps=12.4, net=3601714) for c in codes]})
+                bad = requests.Timeout('source timeout') if transport else Mock(status_code=200, content=b'invalid report')
+                good = Mock(status_code=200, content=self.fixture().replace(b'6274', codes[-1].encode()))
+                with patch.object(financials.requests, 'get', side_effect=[bad]*5+[good]), patch.object(financials.time, 'sleep'):
+                    rows, health = financials.complete(store, companies, '2026-09-29')
+                self.assertEqual(health['attempted'], 5 if transport else 6)
+                self.assertEqual(health['verified'], 0 if transport else 1)
+                self.assertEqual(health['failed'], 5)
+                store.close()
+
+    def test_bad_disclosure_encoding_does_not_drop_valid_xbrl_facts(self):
+        content = b'<meta charset=big5>' + self.fixture().replace(b'</html>', b'<p>note \x84\x20</p></html>')
+        self.assertEqual(self.parse(content)['current_eps'], 12.4)
+
+    def test_bad_encoding_inside_numeric_fact_is_rejected(self):
+        content = b'<meta charset=big5>' + self.fixture().replace(b'>12.40<', b'>12.\x84\x2040<')
+        with self.assertRaises((ValueError, ArithmeticError)):
+            self.parse(content)
+
     def fixture(self, code='6274'):
         return (Path(__file__).parent/'fixtures'/f'{code}-filing.xml').read_bytes()
 
