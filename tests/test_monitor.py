@@ -52,6 +52,13 @@ class MonitorTests(unittest.TestCase):
         self.runs['daily-tw.yml'].insert(0, {'id': 2, 'status': 'queued', 'created_at': self.now.isoformat()})
         self.assertTrue(any('未成功' in x for x in self.current()['issues']))
 
+    def test_cancelled_manual_validation_does_not_replace_last_production_result(self):
+        self.runs['daily-tw.yml'].insert(0,{'id':2,'status':'completed','event':'workflow_dispatch',
+                                           'conclusion':'cancelled','created_at':self.now.isoformat()})
+        self.assertEqual(self.current()['issues'],[])
+        self.runs['daily-tw.yml'][0]['event']='schedule'
+        self.assertTrue(any('未成功' in x for x in self.current()['issues']))
+
     def test_stale_missing_and_uncertain_are_not_healthy(self):
         self.snapshot['fetched_at'] = (self.now-dt.timedelta(days=3)).isoformat()
         current = monitor.assess(self.snapshot, {'uncertain': 1}, {}, self.now)

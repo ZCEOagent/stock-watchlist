@@ -4,13 +4,15 @@ on:
   schedule:
     # Asia/Taipei: daily 18:20; Monday 08:00; weekdays 08:17-22:47 every 30 minutes.
     - cron: '20 10 * * *'
+    # Retry only a failed scheduled report; otherwise no data fetch and no message.
+    - cron: '35 * * * *'
     - cron: '0 0 * * 1'
     - cron: '17,47 0-14 * * 1-5'
   workflow_dispatch:
     inputs:
       mode:
         type: choice
-        options: [daily, weekly, events]
+        options: [daily, weekly, events, retry]
         default: daily
       send:
         description: 'Send to the existing Telegram chat'
@@ -67,6 +69,8 @@ jobs:
           mode=daily
           if [ "$EVENT_NAME" = workflow_dispatch ]; then
             mode="$INPUT_MODE"
+          elif [ "$SCHEDULE" = '35 * * * *' ]; then
+            mode=retry
           elif [ "$SCHEDULE" = '0 0 * * 1' ]; then
             mode=weekly
           elif [ "$SCHEDULE" = '17,47 0-14 * * 1-5' ]; then

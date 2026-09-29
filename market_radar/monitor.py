@@ -52,6 +52,7 @@ def read_snapshot(path):
         if health_row:
             diagnostic = json.loads(health_row[0])
             snapshot['health'] = diagnostic['health']
+        snapshot['report_retry'] = bool(db.execute("SELECT value FROM meta WHERE key='report-retry' AND value != ''").fetchone())
         receipt_count, last_receipt = db.execute('SELECT count(*), max(sent_at) FROM receipts').fetchone()
         uncertain = db.execute("SELECT count(*) FROM meta WHERE key LIKE 'delivery:%' AND value IN ('sending','uncertain')").fetchone()[0]
     return snapshot, {'count': receipt_count, 'latest': last_receipt, 'uncertain': uncertain}
@@ -87,7 +88,8 @@ def assess(snapshot, receipts, workflows, now):
             continue
         latest = runs[0]
         # New attempts don't erase a failed result until a successful run completes.
-        completed = next((r for r in runs if r['status'] == 'completed'), None)
+        completed = next((r for r in runs if r['status'] == 'completed' and
+                          not (r.get('event') == 'workflow_dispatch' and r.get('conclusion') == 'cancelled')), None)
         if completed and completed['conclusion'] != 'success':
             issues.append(name + ': 最近完成的執行未成功')
         if (now - timestamp(latest['created_at'])).total_seconds() > max_age * 3600:
@@ -107,6 +109,8 @@ def assess(snapshot, receipts, workflows, now):
         issues.append('市場資料來源有失敗項目')
     if snapshot.get('freshness', {}).get('current_price_ratio', 1) < .9:
         issues.append('超過一成股票缺少最近完成交易日行情，已禁止受影響股票 BUY')
+    if snapshot.get('report_retry'):
+        issues.append('例行報告尚未完成送達，等待自動重試或通知核對')
     if receipts.get('uncertain'):
         issues.append('有 Telegram 送達狀態不明的紀錄，需人工核對，未自動重送')
     financials = snapshot.get('completion', {}).get('financials', {})

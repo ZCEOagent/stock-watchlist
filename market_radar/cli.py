@@ -70,6 +70,16 @@ def run(args):
     output = Path(args.output)
     output.mkdir(parents=True, exist_ok=True)
     try:
+        if args.mode == 'retry':
+            pending = json.loads(store.meta('report-retry') or '{}')
+            if pending.get('day') != today or pending.get('mode') not in ('daily','weekly'):
+                print('No report awaiting recovery today; no source requests or notification.')
+                return
+            args.mode = pending['mode']
+            args.delivery_slot = 'scheduled'
+        scheduled = args.send and getattr(args,'delivery_slot','manual') == 'scheduled' and args.mode in ('daily','weekly')
+        if scheduled:
+            store.meta('report-retry',json.dumps({'day':today,'mode':args.mode}))
         previous = store.previous(today)
         ingest_seed(store, args.price_seed)
         import_public(store, getattr(args, "maintenance_state", ".maintenance/state.sqlite"))
@@ -155,6 +165,8 @@ def run(args):
                 notify.deliver(store, token, chat, key + ':full', full, stamp, document=True)
         print(f"Radar {args.mode}: scanned={snapshot['scanned']}; candidates={sum(s['candidate'] for s in snapshot['stocks'])}; "
               f"source_failures={sum(not h['ok'] for h in health)}; delivery={'enabled' if args.send else 'dry-run'}")
+        if scheduled:
+            store.meta('report-retry','')
         store.prune(today)
     finally:
         store.close()
@@ -162,7 +174,7 @@ def run(args):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('mode', choices=('daily', 'weekly', 'events'))
+    parser.add_argument('mode', choices=('daily', 'weekly', 'events', 'retry'))
     parser.add_argument('--state', default='.radar/state.sqlite')
     parser.add_argument('--output', default='.radar/reports')
     parser.add_argument('--price-seed', default='.runtime/tw_history.json')
