@@ -94,42 +94,68 @@ def matches(row, financial):
                 for r, k, tolerance in [('current_eps', 'eps', .011), ('net', 'net', 2)]))
 
 
-def complete(store, companies, stamp, limit=300):
-    """Bounded, resumable single-worker crawl; cache revisions for seven days."""
-    today = stamp[:10]
-    pending, result = [], {}
-    eligible = 0
+def cached(store, companies, stamp):
+    """Read verified matching facts, without network access."""
+    result, eligible = {}, 0
+    today = dt.date.fromisoformat(stamp[:10])
+    for company in companies:
+        code = company['code']
+        facts = store.history('financial', code)
+        if not facts or facts[-1].get('eps') is None or facts[-1].get('net') is None:
+            continue
+        eligible += 1
+        fin = facts[-1]
+        row = next((r for r in store.history('supplement', code) if r['period'] == fin['period']), {})
+        try:
+            age = (today-dt.date.fromisoformat(row.get('fetched_at', '')[:10])).days
+        except ValueError:
+            age = 999
+        if row and matches(row, fin) and 0 <= age < 8:
+            result[code] = row
+    return result, {'eligible': eligible, 'verified': len(result), 'pending': eligible-len(result),
+                    'attempted': 0, 'failed': 0, 'excluded': len(companies)-eligible}
+
+
+def complete(store, companies, stamp, limit=100, budget=300):
+    """Bounded maintenance; early refresh and persistent retry backoff."""
+    result, health = cached(store, companies, stamp)
+    eligible = health['eligible']
+    now = dt.datetime.fromisoformat(stamp)
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=dt.timezone(dt.timedelta(hours=8)))
+    pending = []
     for company in companies:
         code = company['code']
         facts = store.history('financial', code)
         if not facts or facts[-1].get('eps') is None or facts[-1].get('net') is None:
             continue
         fin = facts[-1]
-        eligible += 1
-        cached = next((r for r in store.history('supplement', code) if r['period'] == fin['period']), {})
-        age = (dt.date.fromisoformat(today)-dt.date.fromisoformat(cached.get('fetched_at', '1900-01-01')[:10])).days
-        if cached and matches(cached, fin) and 0 <= age < 8:
-            result[code] = cached
+        row = result.get(code, {})
+        if row and (now.date()-dt.date.fromisoformat(row['fetched_at'][:10])).days < 4:
             continue
-        key = f"filing-attempt:v3:{code}:{fin['period']}"
-        if store.meta(key) != today:
-            pending.append((company, fin, key))
-    pending.sort(key=lambda x: (x[0]['code'] not in ('2330', '6274'), store.meta(x[2]) or '', x[0]['code']))
+        key = f"filing-attempt:v4:{code}:{fin['period']}"
+        retry = store.meta(key + ':retry_at')
+        if retry and now < dt.datetime.fromisoformat(retry):
+            continue
+        pending.append((company, fin, key))
+    pending.sort(key=lambda x: (x[0]['code'] in result, store.meta(x[2]) or '',
+                               x[0]['code'] not in ('2330', '6274'), x[0]['code']))
     attempted, failed, consecutive_errors = 0, 0, 0
     started = time.monotonic()
     # Leave time for report delivery and artifact checkpoint before the job timeout.
-    budget = 5400 if limit > 300 else 480
     for company, fin, key in pending[:limit]:
         if time.monotonic() - started >= budget:
             break
         code = company['code']
         attempted += 1
-        store.meta(key, today)
+        store.meta(key, now.isoformat())
         try:
             response = requests.get(URL, params=dict(step=1, CO_ID=code, SYEAR=fin['period'][:4],
-                                    SSEASON=fin['period'][-1], REPORT_ID='C'), timeout=25)
+                                    SSEASON=fin['period'][-1], REPORT_ID='C'), timeout=(5, 20))
             if response.status_code in (429, 503):
                 failed += 1
+                store.meta(key + ':error', 'rate_limited')
+                store.meta(key + ':retry_at', (now+dt.timedelta(hours=6)).isoformat())
                 break
             response.raise_for_status()
             report = 'C'
@@ -139,9 +165,11 @@ def complete(store, companies, stamp, limit=300):
                 time.sleep(1)
                 report = 'A'
                 response = requests.get(URL, params=dict(step=1, CO_ID=code, SYEAR=fin['period'][:4],
-                                        SSEASON=fin['period'][-1], REPORT_ID=report), timeout=25)
+                                        SSEASON=fin['period'][-1], REPORT_ID=report), timeout=(5, 20))
                 if response.status_code in (429, 503):
                     failed += 1
+                    store.meta(key + ':error', 'rate_limited')
+                    store.meta(key + ':retry_at', (now+dt.timedelta(hours=6)).isoformat())
                     break
                 response.raise_for_status()
             row = parse_filing(response.content, code, fin['period'], stamp, report)
@@ -153,23 +181,30 @@ def complete(store, companies, stamp, limit=300):
                 row['available_at'] = old['available_at']
             store.ingest({(company['market'], 'supplement'): [row]})
             store.meta(key + ':error', '')
+            store.meta(key + ':failures', '0')
+            store.meta(key + ':retry_at', '')
             result[code] = row
             consecutive_errors = 0
         except requests.RequestException:
             failed += 1
             consecutive_errors += 1
             store.meta(key + ':error', 'transport_error')
+            failures = int(store.meta(key + ':failures') or 0)+1
+            store.meta(key + ':failures', failures)
+            store.meta(key + ':retry_at', (now+dt.timedelta(hours=min(6, 2**min(failures-1, 3)))).isoformat())
         except (ValueError, ArithmeticError, etree.Error, IndexError) as exc:
             failed += 1
             # A company-specific filing problem must not trip the source outage
             # circuit and prevent unrelated companies from being processed.
             consecutive_errors = 0
             store.meta(key + ':error', type(exc).__name__ + ': ' + str(exc)[:160])
+            store.meta(key + ':retry_at', (now+dt.timedelta(hours=24)).isoformat())
         finally:
             time.sleep(1)
-        if attempted % 25 == 0:
+        if attempted % 5 == 0:
             print(f'Financial completion: attempted={attempted}; verified={len(result)}; failed={failed}', flush=True)
         if consecutive_errors >= 5:
             break
     return result, {'eligible': eligible, 'verified': len(result), 'attempted': attempted,
-                    'failed': failed, 'pending': eligible-len(result)}
+                    'failed': failed, 'pending': eligible-len(result), 'excluded': health['excluded'],
+                    'refresh_due': sum(c['code'] in result for c, _, _ in pending[attempted:])}

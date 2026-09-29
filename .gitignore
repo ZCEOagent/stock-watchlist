@@ -9,3 +9,6 @@ state/*.tmp
 .env
 .env.*
 radar-holdings*.json
+
+.maintenance/
+.monitor/

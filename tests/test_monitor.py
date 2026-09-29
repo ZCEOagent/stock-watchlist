@@ -55,7 +55,7 @@ class MonitorTests(unittest.TestCase):
     def test_stale_missing_and_uncertain_are_not_healthy(self):
         self.snapshot['fetched_at'] = (self.now-dt.timedelta(days=3)).isoformat()
         current = monitor.assess(self.snapshot, {'uncertain': 1}, {}, self.now)
-        self.assertEqual(len(current['issues']), 4)
+        self.assertEqual(len(current['issues']), len(monitor.WORKFLOWS)+2)
         missing = monitor.assess(None, {}, self.runs, self.now)
         self.assertIn('找不到可讀取的市場快照', missing['issues'])
 
@@ -65,6 +65,19 @@ class MonitorTests(unittest.TestCase):
         current = self.current()
         self.assertTrue(any('未進展' in x for x in monitor.transition(current, previous, self.now)))
         self.assertEqual(monitor.transition(self.current(), current, self.now), [])
+
+    def test_maintenance_completion_is_reported_without_waiting_for_daily(self):
+        previous=self.current()
+        current=self.current()
+        maintenance={'fetched_at':(self.now+dt.timedelta(minutes=1)).isoformat(),
+                     'financials':{'eligible':1800,'verified':1800,'pending':0}}
+        monitor.include_maintenance(current,maintenance,self.now+dt.timedelta(minutes=2))
+        self.assertTrue(any('補齊' in x for x in monitor.transition(current,previous,self.now)))
+        older=dict(maintenance,fetched_at=(self.now-dt.timedelta(hours=7)).isoformat())
+        current=self.current()
+        monitor.include_maintenance(current,older,self.now)
+        self.assertEqual(current['financials']['pending'],1350)
+        self.assertTrue(any('6 小時' in x for x in current['issues']))
 
     def test_unknown_delivery_is_not_retried(self):
         with tempfile.TemporaryDirectory() as folder:

@@ -1,9 +1,11 @@
 """Deterministic research scoring. Missing data is unknown, not zero or neutral."""
 import datetime as dt
 import statistics
+from functools import lru_cache
 from indicators import compute_indicators
+from market_clock import session_dates
 
-VERSION = 'radar-1.1'
+VERSION = 'radar-1.2'
 PRIORITY = ('2330', '6274')
 
 
@@ -20,6 +22,31 @@ def latest(store, kind, code):
     return rows[-1] if rows else {}
 
 
+def required_periods(today):
+    """Conservative data-age policy, not a statement of individual filing deadlines."""
+    d = dt.date.fromisoformat(today)
+    month = d.replace(day=1)-dt.timedelta(days=1)
+    if d.day < 15:
+        month = month.replace(day=1)-dt.timedelta(days=1)
+    if (d.month,d.day) >= (11,20):
+        quarter = f'{d.year}Q3'
+    elif (d.month,d.day) >= (8,20):
+        quarter = f'{d.year}Q2'
+    elif (d.month,d.day) >= (5,20):
+        quarter = f'{d.year}Q1'
+    elif (d.month,d.day) >= (4,5):
+        quarter = f'{d.year-1}Q4'
+    else:
+        quarter = f'{d.year-1}Q3'
+    return month.isoformat()[:7], quarter
+
+
+@lru_cache(maxsize=16)
+def technical_sessions(expected_date):
+    start = (dt.date.fromisoformat(expected_date)-dt.timedelta(days=65)).isoformat()
+    return tuple(session_dates(start,expected_date)[-21:])
+
+
 def evaluate(company, store, today, peers, failed, supplements=None, expected_date=None):
     code, market = company['code'], company['market']
     rev, fin, val, price = [latest(store, k, code) for k in ('revenue', 'financial', 'valuation', 'price')]
@@ -32,9 +59,10 @@ def evaluate(company, store, today, peers, failed, supplements=None, expected_da
             parts[key] = [round(earned, 2), weight]
             reasons.append(explanation)
 
-    rev_ok = ('revenue' not in failed and rev.get('period') and
+    required_revenue, required_financial = required_periods(today)
+    rev_ok = ('revenue' not in failed and rev.get('period') and rev['period'] >= required_revenue and
               fresh(rev['period'] + '-01', today, 85) and fresh(rev.get('source_date'), today, 45))
-    fin_ok = ('financial' not in failed and fresh(fin.get('period_end'), today, 210) and
+    fin_ok = ('financial' not in failed and fin.get('period', '') >= required_financial and fresh(fin.get('period_end'), today, 210) and
               fresh(fin.get('source_date'), today, 10))
     price_ok = ('price' not in failed and fresh(price.get('date'), today, 7) and (price.get('close') or 0) > 0
                 and (expected_date is None or price.get('date') == expected_date))
@@ -77,7 +105,14 @@ def evaluate(company, store, today, peers, failed, supplements=None, expected_da
     add('valuation', 20, None if relative is None else 20 if relative <= .8 else 15 if relative <= 1 else 8 if relative <= 1.3 else 0,
         '同交易日有效本益比／至少 5 家同業樣本待補' if relative is None else f'本益比 {pe:.1f} 倍；同業中位數 {median:.1f} 倍')
     history = [r for r in store.history('price', code) if r.get('date') and r['date'] <= today]
-    indicator = compute_indicators(history) if price_ok else None
+    complete_history = True
+    if expected_date:
+        required = technical_sessions(expected_date)
+        by_date = {r['date']:r for r in history}
+        complete_history = len(required)==21 and all(
+            d in by_date and (by_date[d].get('close') or 0)>0 and (by_date[d].get('volume') or 0)>0
+            for d in required)
+    indicator = compute_indicators(history) if price_ok and complete_history else None
     technical_ok = indicator and indicator.get('latest_date') == price.get('date') and indicator.get('ma_long') is not None
     close, ma = price.get('close'), indicator.get('ma_long') if technical_ok else None
     vr = indicator.get('volume_ratio') if technical_ok else None
@@ -85,6 +120,8 @@ def evaluate(company, store, today, peers, failed, supplements=None, expected_da
         '近 20 個交易日行情待累積／價格過期' if ma is None else f'收盤 {close:.2f}；MA20 {ma:.2f}')
     add('volume', 5, None if vr is None else 5 if 1 <= vr <= 3 else 2 if vr < 1 else 0,
         '量比待補' if vr is None else f'20 日量比 {vr:.2f}')
+    if not fin_ok or not rev_ok:
+        risks.append('營收／財報期別缺漏或過期，禁止新進決策')
     if not price_ok:
         risks.append('價格資料缺漏／過期／不符最近完成交易日，禁止新進決策')
     if failed:
@@ -136,7 +173,7 @@ def scan(feeds, health, store, today, supplements=None, expected_date=None):
     peers = {}
     for c in companies:
         v = latest(store, 'valuation', c['code'])
-        if v.get('pe') and v['pe'] > 0 and fresh(v.get('source_date'), today, 7):
+        if v.get('pe') and v['pe'] > 0 and fresh(v.get('source_date'), today, 7) and (expected_date is None or v.get('source_date') == expected_date):
             peers.setdefault(c['sector'], []).append(v['pe'])
     results = []
     for c in companies:
@@ -146,7 +183,10 @@ def scan(feeds, health, store, today, supplements=None, expected_date=None):
     for rank, r in enumerate(results, 1):
         r['rank'] = rank
     return {'day': today, 'version': VERSION, 'scanned': len(companies), 'health': health,
-            'price_dates': sorted({r['price_date'] for r in results if r['price_date']}), 'stocks': results}
+            'price_dates': sorted({r['price_date'] for r in results if r['price_date']}), 'stocks': results,
+            'freshness': {'expected_date': expected_date,
+                          'current_prices': sum(r['price_date']==expected_date for r in results),
+                          'current_price_ratio': sum(r['price_date']==expected_date for r in results)/len(results)}}
 
 
 def apply_swing_gate(snapshot, cache, mode):

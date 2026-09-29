@@ -11,6 +11,7 @@ from storage import read_json
 
 from . import engine, notify, reports, sources, history, financials
 from .store import Store
+from .maintenance import import_public
 
 
 def private_inputs():
@@ -71,6 +72,7 @@ def run(args):
     try:
         previous = store.previous(today)
         ingest_seed(store, args.price_seed)
+        import_public(store, getattr(args, "maintenance_state", ".maintenance/state.sqlite"))
         feeds, health = sources.collect(stamp, events_only=args.mode == 'events')
         # An out-of-date/future row must never become current evidence.
         for key, rows in feeds.items():
@@ -113,8 +115,8 @@ def run(args):
         companies = [r for (_, kind), rows in feeds.items() if kind == 'universe' for r in rows]
         as_of = last_completed_session('tw')
         days = session_dates((dt.date.fromisoformat(as_of)-dt.timedelta(days=65)).isoformat(), as_of)[-30:]
-        history_health = history.backfill(store, companies, days)
-        automatic, financial_health = financials.complete(store, companies, stamp, args.financial_limit)
+        history_health = history.status(store, companies, days)
+        automatic, financial_health = financials.cached(store, companies, stamp)
         # Verified same-filing facts take precedence over optional manual supplements.
         supplements.update(automatic)
         try:
@@ -158,7 +160,8 @@ def main():
     parser.add_argument('--output', default='.radar/reports')
     parser.add_argument('--price-seed', default='.runtime/tw_history.json')
     parser.add_argument('--send', action='store_true')
-    parser.add_argument('--financial-limit', type=int, choices=range(0, 2201), default=300, metavar='0..2200')
+    parser.add_argument('--maintenance-state', default='.maintenance/state.sqlite')
+    parser.add_argument('--financial-limit', type=int, choices=range(0, 2201), default=0, help="Deprecated: reports never perform backfill", metavar='0..2200')
     args = parser.parse_args()
     try:
         run(args)

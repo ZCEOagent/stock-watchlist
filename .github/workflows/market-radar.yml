@@ -6,8 +6,6 @@ on:
     - cron: '20 10 * * *'
     - cron: '0 0 * * 1'
     - cron: '17,47 0-14 * * 1-5'
-    # Silent/resumable filing maintenance at 02:20 Taiwan time.
-    - cron: '20 18 * * *'
   workflow_dispatch:
     inputs:
       mode:
@@ -18,11 +16,6 @@ on:
         description: 'Send to the existing Telegram chat'
         type: boolean
         default: false
-      financial_limit:
-        description: 'Maximum filings this run (300 daily, 2200 for initial backfill)'
-        type: choice
-        options: ['300', '2200']
-        default: '300'
 
 permissions:
   contents: read
@@ -37,7 +30,7 @@ jobs:
     # Never consume production state or send from a feature branch.
     if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 15
     env:
       TZ: Asia/Taipei
       GH_TOKEN: ${{ github.token }}
@@ -57,7 +50,9 @@ jobs:
       - name: Validate original Bot and added reports
         run: python -m unittest discover -s tests -q
       - name: Restore public market history and delivery receipts
-        run: python -m market_radar.restore
+        run: |
+          python -m market_radar.restore
+          python -m market_radar.restore --name market-radar-maintenance --destination .maintenance
       - name: Run radar
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -68,7 +63,6 @@ jobs:
           SCHEDULE: ${{ github.event.schedule }}
           INPUT_MODE: ${{ inputs.mode }}
           INPUT_SEND: ${{ inputs.send }}
-          FINANCIAL_LIMIT: ${{ inputs.financial_limit || '300' }}
         run: |
           mode=daily
           if [ "$EVENT_NAME" = workflow_dispatch ]; then
@@ -78,12 +72,10 @@ jobs:
           elif [ "$SCHEDULE" = '17,47 0-14 * * 1-5' ]; then
             mode=events
           fi
-          if [ "$SCHEDULE" = '20 18 * * *' ]; then
-            python -m market_radar.cli daily --financial-limit 2200
-          elif [ "$EVENT_NAME" = schedule ] || [ "$INPUT_SEND" = true ]; then
-            python -m market_radar.cli "$mode" --financial-limit "$FINANCIAL_LIMIT" --send
+          if [ "$EVENT_NAME" = schedule ] || [ "$INPUT_SEND" = true ]; then
+            python -m market_radar.cli "$mode" --send
           else
-            python -m market_radar.cli "$mode" --financial-limit "$FINANCIAL_LIMIT"
+            python -m market_radar.cli "$mode"
           fi
       - name: Preserve public data and delivery receipts even after a delivery failure
         if: always()

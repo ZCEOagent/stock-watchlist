@@ -107,10 +107,10 @@ def normalize(kind, raw, market, url, now):
                     '重大損失', '資金貸與', '背書保證', '訴訟', '會計師', '資安', '火災')))
 
 
-def collect(now, events_only=False):
+def collect(now, events_only=False, kinds=None):
     jobs = [(m, k, (TWSE if m == 'twse' else TPEX) + path)
             for m, kinds in ENDPOINTS.items() for k, path in kinds.items()
-            if not events_only or k == 'events']
+            if (not events_only or k == 'events') and (kinds is None or k in kinds)]
     feeds, health = {}, []
     def one(job):
         market, kind, url = job

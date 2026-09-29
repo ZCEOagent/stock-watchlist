@@ -4,7 +4,7 @@ on:
     # Six-hour watchdog, NOT a six-hour full-market scan. Avoid the busy hour boundary.
     - cron: '41 1,7,13,19 * * *'
   workflow_run:
-    workflows: [Taiwan Market Radar Digest, Daily TW Close Report]
+    workflows: [Taiwan Market Radar Digest, Daily TW Close Report, Taiwan Radar Data Maintenance]
     types: [completed]
   workflow_dispatch:
     inputs:

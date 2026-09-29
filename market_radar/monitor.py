@@ -1,4 +1,5 @@
 """Read-only cloud observer. Never dispatch a scan or modify production state."""
+from contextlib import closing
 import argparse
 import datetime as dt
 import hashlib
@@ -12,7 +13,7 @@ from . import notify
 from .store import Store
 
 UTC = dt.timezone.utc
-WORKFLOWS = {'market-radar.yml': 48, 'daily-tw.yml': 96}
+WORKFLOWS = {'market-radar.yml': 48, 'daily-tw.yml': 96, 'radar-maintenance.yml': 6}
 
 
 def api(path):
@@ -42,7 +43,7 @@ def restore_artifact(repo, workflow, branch, name, destination):
 
 def read_snapshot(path):
     # Read a downloaded copy; do not open/create a production Store.
-    with sqlite3.connect(Path(path).resolve().as_uri() + '?mode=ro', uri=True) as db:
+    with closing(sqlite3.connect(Path(path).resolve().as_uri() + '?mode=ro', uri=True)) as db:
         row = db.execute('SELECT body FROM snapshots ORDER BY day DESC LIMIT 1').fetchone()
         if not row:
             raise ValueError('missing snapshot')
@@ -50,6 +51,26 @@ def read_snapshot(path):
         receipt_count, last_receipt = db.execute('SELECT count(*), max(sent_at) FROM receipts').fetchone()
         uncertain = db.execute("SELECT count(*) FROM meta WHERE key LIKE 'delivery:%' AND value IN ('sending','uncertain')").fetchone()[0]
     return snapshot, {'count': receipt_count, 'latest': last_receipt, 'uncertain': uncertain}
+
+
+def maintenance_status(path):
+    with closing(sqlite3.connect(Path(path).resolve().as_uri()+'?mode=ro',uri=True)) as db:
+        row = db.execute("SELECT value FROM meta WHERE key='maintenance:status'").fetchone()
+    return json.loads(row[0]) if row else None
+
+
+def include_maintenance(current, maintenance, now):
+    if not maintenance:
+        current['issues'].append('缺少背景補件進度')
+        return
+    stamp = maintenance['fetched_at']
+    if (now-timestamp(stamp)).total_seconds() > 6*3600:
+        current['issues'].append('背景補件進度超過 6 小時未更新')
+        return
+    if not current.get('snapshot_at') or timestamp(stamp) >= timestamp(current['snapshot_at']):
+        current['financials'] = maintenance['financials']
+    current['maintenance_at'] = stamp
+    current['maintenance_history'] = maintenance.get('history', {})
 
 
 def assess(snapshot, receipts, workflows, now):
@@ -80,6 +101,8 @@ def assess(snapshot, receipts, workflows, now):
         issues.append('市場快照超過 48 小時未更新')
     if any(not h.get('ok') for h in snapshot.get('health', [])):
         issues.append('市場資料來源有失敗項目')
+    if snapshot.get('freshness', {}).get('current_price_ratio', 1) < .9:
+        issues.append('超過一成股票缺少最近完成交易日行情，已禁止受影響股票 BUY')
     if receipts.get('uncertain'):
         issues.append('有 Telegram 送達狀態不明的紀錄，需人工核對，未自動重送')
     financials = snapshot.get('completion', {}).get('financials', {})
@@ -108,10 +131,10 @@ def transition(current, previous, now):
     if previous is None or progress != old_progress:
         since = now.isoformat()
     current['progress_since'] = since
-    stalled = bool(fin.get('pending', 0) > 0 and (now - timestamp(since)).total_seconds() > 48 * 3600)
+    stalled = bool(fin.get('pending', 0) > 0 and (now - timestamp(since)).total_seconds() > 12 * 3600)
     current['stalled'] = stalled
     if stalled and not (previous or {}).get('stalled'):
-        reasons.append('財報補件 48 小時未進展，需檢查來源或解析問題')
+        reasons.append('財報補件 12 小時未進展，需檢查來源或解析問題')
     return reasons
 
 
@@ -148,6 +171,11 @@ def run(args):
         workflows = {name: api(f'repos/{repo}/actions/workflows/{name}/runs?branch={branch}&per_page=30')['workflow_runs'] for name in WORKFLOWS}
         now = dt.datetime.now(UTC)
         current = assess(snapshot, receipts, workflows, now)
+        maintenance_run = restore_artifact(repo, 'radar-maintenance.yml', branch,
+                                          'market-radar-maintenance', root / 'maintenance')
+        maintenance = maintenance_status(root / 'maintenance/state.sqlite') if maintenance_run else None
+        include_maintenance(current, maintenance, now)
+        current['maintenance_run'] = maintenance_run
         previous_raw = store.meta('observation')
         previous = json.loads(previous_raw) if previous_raw else None
         reasons = transition(current, previous, now)
