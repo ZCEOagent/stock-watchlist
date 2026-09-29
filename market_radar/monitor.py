@@ -48,6 +48,10 @@ def read_snapshot(path):
         if not row:
             raise ValueError('missing snapshot')
         snapshot = json.loads(row[0])
+        health_row = db.execute("SELECT value FROM meta WHERE key='source-health:latest'").fetchone()
+        if health_row:
+            diagnostic = json.loads(health_row[0])
+            snapshot['health'] = diagnostic['health']
         receipt_count, last_receipt = db.execute('SELECT count(*), max(sent_at) FROM receipts').fetchone()
         uncertain = db.execute("SELECT count(*) FROM meta WHERE key LIKE 'delivery:%' AND value IN ('sending','uncertain')").fetchone()[0]
     return snapshot, {'count': receipt_count, 'latest': last_receipt, 'uncertain': uncertain}

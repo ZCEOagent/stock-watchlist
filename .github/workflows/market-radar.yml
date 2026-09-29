@@ -72,8 +72,10 @@ jobs:
           elif [ "$SCHEDULE" = '17,47 0-14 * * 1-5' ]; then
             mode=events
           fi
-          if [ "$EVENT_NAME" = schedule ] || [ "$INPUT_SEND" = true ]; then
-            python -m market_radar.cli "$mode" --send
+          if [ "$EVENT_NAME" = schedule ]; then
+            python -m market_radar.cli "$mode" --send --delivery-slot scheduled
+          elif [ "$INPUT_SEND" = true ]; then
+            python -m market_radar.cli "$mode" --send --delivery-slot manual
           else
             python -m market_radar.cli "$mode"
           fi
