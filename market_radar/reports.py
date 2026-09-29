@@ -98,9 +98,14 @@ def stock_card(r):
     reasons = r.get('reasons', [])
     revenue = next((x for x in reasons if '營收年增' in x), None)
     earnings = next((x for x in reasons if '同期間 EPS 年增' in x), None)
+    period = r.get('financial_period') or '同一期財報'
+    for suffix, label in (('Q1', '年第一季'), ('Q2', '年上半年'), ('Q3', '年前三季'), ('Q4', '年全年')):
+        if period.endswith(suffix):
+            period = period[:-2] + label
+            break
     evidence = [x for x in (revenue, earnings) if x]
     if evidence:
-        lines.append('看點：' + '；'.join(evidence).replace('同期間 EPS 年增', (r.get('financial_period') or '同一期財報') + ' 每股獲利比去年同期成長'))
+        lines.append('看點：' + '；'.join(evidence).replace('同期間 EPS 年增', period + '每股獲利比去年同期成長'))
     caveats = r.get('risks', []) or r.get('missing', [])
     if caveats:
         lines.extend('留意：' + plain(item) for item in caveats[:2])
