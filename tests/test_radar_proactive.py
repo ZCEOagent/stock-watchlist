@@ -93,3 +93,18 @@ class WatchTests(unittest.TestCase):
                 self.assertEqual(watch.check(s,self.now.replace(hour=17),'test','test',True),0)
                 self.assertEqual(fetch.call_count,1)
             s.close()
+
+
+    def test_delivery_acceptance_time_is_not_scan_start(self):
+        import tempfile,json
+        from pathlib import Path
+        from market_radar import notify
+        from market_radar.store import Store
+        with tempfile.TemporaryDirectory() as tmp:
+            s=Store(Path(tmp)/'s.db')
+            with patch.object(notify,'call',return_value={'message_id':791}):
+                notify.deliver(s,'test','test','audit','test','2000-01-01T00:00:00+00:00')
+            audit=json.loads(s.meta('delivery-audit:audit:0'))
+            self.assertFalse(audit['accepted_at'].startswith('2000'))
+            self.assertEqual(s.db.execute("select sent_at from receipts where id='audit:0'").fetchone()[0],audit['accepted_at'])
+            s.close()
