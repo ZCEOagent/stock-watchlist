@@ -137,7 +137,7 @@ class RadarTests(unittest.TestCase):
             with self.assertRaises(RuntimeError):
                 notify.deliver(self.store, 'fake', 'fake', 'k', 'hello', self.today)
         self.assertFalse(self.store.sent('k:0'))
-        with patch('market_radar.notify.call') as call:
+        with patch('market_radar.notify.call', return_value={'message_id':123}) as call:
             notify.deliver(self.store, 'fake', 'fake', 'k', 'hello', self.today)
             notify.deliver(self.store, 'fake', 'fake', 'k', 'hello', self.today)
             self.assertEqual(call.call_count, 1)

@@ -1,5 +1,8 @@
 """Only four Telegram sections; portfolio data stays in this transient projection."""
 import hashlib
+from .engine import PRIORITY
+
+DELIVERY_VERSION = "proactive-1"
 
 HEADINGS = ('① 今日新進雷達', '② 評分大幅變化', '③ 持股風險警報', '④ 本週真正值得考慮交易的標的')
 
@@ -21,7 +24,7 @@ def holding_risks(stocks, holdings):
     return result
 
 
-def select(snapshot, previous, holdings, priority=('2330', '6274')):
+def select(snapshot, previous, holdings, priority=PRIORITY):
     stocks = snapshot['stocks']
     old = {r['code']: r for r in (previous or {}).get('stocks', [])}
     comparable_version = previous and previous.get('version') == snapshot.get('version')
@@ -44,6 +47,16 @@ def select(snapshot, previous, holdings, priority=('2330', '6274')):
     return new[:3], changed[:3], holding_risks(stocks, holdings), trades, follow
 
 
+def research(snapshot, holdings):
+    """Bounded full-market research, independent of BUY and baseline comparisons."""
+    expected = snapshot.get('freshness', {}).get('expected_date')
+    rows = [r for r in snapshot['stocks'] if r['candidate'] and r['status'] == 'WATCH'
+            and r['code'] not in holdings and r['code'] not in PRIORITY
+            and not r['risks'] and r['coverage'] >= 80 and r['score'] is not None
+            and (not expected or r.get('price_date') == expected)]
+    return sorted(rows, key=lambda r: (-r['score'], -r['coverage'], r['code']))[:3]
+
+
 def brief(r):
     score = '未知' if r['score'] is None else str(r['score'])
     return f"{r['code']} {r['name']}｜{r['status']}｜{score} 分・完整度 {r['coverage']}%"
@@ -54,6 +67,11 @@ def render(snapshot, previous, holdings, weekly=False):
     baseline = previous is None or previous.get('version') != snapshot.get('version')
     lines = [f"台股雷達｜{'週一決策' if weekly else '每日摘要'} {snapshot['day']}",
              f"掃描 {snapshot['scanned']} 檔｜行情日期 {', '.join(snapshot['price_dates']) or '未知'}"]
+    lines.append('資料擷取開始：' + snapshot.get('fetched_at', '未記錄'))
+    if snapshot.get('scan_completed_at'):
+        lines.append('掃描完成：' + snapshot['scan_completed_at'])
+    if snapshot.get('run_url'):
+        lines.append('本次執行：' + snapshot['run_url'])
     if snapshot.get('strategy_mode') == 'shadow':
         lines.append('沿用原波段策略影子模式；本報告提供研究摘要，不啟用交易訊號。')
     completion = snapshot.get('completion', {})
@@ -75,7 +93,9 @@ def render(snapshot, previous, holdings, weekly=False):
                 ([brief(r) + '\n  ' + '；'.join(r['risks'][:2]) for r in risks[:3]] or
                  ['尚未設定持股，風險監測未啟用。' if not holdings else '已設定持股，本輪未觸發警報；仍須留意資料限制。']),
                 ([brief(r) for r in trades[:3]] or ['目前沒有符合 BUY 門檻的標的，不需為週期而交易。'])]
-    sections[3] += [brief(r) + '\n  優先追蹤：' + ('；'.join(r['risks'][:2]) or '；'.join(r['missing'][:2]) or '；'.join(r['reasons'][:2])) for r in follow]
+    sections[3] += ['全市場研究候選（最多 3 檔；依分數、完整度、代碼排序；不是 BUY）：']
+    sections[3] += [brief(r) + '\n  ' + '；'.join(r['reasons'][:2]) + '\n  待確認：' + ('；'.join(r['missing'][:2]) or '影子模式／原波段策略尚未放行') for r in research(snapshot, holdings)] or ['本輪無符合資料與風險門檻的研究候選。']
+    sections[3] += [brief(r) + '\n  行情 ' + str(r.get('price_date', '未知')) + '，收盤 ' + str(r.get('close', '未知')) + '\n  優先追蹤：' + ('；'.join(r['risks'][:2]) or '；'.join(r['missing'][:2]) or '；'.join(r['reasons'][:2])) for r in follow]
     if len(risks) > 3:
         sections[2].append(f'另 {len(risks)-3} 檔觸發持股警報，完整清單見附檔。')
     for heading, items in zip(HEADINGS, sections):
@@ -86,8 +106,8 @@ def render(snapshot, previous, holdings, weekly=False):
 
 def full_report(snapshot, previous, holdings):
     _, _, risks, trades, follow = select(snapshot, previous, holdings)
-    lines = [render(snapshot, previous, holdings, True), '', '決策明細（最多 5 個交易候選＋優先追蹤＋全部持股警報）']
-    picked = {r['code']: r for r in trades + follow + risks}
+    lines = [render(snapshot, previous, holdings, True), '', '決策明細（最多 5 個交易候選＋3 個研究候選＋優先追蹤＋全部持股警報）']
+    picked = {r['code']: r for r in trades + research(snapshot, holdings) + follow + risks}
     for r in picked.values():
         lines += ['', brief(r), f"行情 {r.get('price_date')}；營收 {r.get('revenue_period')}；財報 {r.get('financial_period')}；估值 {r.get('valuation_date')}"]
         lines += ['依據：' + x for x in r.get('reasons', [])]
