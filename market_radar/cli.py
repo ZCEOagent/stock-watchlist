@@ -80,7 +80,7 @@ def run(args):
         scheduled = args.send and getattr(args,'delivery_slot','manual') == 'scheduled' and args.mode in ('daily','weekly')
         if scheduled:
             store.meta('report-retry',json.dumps({'day':today,'mode':args.mode}))
-        previous = store.previous(today)
+        previous = json.loads(store.meta('report-baseline') or 'null')
         ingest_seed(store, args.price_seed)
         import_public(store, getattr(args, "maintenance_state", ".maintenance/state.sqlite"))
         feeds, health = sources.collect(stamp, events_only=args.mode == 'events')
@@ -169,7 +169,10 @@ def run(args):
         (output / 'ranking.json').write_text(json.dumps(snapshot, ensure_ascii=False), encoding='utf-8')
         if args.send:
             key = reports.message_key(args.mode, today, engine.VERSION, reports.DELIVERY_VERSION, getattr(args, 'delivery_slot', 'manual'))
-            notify.deliver(store, token, chat, key, summary, stamp)
+            sent = notify.deliver(store, token, chat, key, summary, stamp)
+            if sent:
+                # Public scan only: no holding projection or message body in artifacts.
+                store.meta('report-baseline', json.dumps(snapshot, ensure_ascii=False))
             risks = reports.holding_risks(snapshot['stocks'], holdings)
             if args.mode == 'weekly' or len(risks) > 3:
                 notify.deliver(store, token, chat, key + ':full', full, stamp, document=True)

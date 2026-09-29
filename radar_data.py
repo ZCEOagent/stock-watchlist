@@ -139,7 +139,8 @@ def summarize_evidence(bundle, as_of):
     dates = sorted({r["date"] for r in chip_rows})[-5:]
     if dates:
         output["chips_date"] = dates[-1]
-        complete = len(dates) == 5 and all(
+        expected = session_dates((date.fromisoformat(as_of)-timedelta(days=40)).isoformat(), as_of)[-5:]
+        complete = len(expected) == 5 and dates == expected and all(
             {r["name"] for r in chip_rows if r["date"] == d} == {"Foreign_Investor", "Investment_Trust"}
             for d in dates)
         if complete:
