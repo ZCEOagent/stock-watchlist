@@ -80,3 +80,30 @@ class MaintenanceStateTests(unittest.TestCase):
                 history.backfill(s,companies,['2026-09-21','2026-09-22'],limit=1)
             calls=[call.args[1] for call in fetch.call_args_list];s.close()
             self.assertEqual(calls,['2026-09-22','2026-09-21'])
+
+    def test_manual_delivery_does_not_consume_scheduled_delivery(self):
+        import os
+        from market_radar import notify
+        from unittest.mock import patch
+        with tempfile.TemporaryDirectory() as tmp:
+            args=argparse.Namespace(state=str(Path(tmp)/'s.db'),output=tmp,price_seed=tmp+'/missing',maintenance_state=tmp+'/missing',mode='daily',send=True,delivery_slot='manual')
+            snapshot={'day':'2026-09-29','stocks':[],'scanned':0,'health':[],'price_dates':[]}
+            with patch.dict(os.environ,{'TELEGRAM_BOT_TOKEN':'test','TELEGRAM_CHAT_ID':'test'}),patch.object(cli.sources,'collect',return_value=({},[])),patch.object(cli.engine,'scan',return_value=snapshot),patch.object(cli.engine,'apply_swing_gate'),patch.object(cli.reports,'render',return_value='ok'),patch.object(cli.reports,'full_report',return_value='ok'),patch.object(notify,'call') as send:
+                cli.run(args)
+                cli.run(args)
+                args.delivery_slot='scheduled'
+                cli.run(args)
+            self.assertEqual(send.call_count,2)
+
+    def test_failed_scheduled_report_recovers_and_idle_retry_does_no_work(self):
+        import os
+        from market_radar import notify
+        with tempfile.TemporaryDirectory() as tmp:
+            args=argparse.Namespace(state=str(Path(tmp)/'s.db'),output=tmp,price_seed=tmp+'/missing',maintenance_state=tmp+'/missing',mode='daily',send=True,delivery_slot='scheduled')
+            snapshot={'day':'2026-09-29','stocks':[],'scanned':0,'health':[],'price_dates':[]}
+            with patch.dict(os.environ,{'TELEGRAM_BOT_TOKEN':'test','TELEGRAM_CHAT_ID':'test'}),patch.object(cli.sources,'collect',return_value=({},[])) as collect,patch.object(cli.engine,'scan',side_effect=[RuntimeError('source down'),snapshot,snapshot]),patch.object(cli.engine,'apply_swing_gate'),patch.object(cli.reports,'render',return_value='ok'),patch.object(cli.reports,'full_report',return_value='ok'),patch.object(notify,'call') as send:
+                with self.assertRaises(RuntimeError):cli.run(args)
+                args.mode='retry';cli.run(args)
+                args.mode='retry';cli.run(args)
+            self.assertEqual(collect.call_count,2)
+            self.assertEqual(send.call_count,2)

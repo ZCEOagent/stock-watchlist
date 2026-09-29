@@ -70,6 +70,16 @@ def run(args):
     output = Path(args.output)
     output.mkdir(parents=True, exist_ok=True)
     try:
+        if args.mode == 'retry':
+            pending = json.loads(store.meta('report-retry') or '{}')
+            if pending.get('day') != today or pending.get('mode') not in ('daily','weekly'):
+                print('No report awaiting recovery today; no source requests or notification.')
+                return
+            args.mode = pending['mode']
+            args.delivery_slot = 'scheduled'
+        scheduled = args.send and getattr(args,'delivery_slot','manual') == 'scheduled' and args.mode in ('daily','weekly')
+        if scheduled:
+            store.meta('report-retry',json.dumps({'day':today,'mode':args.mode}))
         previous = store.previous(today)
         ingest_seed(store, args.price_seed)
         import_public(store, getattr(args, "maintenance_state", ".maintenance/state.sqlite"))
@@ -80,7 +90,11 @@ def run(args):
             if rows and not feeds[key]:
                 for status in health:
                     if (status['market'], status['kind']) == key:
-                        status.update(ok=False, count=0)
+                        status.update(ok=False, count=0, error='missing_or_future_source_date')
+        store.meta('source-health:latest', json.dumps({'fetched_at':stamp,'health':health}))
+        failures = [h for h in health if not h['ok']]
+        if failures:
+            print('Unavailable sources: '+json.dumps(failures),flush=True)
         store.ingest(feeds)
         if args.mode == 'events':
             snapshot = store.latest()
@@ -137,17 +151,22 @@ def run(args):
         store.snapshot(today, snapshot)
         summary = reports.render(snapshot, previous, holdings, weekly=args.mode == 'weekly')
         full = reports.full_report(snapshot, previous, holdings)
+        if args.send and getattr(args, 'delivery_slot', 'manual') == 'manual':
+            summary = '手動驗證（不影響例行排程）\n' + summary
+            full = '手動驗證（不影響例行排程）\n' + full
         (output / 'summary.txt').write_text(summary, encoding='utf-8')
         (output / 'decision-report.txt').write_text(full, encoding='utf-8')
         (output / 'ranking.json').write_text(json.dumps(snapshot, ensure_ascii=False), encoding='utf-8')
         if args.send:
-            key = reports.message_key(args.mode, today, engine.VERSION)
+            key = reports.message_key(args.mode, today, engine.VERSION, getattr(args, 'delivery_slot', 'manual'))
             notify.deliver(store, token, chat, key, summary, stamp)
             risks = reports.holding_risks(snapshot['stocks'], holdings)
             if args.mode == 'weekly' or len(risks) > 3:
                 notify.deliver(store, token, chat, key + ':full', full, stamp, document=True)
         print(f"Radar {args.mode}: scanned={snapshot['scanned']}; candidates={sum(s['candidate'] for s in snapshot['stocks'])}; "
               f"source_failures={sum(not h['ok'] for h in health)}; delivery={'enabled' if args.send else 'dry-run'}")
+        if scheduled:
+            store.meta('report-retry','')
         store.prune(today)
     finally:
         store.close()
@@ -155,11 +174,12 @@ def run(args):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('mode', choices=('daily', 'weekly', 'events'))
+    parser.add_argument('mode', choices=('daily', 'weekly', 'events', 'retry'))
     parser.add_argument('--state', default='.radar/state.sqlite')
     parser.add_argument('--output', default='.radar/reports')
     parser.add_argument('--price-seed', default='.runtime/tw_history.json')
     parser.add_argument('--send', action='store_true')
+    parser.add_argument('--delivery-slot', choices=('manual', 'scheduled'), default='manual')
     parser.add_argument('--maintenance-state', default='.maintenance/state.sqlite')
     parser.add_argument('--financial-limit', type=int, choices=range(0, 2201), default=0, help="Deprecated: reports never perform backfill", metavar='0..2200')
     args = parser.parse_args()

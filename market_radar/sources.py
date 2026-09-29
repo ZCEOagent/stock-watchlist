@@ -6,6 +6,7 @@ import json
 import math
 import re
 import time
+import urllib.error
 import urllib.request
 
 TWSE = 'https://openapi.twse.com.tw/v1/'
@@ -56,9 +57,10 @@ def fetch_json(url):
             if not isinstance(rows, list) or not rows or not all(isinstance(r, dict) for r in rows):
                 raise ValueError('unexpected schema or empty feed')
             return rows
-        except Exception:
+        except Exception as exc:
             if attempt == 2:
-                raise RuntimeError('feed unavailable or schema changed') from None
+                reason = f'HTTP {exc.code}' if isinstance(exc, urllib.error.HTTPError) else type(exc).__name__
+                raise RuntimeError('feed unavailable: '+reason) from None
             time.sleep(1 + attempt)
 
 
@@ -121,8 +123,9 @@ def collect(now, events_only=False, kinds=None):
             if not rows and kind != 'events':
                 raise ValueError('no normalized rows')
             return (market, kind), rows, {'market': market, 'kind': kind, 'ok': True, 'count': len(rows), 'url': url}
-        except Exception:
-            return (market, kind), [], {'market': market, 'kind': kind, 'ok': False, 'count': 0, 'url': url}
+        except Exception as exc:
+            detail = str(exc) if isinstance(exc, RuntimeError) else type(exc).__name__
+            return (market, kind), [], {'market': market, 'kind': kind, 'ok': False, 'count': 0, 'url': url, 'error': detail}
     with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
         for key, rows, status in pool.map(one, jobs):
             feeds[key] = rows
