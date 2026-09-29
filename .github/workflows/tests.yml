@@ -18,3 +18,17 @@ jobs:
           python-version: '3.11'
       - run: pip install -r requirements.txt
       - run: python -m unittest discover -s tests -v
+      - name: Temporary source reproduction
+        if: github.event_name == 'push' && github.ref == 'refs/heads/fix/radar-delivery-verification'
+        run: |
+          python - <<'PY'
+          import datetime,json,requests
+          from market_radar import sources
+          feeds,health=sources.collect(datetime.datetime.now(datetime.timezone.utc).isoformat())
+          print('[DEBUG-source-repro]',json.dumps(health))
+          for key,rows in feeds.items():
+              if rows: print('[DEBUG-source-repro]',key,len(rows),rows[0].get('source_date'))
+          url=sources.TWSE+sources.ENDPOINTS['twse']['universe']
+          r=requests.get(url,timeout=25)
+          print('[DEBUG-source-repro] requests',r.status_code,r.headers.get('Content-Type'),len(r.content))
+          PY
