@@ -18,17 +18,3 @@ jobs:
           python-version: '3.11'
       - run: pip install -r requirements.txt
       - run: python -m unittest discover -s tests -v
-      - name: Temporary public quote diagnostics (no secrets)
-        run: |
-          python - <<'PY'
-          import requests
-          for url in ['https://mis.twse.com.tw/stock/index.jsp', 'https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=tse_3042.tw&json=1&delay=0']:
-              try:
-                  r=requests.get(url,timeout=25)
-                  print(r.status_code, r.headers.get('Content-Type'), url.split('?')[0])
-                  if r.status_code==200 and 'api/' in url:
-                      d=r.json()
-                      print(d.get('rtcode'),[(x.get('c'),x.get('d'),x.get('t'),x.get('z'),x.get('h')) for x in d.get('msgArray',[])])
-              except Exception as exc:
-                  print(type(exc).__name__)
-          PY

@@ -62,10 +62,34 @@ class WatchTests(unittest.TestCase):
             self.assertTrue(all(len(a['payload_sha256'])==64 for a in audits))
             s.close()
 
-    def test_holiday_and_evening_do_not_fetch(self):
+    def test_holiday_and_outside_window_do_not_fetch(self):
         import datetime as dt
         from market_radar import watch
         with patch.object(watch,'fetch') as fetch:
-            self.assertEqual(watch.check(None,self.now.replace(hour=18)),0)
+            self.assertEqual(watch.check(None,self.now.replace(hour=23,minute=30)),0)
             self.assertEqual(watch.check(None,self.now.replace(day=27)),0)
             fetch.assert_not_called()
+
+
+    def test_cloud_fetch_uses_public_api_without_unneeded_homepage(self):
+        from market_radar import watch
+        with patch.object(watch.requests,'Session') as session:
+            get=session.return_value.__enter__.return_value.get
+            get.return_value.json.return_value={'rtcode':'0000','msgArray':[self.row]}
+            self.assertEqual(watch.fetch(),[self.row])
+            self.assertEqual(get.call_count,1)
+            self.assertEqual(get.call_args.args[0],watch.URL)
+
+    def test_late_recovery_reports_high_once_then_stops_close_polling(self):
+        import tempfile
+        from pathlib import Path
+        from market_radar import watch,notify
+        from market_radar.store import Store
+        rows=[dict(self.row,t='13:30:00'),dict(self.row,c='2330',z='203',h='203',l='203'),dict(self.row,c='6274',ex='otc',z='203',h='203',l='203')]
+        with tempfile.TemporaryDirectory() as tmp:
+            s=Store(Path(tmp)/'s.db')
+            with patch.object(watch,'fetch',return_value=rows) as fetch,patch.object(notify,'call',return_value={'message_id':790}):
+                self.assertEqual(watch.check(s,self.now.replace(hour=16),'test','test',True),1)
+                self.assertEqual(watch.check(s,self.now.replace(hour=17),'test','test',True),0)
+                self.assertEqual(fetch.call_count,1)
+            s.close()
