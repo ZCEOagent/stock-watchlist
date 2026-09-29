@@ -3405,5 +3405,32 @@
       "爆量",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-28",
+    "market": "us",
+    "id": "DASH",
+    "name": "DoorDash",
+    "flagged_close": 178.39,
+    "flagged_change_pct": -7.74,
+    "tags": []
+  },
+  {
+    "date": "2026-09-28",
+    "market": "us",
+    "id": "BE",
+    "name": "Bloom Energy",
+    "flagged_close": 262.87,
+    "flagged_change_pct": -8.95,
+    "tags": []
+  },
+  {
+    "date": "2026-09-28",
+    "market": "us",
+    "id": "QCOM",
+    "name": "Qualcomm",
+    "flagged_close": 187.48,
+    "flagged_change_pct": -7.17,
+    "tags": []
   }
 ]
