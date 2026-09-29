@@ -11,7 +11,7 @@ class ProactiveTests(unittest.TestCase):
         text=reports.render(s,None,{})
         self.assertIn('6691',text)
         self.assertIn('3042',text)
-        self.assertIn(s['fetched_at'],text)
+        self.assertIn('09/29 14:27',text)
         self.assertEqual(text.count('①'),1)
         self.assertIn('3042',reports.full_report(s,None,{}))
 

@@ -2,7 +2,7 @@
 import hashlib
 from .engine import PRIORITY
 
-DELIVERY_VERSION = "proactive-1"
+DELIVERY_VERSION = "readable-1"
 
 HEADINGS = ('① 今日新進雷達', '② 評分大幅變化', '③ 持股風險警報', '④ 本週真正值得考慮交易的標的')
 
@@ -62,51 +62,106 @@ def brief(r):
     return f"{r['code']} {r['name']}｜{r['status']}｜{score} 分・完整度 {r['coverage']}%"
 
 
+import datetime as dt
+
+
+def readable_time(value):
+    try:
+        stamp = dt.datetime.fromisoformat(value)
+        if stamp.tzinfo:
+            stamp = stamp.astimezone(dt.timezone(dt.timedelta(hours=8)))
+        return stamp.strftime('%m/%d %H:%M')
+    except (TypeError, ValueError):
+        return '時間未記錄'
+
+
+def plain(text):
+    translations = (
+        ('同交易日有效本益比', '還缺同一天的股價估值與同業比較，無法確認價格是否合理。'),
+        ('價格資料缺漏', '最新股價還沒補齊，先不要依這份資料做買進判斷。'),
+        ('營收／財報期別', '營收或財報還不是需要的最新一期，先等資料更新。'),
+        ('本輪來源失敗', '部分資料暫時抓不到，這次判斷不完整。'),
+        ('營業現金流為負', '營運現金流出多於流入，需要先查清楚原因。'),
+        ('累計 EPS 非正', '這期每股盈餘未大於零，暫不列入買進候選。'),
+        ('業外損益比重偏高', '獲利受本業以外的項目影響較大，要確認能否持續。'),
+        ('收盤低於 MA20', '收盤價明顯低於近20個交易日平均，走勢偏弱。'),
+        ('原波段策略尚未通過', '尚未通過原本的交易規則，目前只觀察。'),
+        ('重大公告需人工核實', '有重要公告，需要先看原文，不能只靠關鍵字判斷。'),
+    )
+    return next((meaning for key, meaning in translations if key in text), text)
+
+
+def stock_card(r):
+    labels = {'BUY': '🟢 條件通過，仍需人工決定', 'WATCH': '🟡 先觀察',
+              'HOLD': '🔵 已持有，繼續觀察', 'REMOVE': '🔴 暫不列入買進候選'}
+    lines = [f"{r['name']}（{r['code']}）｜{labels.get(r['status'], '待確認')}"]
+    reasons = r.get('reasons', [])
+    revenue = next((x for x in reasons if '營收年增' in x), None)
+    earnings = next((x for x in reasons if '同期間 EPS 年增' in x), None)
+    evidence = [x for x in (revenue, earnings) if x]
+    if evidence:
+        lines.append('看點：' + '；'.join(evidence).replace('同期間 EPS 年增', (r.get('financial_period') or '同一期財報') + ' 每股獲利比去年同期成長'))
+    caveats = r.get('risks', []) or r.get('missing', [])
+    if caveats:
+        lines.extend('留意：' + plain(item) for item in caveats[:2])
+    elif r['status'] == 'WATCH':
+        lines.append('下一步：等買進條件全部確認，目前只是觀察名單。')
+    if r.get('close') is not None:
+        lines.append(f"收盤 {r['close']:g} 元（{r.get('price_date') or '日期未知'}）")
+    return '\n'.join(lines)
+
+
 def render(snapshot, previous, holdings, weekly=False):
     new, changed, risks, trades, follow = select(snapshot, previous, holdings)
     baseline = previous is None or previous.get('version') != snapshot.get('version')
-    lines = [f"台股雷達｜{'週一決策' if weekly else '每日摘要'} {snapshot['day']}",
-             f"掃描 {snapshot['scanned']} 檔｜行情日期 {', '.join(snapshot['price_dates']) or '未知'}"]
-    lines.append('資料擷取開始：' + snapshot.get('fetched_at', '未記錄'))
-    if snapshot.get('scan_completed_at'):
-        lines.append('掃描完成：' + snapshot['scan_completed_at'])
-    if snapshot.get('run_url'):
-        lines.append('本次執行：' + snapshot['run_url'])
+    lines = [f"台股雷達｜{snapshot['day']} {'週一決策' if weekly else '每日重點'}", '',
+             ('今日結論：有標的通過篩選，請先看條件與風險，再決定是否交易。' if trades else
+              '今日結論：先觀察，目前沒有可列為買進的標的。')]
     if snapshot.get('strategy_mode') == 'shadow':
-        lines.append('沿用原波段策略影子模式；本報告提供研究摘要，不啟用交易訊號。')
+        lines.append('目前只做觀察與研究，不發正式買進訊號。')
+    sections = [([stock_card(r) for r in new] or
+                 ['今天先建立比較基準，還不能判斷哪些是新加入的。' if baseline else '今天沒有新加入的觀察標的。']),
+                ([f"{r['name']}（{r['code']}）｜評分{'上升' if r['delta'] > 0 else '下降'} {abs(r['delta']):g} 分\n評分變化不等於股價漲跌；仍要看資料與風險。" for r in changed] or
+                 ['還沒有可比較的舊評分。' if baseline else '沒有明顯變化（增減未達10分）。']),
+                ([stock_card(r) for r in risks[:3]] or
+                 ['你目前沒有設定持股，所以沒有持股警報。' if not holdings else '本輪沒有觸發持股警報。']),
+                [stock_card(r) for r in trades[:3]]]
+    candidates = research(snapshot, holdings)
+    if candidates:
+        sections[3] += ['值得先研究的股票（尚未達買進條件）：', *[stock_card(r) for r in candidates]]
+    elif not trades:
+        sections[3].append('本輪沒有符合條件的研究候選。')
+    if follow:
+        sections[3] += ['你指定持續追蹤：', *[stock_card(r) for r in follow]]
+    if len(risks) > 3:
+        sections[2].append(f'另有 {len(risks)-3} 檔持股警報，請看完整報告。')
+    for heading, items in zip(HEADINGS, sections):
+        lines += ['', heading, '\n\n'.join(items)]
+    lines += ['', '──────────']
     completion = snapshot.get('completion', {})
     if completion:
         f, h = completion['financials'], completion['history']
-        lines.append(f"財報交叉核實 {f['verified']}/{f['eligible']} 檔；待補 {f['pending']} 檔；歷史行情待補 {h.get('pending_days', h['failed_days'])} 個市場交易日。")
+        lines.append(f"資料狀況：一般產業財報已核對 {f['verified']} 家，還有 {f['pending']} 家待補。")
         if f.get('excluded'):
-            lines.append(f"另 {f['excluded']} 檔未納入一般業財報模型，明確排除 BUY；不算已核實。")
+            lines.append(f"另 {f['excluded']} 家不適用這套財報評分。")
+        if h.get('pending_days', h.get('failed_days', 0)):
+            lines.append('部分歷史股價仍待補，受影響股票先保留觀察。')
     freshness = snapshot.get('freshness', {})
-    if freshness:
-        lines.append(f"預期行情日 {freshness['expected_date']}；符合日期 {freshness['current_prices']}/{snapshot['scanned']} 檔。")
-    failed = [h for h in snapshot['health'] if not h['ok']]
-    if failed:
-        lines.append(f'本輪 {len(failed)} 項來源失敗；受影響股票不產生新進決策。')
-    if baseline:
-        lines.append('首次／模型更新：建立基準，今天不把既有候選誤稱新進。')
-    sections = [([brief(r) for r in new] or ['本次無可確認的新進標的。']),
-                ([brief(r) + f"｜{r['delta']:+.1f} 分" for r in changed] or ['同口徑評分無 ≥10 分變化。']),
-                ([brief(r) + '\n  ' + '；'.join(r['risks'][:2]) for r in risks[:3]] or
-                 ['尚未設定持股，風險監測未啟用。' if not holdings else '已設定持股，本輪未觸發警報；仍須留意資料限制。']),
-                ([brief(r) for r in trades[:3]] or ['目前沒有符合 BUY 門檻的標的，不需為週期而交易。'])]
-    sections[3] += ['全市場研究候選（最多 3 檔；依分數、完整度、代碼排序；不是 BUY）：']
-    sections[3] += [brief(r) + '\n  ' + '；'.join(r['reasons'][:2]) + '\n  待確認：' + ('；'.join(r['missing'][:2]) or '影子模式／原波段策略尚未放行') for r in research(snapshot, holdings)] or ['本輪無符合資料與風險門檻的研究候選。']
-    sections[3] += [brief(r) + '\n  行情 ' + str(r.get('price_date', '未知')) + '，收盤 ' + str(r.get('close', '未知')) + '\n  優先追蹤：' + ('；'.join(r['risks'][:2]) or '；'.join(r['missing'][:2]) or '；'.join(r['reasons'][:2])) for r in follow]
-    if len(risks) > 3:
-        sections[2].append(f'另 {len(risks)-3} 檔觸發持股警報，完整清單見附檔。')
-    for heading, items in zip(HEADINGS, sections):
-        lines += ['', heading, *items]
-    lines += ['', 'BUY＝研究條件通過、待人工決策；HOLD＝已持有續觀察；WATCH＝待確認；REMOVE＝移出候選／檢討持股。無自動下單。']
+    if freshness and freshness['current_prices'] < snapshot['scanned']:
+        lines.append(f"⚠️ {snapshot['scanned']-freshness['current_prices']} 檔行情未更新到 {freshness['expected_date']}，不列入買進判斷。")
+    if any(not h['ok'] for h in snapshot.get('health', [])):
+        lines.append('⚠️ 部分資料來源暫時失敗，受影響股票暫停買進判斷。')
+    lines.append(f"更新：{readable_time(snapshot.get('scan_completed_at') or snapshot.get('fetched_at'))}（台灣時間）｜掃描 {snapshot['scanned']} 檔")
+    lines.append('觀察名單不是買進建議；不會自動下單。')
+    if snapshot.get('run_url'):
+        lines += ['本次掃描紀錄：' + snapshot['run_url']]
     return '\n'.join(lines)
 
 
 def full_report(snapshot, previous, holdings):
     _, _, risks, trades, follow = select(snapshot, previous, holdings)
     lines = [render(snapshot, previous, holdings, True), '', '決策明細（最多 5 個交易候選＋3 個研究候選＋優先追蹤＋全部持股警報）']
+    lines += ['資料擷取開始：' + snapshot.get('fetched_at', '未記錄')]
     picked = {r['code']: r for r in trades + research(snapshot, holdings) + follow + risks}
     for r in picked.values():
         lines += ['', brief(r), f"行情 {r.get('price_date')}；營收 {r.get('revenue_period')}；財報 {r.get('financial_period')}；估值 {r.get('valuation_date')}"]

@@ -67,14 +67,21 @@ def check(store, now, token=None, chat=None, send=False):
             if any(store.sent(prefix+str(level)) for level in (5,8) if level >= signal['level']):
                 continue
             period = '收盤後回顧' if now.time() >= dt.time(13,30) else '盤中排程檢查'
-            text = (f"台股雷達｜{period}（非觸價即時通知）\n\n"
-                    f"④ 本週真正值得考慮交易的標的｜觀察名單價格異動，非 BUY\n"
-                    f"{signal['code']} {signal['name']}｜當日曾達 {signal['change']:+.2f}%\n"
-                    f"前收 {signal['previous']:g}；當日高／低 {signal['high']:g}／{signal['low']:g}\n"
-                    f"來源最後成交 {signal['last']:g}，時間 {signal['traded']}\n"
-                    f"檢查時間 {now.isoformat()}\n"
-                    '價格異動不代表基本面或估值已通過；觀察名單不等於持股。\n'
-                    '來源：https://mis.twse.com.tw/stock/index.jsp')
+            extreme = '最高漲到' if signal['direction'] == 'up' else '最低跌到'
+            last_change = (signal['last'] / signal['previous'] - 1) * 100
+            text = (f"台股雷達｜{signal['name']}（{signal['code']}）價格提醒\n"
+                    f"{period}\n\n"
+                    '④ 本週真正值得考慮交易的標的\n'
+                    '🟡 先觀察：這是價格異動，非 BUY（買進訊號）。\n\n'
+                    f"今天發生什麼？\n"
+                    f"• 盤中{extreme} {signal['change']:+.2f}%\n"
+                    f"• 最後成交 {signal['last']:g} 元（較前收 {last_change:+.2f}%）\n"
+                    f"• 前一交易日收盤 {signal['previous']:g} 元\n\n"
+                    '接下來看什麼？\n'
+                    '先確認獲利與股價是否合理，不能只因今天大漲或大跌就決定買進。\n\n'
+                    f"行情時間：{reports.readable_time(signal['traded'])}\n"
+                    f"檢查時間：{reports.readable_time(now.isoformat())}（台灣時間）\n"
+                    '來源：證交所公開行情。這是排程檢查，不是觸價當下通知。')
             if send:
                 notify.deliver(store,token,chat,reports.message_key(prefix,signal['level']),text,now.isoformat())
                 store.mark_sent(prefix+str(signal['level']),now.isoformat())
