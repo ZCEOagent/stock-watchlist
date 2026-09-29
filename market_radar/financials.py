@@ -15,7 +15,11 @@ NS = {'x': 'http://www.xbrl.org/2003/instance', 'ix': 'http://www.xbrl.org/2013/
 def parse_filing(content, code, period, observed, report='C'):
     year, quarter = int(period[:4]), int(period[-1])
     end = f'{year}-{(3, 6, 9, 12)[quarter-1]:02d}-{(31, 30, 30, 31)[quarter-1]}'
-    text = content.decode('cp950') if b'charset=big5' in content.lower() else content.decode('utf-8')
+    # Some official Big5 reports contain invalid bytes in prose. Preserve a
+    # replacement marker, never delete bytes: selected numeric facts, identity,
+    # dates and units still undergo strict parsing/validation below.
+    encoding = 'cp950' if b'charset=big5' in content.lower() else 'utf-8'
+    text = content.decode(encoding, errors='replace')
     text = text[text.index('<html xmlns='):]
     text = text[:text.index('</html>')+7]
     root = etree.fromstring(text.encode(), etree.XMLParser(resolve_entities=False, no_network=True))
@@ -107,7 +111,7 @@ def complete(store, companies, stamp, limit=300):
         if cached and matches(cached, fin) and 0 <= age < 8:
             result[code] = cached
             continue
-        key = f"filing-attempt:v2:{code}:{fin['period']}"
+        key = f"filing-attempt:v3:{code}:{fin['period']}"
         if store.meta(key) != today:
             pending.append((company, fin, key))
     pending.sort(key=lambda x: (x[0]['code'] not in ('2330', '6274'), store.meta(x[2]) or '', x[0]['code']))
@@ -148,12 +152,19 @@ def complete(store, companies, stamp, limit=300):
                 row['observed_at'] = old['observed_at']
                 row['available_at'] = old['available_at']
             store.ingest({(company['market'], 'supplement'): [row]})
+            store.meta(key + ':error', '')
             result[code] = row
             consecutive_errors = 0
-        except (requests.RequestException, ValueError, ArithmeticError, etree.Error, IndexError):
+        except requests.RequestException:
             failed += 1
             consecutive_errors += 1
-            store.meta(key + ':error', 'unavailable_or_mismatch')
+            store.meta(key + ':error', 'transport_error')
+        except (ValueError, ArithmeticError, etree.Error, IndexError) as exc:
+            failed += 1
+            # A company-specific filing problem must not trip the source outage
+            # circuit and prevent unrelated companies from being processed.
+            consecutive_errors = 0
+            store.meta(key + ':error', type(exc).__name__ + ': ' + str(exc)[:160])
         finally:
             time.sleep(1)
         if attempted % 25 == 0:
