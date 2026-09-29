@@ -3432,5 +3432,38 @@
     "flagged_close": 187.48,
     "flagged_change_pct": -7.17,
     "tags": []
+  },
+  {
+    "date": "2026-09-29",
+    "market": "tw",
+    "id": "5234",
+    "name": "達興材料",
+    "flagged_close": 322.0,
+    "flagged_change_pct": 9.9,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-29",
+    "market": "tw",
+    "id": "3419",
+    "name": "譁裕",
+    "flagged_close": 11.8,
+    "flagged_change_pct": 9.77,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-29",
+    "market": "tw",
+    "id": "6187",
+    "name": "萬潤",
+    "flagged_close": 1310.0,
+    "flagged_change_pct": 9.62,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
