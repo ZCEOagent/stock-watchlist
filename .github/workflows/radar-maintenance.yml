@@ -4,6 +4,12 @@ on:
     # Hourly Taiwan :05. Independent queue and artifact; cannot block reports.
     - cron: '5 * * * *'
   workflow_dispatch:
+    inputs:
+      limit:
+        description: Maximum companies in this bounded maintenance batch
+        type: choice
+        options: ['3', '25', '100']
+        default: '100'
 permissions:
   contents: read
   actions: read
@@ -30,7 +36,9 @@ jobs:
           python -m market_radar.restore
           python -m market_radar.restore --name market-radar-maintenance --destination .maintenance
       - name: Resume bounded maintenance
-        run: python -u -m market_radar.maintenance
+        env:
+          BATCH_LIMIT: ${{ inputs.limit || '100' }}
+        run: python -u -m market_radar.maintenance --limit "$BATCH_LIMIT"
       - name: Preserve partial progress independently of report delivery
         if: always()
         uses: actions/upload-artifact@v4
