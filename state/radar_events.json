@@ -3950,5 +3950,345 @@
       "observed_close": 68.8
     },
     "event_id": "94289c891c1de7386bae1557"
+  },
+  {
+    "id": "2645",
+    "as_of": "2026-09-30",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "2645",
+      "name": "長榮航太",
+      "as_of": "2026-09-30",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "9f4e5fcc90fa31cc40e386c1"
+  },
+  {
+    "id": "6605",
+    "as_of": "2026-09-30",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "6605",
+      "name": "帝寶",
+      "as_of": "2026-09-30",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "439a308398f57aa7fc58fb0a"
+  },
+  {
+    "id": "2884",
+    "as_of": "2026-09-30",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "2884",
+      "name": "玉山金",
+      "as_of": "2026-09-30",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "d9757cec49912c340b9e3c1e"
+  },
+  {
+    "id": "4967",
+    "as_of": "2026-09-30",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "4967",
+      "name": "十銓",
+      "as_of": "2026-09-30",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "727ba15fe991141a8fec7573"
+  },
+  {
+    "id": "3490",
+    "as_of": "2026-09-30",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "3490",
+      "name": "單井",
+      "as_of": "2026-09-30",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "8c277ef51bf0248ebdb5026c"
+  },
+  {
+    "id": "8081",
+    "as_of": "2026-09-30",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "8081",
+      "name": "致新",
+      "as_of": "2026-09-30",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "c7cc15b2d22a403c1f5736bf"
+  },
+  {
+    "id": "2905",
+    "as_of": "2026-09-30",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "2905",
+      "name": "三商",
+      "as_of": "2026-09-30",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "71ce2085d8599e4923715f05"
+  },
+  {
+    "id": "9105",
+    "as_of": "2026-09-30",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "9105",
+      "name": "泰金寶-DR",
+      "as_of": "2026-09-30",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "8e9da80568fb564d8a2e2e38"
+  },
+  {
+    "id": "1795",
+    "as_of": "2026-09-30",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "1795",
+      "name": "美時",
+      "as_of": "2026-09-30",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "0ce3784c17d528db183c9f29"
+  },
+  {
+    "id": "6271",
+    "as_of": "2026-09-30",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "6271",
+      "name": "同欣電",
+      "as_of": "2026-09-30",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "dd05748f99fba6cb24b01bd7"
+  },
+  {
+    "id": "5608",
+    "as_of": "2026-09-30",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "5608",
+      "name": "四維航",
+      "as_of": "2026-09-30",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "a5e6cadf63f14f9d6b2c0b41"
+  },
+  {
+    "id": "2543",
+    "as_of": "2026-09-30",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "2543",
+      "name": "皇昌",
+      "as_of": "2026-09-30",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "6cc6bfa55532287af83edabc"
+  },
+  {
+    "id": "2355",
+    "as_of": "2026-09-30",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "2355",
+      "name": "敬鵬",
+      "as_of": "2026-09-30",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "0a0d117235640f227c611cf5"
+  },
+  {
+    "id": "3444",
+    "as_of": "2026-09-30",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "3444",
+      "name": "利機",
+      "as_of": "2026-09-30",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "9a5926044bd0a64346c72035"
+  },
+  {
+    "id": "5439",
+    "as_of": "2026-09-30",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "5439",
+      "name": "高技",
+      "as_of": "2026-09-30",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "99202eca4d2565e5a631df40"
+  },
+  {
+    "id": "3704",
+    "as_of": "2026-09-30",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "3704",
+      "name": "合勤控",
+      "as_of": "2026-09-30",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "6e68ae8fbd1dccd7d786d18a"
+  },
+  {
+    "id": "2540",
+    "as_of": "2026-09-30",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "2540",
+      "name": "愛山林",
+      "as_of": "2026-09-30",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "4f21e66c368484f8b11b2f0d"
+  },
+  {
+    "id": "6175",
+    "as_of": "2026-09-30",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "6175",
+      "name": "立敦",
+      "as_of": "2026-09-30",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "a9c4bf68784506e59992bd41"
+  },
+  {
+    "id": "6214",
+    "as_of": "2026-09-30",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "6214",
+      "name": "精誠",
+      "as_of": "2026-09-30",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "58c46b38a03b2e1a156cdbdc"
+  },
+  {
+    "id": "9910",
+    "as_of": "2026-09-30",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "9910",
+      "name": "豐泰",
+      "as_of": "2026-09-30",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "7ba4dff2998c9f54a096676d"
   }
 ]
