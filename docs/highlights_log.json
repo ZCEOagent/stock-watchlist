@@ -3496,5 +3496,39 @@
     "flagged_close": 75.27,
     "flagged_change_pct": 3.42,
     "tags": []
+  },
+  {
+    "date": "2026-09-30",
+    "market": "tw",
+    "id": "2483",
+    "name": "百容",
+    "flagged_close": 35.75,
+    "flagged_change_pct": 10.0,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-30",
+    "market": "tw",
+    "id": "4577",
+    "name": "達航科技",
+    "flagged_close": 92.4,
+    "flagged_change_pct": 10.0,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-30",
+    "market": "tw",
+    "id": "3092",
+    "name": "鴻碩",
+    "flagged_close": 25.0,
+    "flagged_change_pct": 9.89,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
   }
 ]
