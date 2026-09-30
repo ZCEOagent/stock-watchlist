@@ -3465,5 +3465,36 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-09-29",
+    "market": "us",
+    "id": "CCL",
+    "name": "Carnival Corporation",
+    "flagged_close": 25.11,
+    "flagged_change_pct": 13.41,
+    "tags": [
+      "爆量"
+    ]
+  },
+  {
+    "date": "2026-09-29",
+    "market": "us",
+    "id": "GLW",
+    "name": "Corning Inc.",
+    "flagged_close": 158.71,
+    "flagged_change_pct": 4.7,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-09-29",
+    "market": "us",
+    "id": "AIG",
+    "name": "American International Group",
+    "flagged_close": 75.27,
+    "flagged_change_pct": 3.42,
+    "tags": []
   }
 ]
