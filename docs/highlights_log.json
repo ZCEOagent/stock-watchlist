@@ -3530,5 +3530,40 @@
       "爆量",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-10-01",
+    "market": "tw",
+    "id": "4905",
+    "name": "台聯電",
+    "flagged_close": 84.1,
+    "flagged_change_pct": 9.93,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-01",
+    "market": "tw",
+    "id": "3490",
+    "name": "單井",
+    "flagged_close": 48.75,
+    "flagged_change_pct": 9.92,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-01",
+    "market": "tw",
+    "id": "4760",
+    "name": "勤凱科技",
+    "flagged_close": 288.5,
+    "flagged_change_pct": 9.9,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
