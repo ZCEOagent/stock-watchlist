@@ -95,7 +95,8 @@
     "error": null
   },
   "8a147c95560b5de1b4fec0a00de19499e737ff9f0efdfdc8ee118421321f28e8": {
-    "status": "sending",
-    "key": "failure:us:36801419591"
+    "status": "sent",
+    "key": "failure:us:36801419591",
+    "error": null
   }
 }
