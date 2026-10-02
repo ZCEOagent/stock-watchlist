@@ -3596,5 +3596,40 @@
     "flagged_close": 9.34,
     "flagged_change_pct": -9.58,
     "tags": []
+  },
+  {
+    "date": "2026-10-02",
+    "market": "tw",
+    "id": "1735",
+    "name": "日勝化",
+    "flagged_close": 22.15,
+    "flagged_change_pct": 9.93,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-02",
+    "market": "tw",
+    "id": "6442",
+    "name": "光聖",
+    "flagged_close": 1625.0,
+    "flagged_change_pct": 9.8,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-02",
+    "market": "tw",
+    "id": "3163",
+    "name": "波若威",
+    "flagged_close": 713.0,
+    "flagged_change_pct": 9.52,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
   }
 ]
