@@ -3565,5 +3565,36 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-10-01",
+    "market": "us",
+    "id": "COHR",
+    "name": "Coherent Corp.",
+    "flagged_close": 319.19,
+    "flagged_change_pct": 10.9,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-01",
+    "market": "us",
+    "id": "ACN",
+    "name": "Accenture",
+    "flagged_close": 212.3,
+    "flagged_change_pct": 15.78,
+    "tags": [
+      "爆量"
+    ]
+  },
+  {
+    "date": "2026-10-01",
+    "market": "us",
+    "id": "PSKY",
+    "name": "Paramount Skydance Corporation",
+    "flagged_close": 9.34,
+    "flagged_change_pct": -9.58,
+    "tags": []
   }
 ]
