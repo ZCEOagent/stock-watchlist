@@ -1584,42 +1584,12 @@
   "3231": {
     "id": "3231",
     "name": "緯創",
-    "sector": "產業代碼25",
     "as_of": "2026-10-02",
     "status": "unconfirmed",
     "reasons": [
-      "尚未接近突破或回測觸發區",
-      "族群強度或樣本數未通過／待確認",
-      "有來源與時間的催化審核未通過／待確認",
-      "日週K／風險報酬未通過／待確認"
+      "還原行情過期"
     ],
-    "facts": {
-      "fundamental_ok": true,
-      "chips_ok": true,
-      "revenue_yoy": 166.48,
-      "revenue_period": "2026-08",
-      "profit_period": "2026-06-30",
-      "chips_date": "2026-10-02",
-      "chip_net_5d": 20699612.0,
-      "source": "https://api.finmindtrade.com/api/v4/data",
-      "observed_on": "2026-10-02",
-      "notes": [
-        "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-      ],
-      "errors": [],
-      "provider_observed_on": "2026-09-09"
-    },
-    "catalyst": null,
-    "gates": {
-      "market": true,
-      "sector": false,
-      "fundamental": true,
-      "catalyst": false,
-      "technical": false,
-      "chips": true
-    },
-    "candidate_plan": null,
-    "observed_close": 186.5
+    "facts": {}
   },
   "4949": {
     "id": "4949",
@@ -2138,7 +2108,7 @@
     "as_of": "2026-10-02",
     "status": "unconfirmed",
     "reasons": [
-      "還原日K缺漏或歷史不足"
+      "還原行情過期"
     ],
     "facts": {}
   },
@@ -2295,41 +2265,12 @@
   "6214": {
     "id": "6214",
     "name": "精誠",
-    "sector": "產業代碼30",
     "as_of": "2026-10-02",
     "status": "unconfirmed",
     "reasons": [
-      "日週K趨勢尚未配合",
-      "有來源與時間的催化審核未通過／待確認",
-      "日週K／風險報酬未通過／待確認"
+      "還原行情過期"
     ],
-    "facts": {
-      "fundamental_ok": true,
-      "chips_ok": true,
-      "revenue_yoy": 61.91,
-      "revenue_period": "2026-08",
-      "profit_period": "2026-06-30",
-      "chips_date": "2026-10-02",
-      "chip_net_5d": 560061.0,
-      "source": "https://api.finmindtrade.com/api/v4/data",
-      "observed_on": "2026-10-02",
-      "notes": [
-        "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-      ],
-      "errors": [],
-      "provider_observed_on": "2026-09-09"
-    },
-    "catalyst": null,
-    "gates": {
-      "market": true,
-      "sector": true,
-      "fundamental": true,
-      "catalyst": false,
-      "technical": false,
-      "chips": true
-    },
-    "candidate_plan": null,
-    "observed_close": 188.5
+    "facts": {}
   },
   "9910": {
     "id": "9910",
@@ -2942,682 +2883,171 @@
   "2474": {
     "id": "2474",
     "name": "可成",
-    "sector": "產業代碼31",
     "as_of": "2026-10-02",
     "status": "unconfirmed",
     "reasons": [
-      "日週K趨勢尚未配合",
-      "基本面未通過／待確認",
-      "有來源與時間的催化審核未通過／待確認",
-      "日週K／風險報酬未通過／待確認",
-      "最新籌碼未通過／待確認"
+      "還原行情過期"
     ],
-    "facts": {
-      "fundamental_ok": false,
-      "chips_ok": false,
-      "revenue_yoy": -40.46,
-      "revenue_period": "2026-08",
-      "profit_period": "2026-06-30",
-      "chips_date": "2026-10-02",
-      "chip_net_5d": -1583650.0,
-      "source": "https://api.finmindtrade.com/api/v4/data",
-      "observed_on": "2026-10-02",
-      "notes": [
-        "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-      ],
-      "errors": [],
-      "provider_observed_on": "2026-09-08"
-    },
-    "catalyst": null,
-    "gates": {
-      "market": true,
-      "sector": true,
-      "fundamental": false,
-      "catalyst": false,
-      "technical": false,
-      "chips": false
-    },
-    "candidate_plan": null,
-    "observed_close": 207.0
+    "facts": {}
   },
   "2357": {
     "id": "2357",
     "name": "華碩",
-    "sector": "產業代碼25",
     "as_of": "2026-10-02",
     "status": "unconfirmed",
     "reasons": [
-      "尚未接近突破或回測觸發區",
-      "族群強度或樣本數未通過／待確認",
-      "有來源與時間的催化審核未通過／待確認",
-      "日週K／風險報酬未通過／待確認"
+      "還原行情過期"
     ],
-    "facts": {
-      "fundamental_ok": true,
-      "chips_ok": true,
-      "revenue_yoy": 51.17,
-      "revenue_period": "2026-08",
-      "profit_period": "2026-06-30",
-      "chips_date": "2026-10-02",
-      "chip_net_5d": 950709.0,
-      "source": "https://api.finmindtrade.com/api/v4/data",
-      "observed_on": "2026-10-02",
-      "notes": [
-        "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-      ],
-      "errors": [],
-      "provider_observed_on": "2026-09-09"
-    },
-    "catalyst": null,
-    "gates": {
-      "market": true,
-      "sector": false,
-      "fundamental": true,
-      "catalyst": false,
-      "technical": false,
-      "chips": true
-    },
-    "candidate_plan": null,
-    "observed_close": 962.0
+    "facts": {}
   },
   "7402": {
     "id": "7402",
     "name": "邑錡",
-    "sector": "產業代碼26",
     "as_of": "2026-10-02",
     "status": "unconfirmed",
     "reasons": [
-      "日週K趨勢尚未配合",
-      "有來源與時間的催化審核未通過／待確認",
-      "日週K／風險報酬未通過／待確認"
+      "還原行情過期"
     ],
-    "facts": {
-      "fundamental_ok": true,
-      "chips_ok": true,
-      "revenue_yoy": 15.53,
-      "revenue_period": "2026-08",
-      "profit_period": "2026-06-30",
-      "chips_date": "2026-10-02",
-      "chip_net_5d": 58944.0,
-      "source": "https://api.finmindtrade.com/api/v4/data",
-      "observed_on": "2026-10-02",
-      "notes": [
-        "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-      ],
-      "errors": [],
-      "provider_observed_on": "2026-09-07"
-    },
-    "catalyst": null,
-    "gates": {
-      "market": true,
-      "sector": true,
-      "fundamental": true,
-      "catalyst": false,
-      "technical": false,
-      "chips": true
-    },
-    "candidate_plan": null,
-    "observed_close": 101.0
+    "facts": {}
   },
   "6141": {
     "id": "6141",
     "name": "柏承",
-    "sector": "產業代碼28",
     "as_of": "2026-10-02",
     "status": "unconfirmed",
     "reasons": [
-      "日週K趨勢尚未配合",
-      "基本面未通過／待確認",
-      "有來源與時間的催化審核未通過／待確認",
-      "日週K／風險報酬未通過／待確認",
-      "最新籌碼未通過／待確認"
+      "還原行情過期"
     ],
-    "facts": {
-      "fundamental_ok": false,
-      "chips_ok": false,
-      "revenue_yoy": 98.64,
-      "revenue_period": "2026-08",
-      "profit_period": "2026-06-30",
-      "chips_date": "2026-10-02",
-      "chip_net_5d": -128481.0,
-      "source": "https://api.finmindtrade.com/api/v4/data",
-      "observed_on": "2026-10-02",
-      "notes": [
-        "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-      ],
-      "errors": [],
-      "provider_observed_on": "2026-09-11"
-    },
-    "catalyst": null,
-    "gates": {
-      "market": true,
-      "sector": true,
-      "fundamental": false,
-      "catalyst": false,
-      "technical": false,
-      "chips": false
-    },
-    "candidate_plan": null,
-    "observed_close": 51.0
+    "facts": {}
   },
   "4976": {
     "id": "4976",
     "name": "佳凌",
-    "sector": "產業代碼26",
     "as_of": "2026-10-02",
     "status": "unconfirmed",
     "reasons": [
-      "日週K趨勢尚未配合",
-      "基本面未通過／待確認",
-      "有來源與時間的催化審核未通過／待確認",
-      "日週K／風險報酬未通過／待確認"
+      "還原行情過期"
     ],
-    "facts": {
-      "fundamental_ok": false,
-      "chips_ok": true,
-      "revenue_yoy": 13.26,
-      "revenue_period": "2026-08",
-      "profit_period": "2026-06-30",
-      "chips_date": "2026-10-02",
-      "chip_net_5d": 168141.0,
-      "source": "https://api.finmindtrade.com/api/v4/data",
-      "observed_on": "2026-10-02",
-      "notes": [
-        "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-      ],
-      "errors": [],
-      "provider_observed_on": "2026-09-09"
-    },
-    "catalyst": null,
-    "gates": {
-      "market": true,
-      "sector": true,
-      "fundamental": false,
-      "catalyst": false,
-      "technical": false,
-      "chips": true
-    },
-    "candidate_plan": null,
-    "observed_close": 36.3
+    "facts": {}
   },
   "6761": {
     "id": "6761",
     "name": "穩得",
-    "sector": "產業代碼28",
     "as_of": "2026-10-02",
     "status": "unconfirmed",
     "reasons": [
-      "日週K趨勢尚未配合",
-      "有來源與時間的催化審核未通過／待確認",
-      "日週K／風險報酬未通過／待確認"
+      "還原行情過期"
     ],
-    "facts": {
-      "fundamental_ok": true,
-      "chips_ok": true,
-      "revenue_yoy": 20.72,
-      "revenue_period": "2026-08",
-      "profit_period": "2026-06-30",
-      "chips_date": "2026-10-02",
-      "chip_net_5d": 79202.0,
-      "source": "https://api.finmindtrade.com/api/v4/data",
-      "observed_on": "2026-10-02",
-      "notes": [
-        "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-      ],
-      "errors": [],
-      "provider_observed_on": "2026-09-09"
-    },
-    "catalyst": null,
-    "gates": {
-      "market": true,
-      "sector": true,
-      "fundamental": true,
-      "catalyst": false,
-      "technical": false,
-      "chips": true
-    },
-    "candidate_plan": null,
-    "observed_close": 168.0
+    "facts": {}
   },
   "2467": {
     "id": "2467",
     "name": "志聖",
-    "sector": "產業代碼28",
     "as_of": "2026-10-02",
     "status": "unconfirmed",
     "reasons": [
-      "現有支撐壓力無法提供合格風險報酬",
-      "有來源與時間的催化審核未通過／待確認",
-      "日週K／風險報酬未通過／待確認",
-      "最新籌碼未通過／待確認"
+      "還原行情過期"
     ],
-    "facts": {
-      "fundamental_ok": true,
-      "chips_ok": false,
-      "revenue_yoy": 60.73,
-      "revenue_period": "2026-08",
-      "profit_period": "2026-06-30",
-      "chips_date": "2026-10-02",
-      "chip_net_5d": -90589.0,
-      "source": "https://api.finmindtrade.com/api/v4/data",
-      "observed_on": "2026-10-02",
-      "notes": [
-        "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-      ],
-      "errors": [],
-      "provider_observed_on": "2026-09-09"
-    },
-    "catalyst": null,
-    "gates": {
-      "market": true,
-      "sector": true,
-      "fundamental": true,
-      "catalyst": false,
-      "technical": false,
-      "chips": false
-    },
-    "candidate_plan": null,
-    "observed_close": 552.0
+    "facts": {}
   },
   "2317": {
     "id": "2317",
     "name": "鴻海",
-    "sector": "產業代碼31",
     "as_of": "2026-10-02",
     "status": "unconfirmed",
     "reasons": [
-      "日週K趨勢尚未配合",
-      "有來源與時間的催化審核未通過／待確認",
-      "日週K／風險報酬未通過／待確認",
-      "最新籌碼未通過／待確認"
+      "還原行情過期"
     ],
-    "facts": {
-      "fundamental_ok": true,
-      "chips_ok": false,
-      "revenue_yoy": 51.98,
-      "revenue_period": "2026-08",
-      "profit_period": "2026-06-30",
-      "chips_date": "2026-10-02",
-      "chip_net_5d": -26303644.0,
-      "source": "https://api.finmindtrade.com/api/v4/data",
-      "observed_on": "2026-10-02",
-      "notes": [
-        "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-      ],
-      "errors": [],
-      "provider_observed_on": "2026-09-06"
-    },
-    "catalyst": null,
-    "gates": {
-      "market": true,
-      "sector": true,
-      "fundamental": true,
-      "catalyst": false,
-      "technical": false,
-      "chips": false
-    },
-    "candidate_plan": null,
-    "observed_close": 251.0
+    "facts": {}
   },
   "2520": {
     "id": "2520",
     "name": "冠德",
-    "sector": "產業代碼14",
     "as_of": "2026-10-02",
     "status": "unconfirmed",
     "reasons": [
-      "日週K趨勢尚未配合",
-      "族群強度或樣本數未通過／待確認",
-      "基本面未通過／待確認",
-      "有來源與時間的催化審核未通過／待確認",
-      "日週K／風險報酬未通過／待確認",
-      "最新籌碼未通過／待確認"
+      "還原行情過期"
     ],
-    "facts": {
-      "fundamental_ok": false,
-      "chips_ok": false,
-      "revenue_yoy": -26.5,
-      "revenue_period": "2026-08",
-      "profit_period": "2026-06-30",
-      "chips_date": "2026-10-02",
-      "chip_net_5d": -372214.0,
-      "source": "https://api.finmindtrade.com/api/v4/data",
-      "observed_on": "2026-10-02",
-      "notes": [
-        "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-      ],
-      "errors": [],
-      "provider_observed_on": "2026-09-10"
-    },
-    "catalyst": null,
-    "gates": {
-      "market": true,
-      "sector": false,
-      "fundamental": false,
-      "catalyst": false,
-      "technical": false,
-      "chips": false
-    },
-    "candidate_plan": null,
-    "observed_close": 36.95
+    "facts": {}
   },
   "2434": {
     "id": "2434",
     "name": "統懋",
-    "sector": "產業代碼24",
     "as_of": "2026-10-02",
     "status": "unconfirmed",
     "reasons": [
-      "日週K趨勢尚未配合",
-      "基本面未通過／待確認",
-      "有來源與時間的催化審核未通過／待確認",
-      "日週K／風險報酬未通過／待確認",
-      "最新籌碼未通過／待確認"
+      "還原行情過期"
     ],
-    "facts": {
-      "fundamental_ok": false,
-      "chips_ok": false,
-      "revenue_yoy": 84.26,
-      "revenue_period": "2026-08",
-      "profit_period": "2026-06-30",
-      "chips_date": "2026-10-02",
-      "chip_net_5d": -26446.0,
-      "source": "https://api.finmindtrade.com/api/v4/data",
-      "observed_on": "2026-10-02",
-      "notes": [
-        "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-      ],
-      "errors": [],
-      "provider_observed_on": "2026-09-10"
-    },
-    "catalyst": null,
-    "gates": {
-      "market": true,
-      "sector": true,
-      "fundamental": false,
-      "catalyst": false,
-      "technical": false,
-      "chips": false
-    },
-    "candidate_plan": null,
-    "observed_close": 63.0
+    "facts": {}
   },
   "2850": {
     "id": "2850",
     "name": "新產",
-    "sector": "產業代碼17",
     "as_of": "2026-10-02",
     "status": "unconfirmed",
     "reasons": [
-      "日週K趨勢尚未配合",
-      "有來源與時間的催化審核未通過／待確認",
-      "日週K／風險報酬未通過／待確認",
-      "最新籌碼未通過／待確認"
+      "還原行情過期"
     ],
-    "facts": {
-      "fundamental_ok": true,
-      "chips_ok": false,
-      "revenue_yoy": 47.01,
-      "revenue_period": "2026-08",
-      "profit_period": "2026-06-30",
-      "chips_date": "2026-10-02",
-      "chip_net_5d": -5088.0,
-      "source": "https://api.finmindtrade.com/api/v4/data",
-      "observed_on": "2026-10-02",
-      "notes": [
-        "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-      ],
-      "errors": [],
-      "provider_observed_on": "2026-09-15"
-    },
-    "catalyst": null,
-    "gates": {
-      "market": true,
-      "sector": true,
-      "fundamental": true,
-      "catalyst": false,
-      "technical": false,
-      "chips": false
-    },
-    "candidate_plan": null,
-    "observed_close": 158.5
+    "facts": {}
   },
   "5471": {
     "id": "5471",
     "name": "松翰",
-    "sector": "產業代碼24",
     "as_of": "2026-10-02",
     "status": "unconfirmed",
     "reasons": [
-      "日週K趨勢尚未配合",
-      "有來源與時間的催化審核未通過／待確認",
-      "日週K／風險報酬未通過／待確認"
+      "還原行情過期"
     ],
-    "facts": {
-      "fundamental_ok": true,
-      "chips_ok": true,
-      "revenue_yoy": 20.44,
-      "revenue_period": "2026-08",
-      "profit_period": "2026-06-30",
-      "chips_date": "2026-10-02",
-      "chip_net_5d": 610362.0,
-      "source": "https://api.finmindtrade.com/api/v4/data",
-      "observed_on": "2026-10-02",
-      "notes": [
-        "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-      ],
-      "errors": [],
-      "provider_observed_on": "2026-09-08"
-    },
-    "catalyst": null,
-    "gates": {
-      "market": true,
-      "sector": true,
-      "fundamental": true,
-      "catalyst": false,
-      "technical": false,
-      "chips": true
-    },
-    "candidate_plan": null,
-    "observed_close": 53.5
+    "facts": {}
   },
   "6265": {
     "id": "6265",
     "name": "方土昶",
-    "sector": "產業代碼29",
     "as_of": "2026-10-02",
     "status": "unconfirmed",
     "reasons": [
-      "日週K趨勢尚未配合",
-      "有來源與時間的催化審核未通過／待確認",
-      "日週K／風險報酬未通過／待確認",
-      "最新籌碼未通過／待確認"
+      "還原行情過期"
     ],
-    "facts": {
-      "fundamental_ok": true,
-      "chips_ok": false,
-      "revenue_yoy": 465.95,
-      "revenue_period": "2026-08",
-      "profit_period": "2026-06-30",
-      "chips_date": "2026-10-02",
-      "chip_net_5d": -1473847.0,
-      "source": "https://api.finmindtrade.com/api/v4/data",
-      "observed_on": "2026-10-02",
-      "notes": [
-        "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-      ],
-      "errors": [],
-      "provider_observed_on": "2026-09-11"
-    },
-    "catalyst": null,
-    "gates": {
-      "market": true,
-      "sector": true,
-      "fundamental": true,
-      "catalyst": false,
-      "technical": false,
-      "chips": false
-    },
-    "candidate_plan": null,
-    "observed_close": 50.10000000000001
+    "facts": {}
   },
   "5274": {
     "id": "5274",
     "name": "信驊",
-    "sector": "產業代碼24",
     "as_of": "2026-10-02",
     "status": "unconfirmed",
     "reasons": [
-      "日週K趨勢尚未配合",
-      "有來源與時間的催化審核未通過／待確認",
-      "日週K／風險報酬未通過／待確認",
-      "最新籌碼未通過／待確認"
+      "還原行情過期"
     ],
-    "facts": {
-      "fundamental_ok": true,
-      "chips_ok": false,
-      "revenue_yoy": 118.42,
-      "revenue_period": "2026-08",
-      "profit_period": "2026-06-30",
-      "chips_date": "2026-10-02",
-      "chip_net_5d": -95433.0,
-      "source": "https://api.finmindtrade.com/api/v4/data",
-      "observed_on": "2026-10-02",
-      "notes": [
-        "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-      ],
-      "errors": [],
-      "provider_observed_on": "2026-09-04"
-    },
-    "catalyst": null,
-    "gates": {
-      "market": true,
-      "sector": true,
-      "fundamental": true,
-      "catalyst": false,
-      "technical": false,
-      "chips": false
-    },
-    "candidate_plan": null,
-    "observed_close": 18840.0
+    "facts": {}
   },
   "6005": {
     "id": "6005",
     "name": "群益證",
-    "sector": "產業代碼17",
     "as_of": "2026-10-02",
     "status": "unconfirmed",
     "reasons": [
-      "現有支撐壓力無法提供合格風險報酬",
-      "有來源與時間的催化審核未通過／待確認",
-      "日週K／風險報酬未通過／待確認",
-      "最新籌碼未通過／待確認"
+      "還原行情過期"
     ],
-    "facts": {
-      "fundamental_ok": true,
-      "chips_ok": false,
-      "revenue_yoy": 45.35,
-      "revenue_period": "2026-08",
-      "profit_period": "2026-06-30",
-      "chips_date": "2026-10-02",
-      "chip_net_5d": -9972559.0,
-      "source": "https://api.finmindtrade.com/api/v4/data",
-      "observed_on": "2026-10-02",
-      "notes": [
-        "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-      ],
-      "errors": [],
-      "provider_observed_on": "2026-09-10"
-    },
-    "catalyst": null,
-    "gates": {
-      "market": true,
-      "sector": true,
-      "fundamental": true,
-      "catalyst": false,
-      "technical": false,
-      "chips": false
-    },
-    "candidate_plan": null,
-    "observed_close": 32.0
+    "facts": {}
   },
   "4908": {
     "id": "4908",
     "name": "前鼎",
-    "sector": "產業代碼27",
     "as_of": "2026-10-02",
     "status": "unconfirmed",
     "reasons": [
-      "日週K趨勢尚未配合",
-      "有來源與時間的催化審核未通過／待確認",
-      "日週K／風險報酬未通過／待確認",
-      "最新籌碼未通過／待確認"
+      "還原行情過期"
     ],
-    "facts": {
-      "fundamental_ok": true,
-      "chips_ok": false,
-      "revenue_yoy": 28.93,
-      "revenue_period": "2026-08",
-      "profit_period": "2026-06-30",
-      "chips_date": "2026-10-02",
-      "chip_net_5d": -60187.0,
-      "source": "https://api.finmindtrade.com/api/v4/data",
-      "observed_on": "2026-10-02",
-      "notes": [
-        "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-      ],
-      "errors": [],
-      "provider_observed_on": "2026-09-11"
-    },
-    "catalyst": null,
-    "gates": {
-      "market": true,
-      "sector": true,
-      "fundamental": true,
-      "catalyst": false,
-      "technical": false,
-      "chips": false
-    },
-    "candidate_plan": null,
-    "observed_close": 224.5
+    "facts": {}
   },
   "2388": {
     "id": "2388",
     "name": "威盛",
-    "sector": "產業代碼24",
     "as_of": "2026-10-02",
     "status": "unconfirmed",
     "reasons": [
-      "日週K趨勢尚未配合",
-      "有來源與時間的催化審核未通過／待確認",
-      "日週K／風險報酬未通過／待確認"
+      "還原行情過期"
     ],
-    "facts": {
-      "fundamental_ok": true,
-      "chips_ok": true,
-      "revenue_yoy": 77.39,
-      "revenue_period": "2026-08",
-      "profit_period": "2026-06-30",
-      "chips_date": "2026-10-02",
-      "chip_net_5d": 1107038.0,
-      "source": "https://api.finmindtrade.com/api/v4/data",
-      "observed_on": "2026-10-02",
-      "notes": [
-        "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-      ],
-      "errors": [],
-      "provider_observed_on": "2026-09-11"
-    },
-    "catalyst": null,
-    "gates": {
-      "market": true,
-      "sector": true,
-      "fundamental": true,
-      "catalyst": false,
-      "technical": false,
-      "chips": true
-    },
-    "candidate_plan": null,
-    "observed_close": 73.2
+    "facts": {}
   }
 }
