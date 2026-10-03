@@ -110,7 +110,8 @@
     "error": null
   },
   "4d2256fe287e0ab9c42a96ecaca1c419c69ca07db8aaada01bd42ae78f1bbfe8": {
-    "status": "sending",
-    "key": "failure:us:37085892116"
+    "status": "uncertain",
+    "key": "failure:us:37085892116",
+    "error": "傳輸中斷，無法確認是否送達；不自動重送"
   }
 }
