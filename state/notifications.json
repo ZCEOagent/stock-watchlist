@@ -113,5 +113,9 @@
     "status": "uncertain",
     "key": "failure:us:37085892116",
     "error": "傳輸中斷，無法確認是否送達；不自動重送"
+  },
+  "6887b213cde27452633edc184abc6ae4833351de06cc61402ea4de6bfcfdb117": {
+    "status": "sending",
+    "key": "failure:tw:37110109954"
   }
 }
