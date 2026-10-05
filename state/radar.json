@@ -772,43 +772,12 @@
   "1514": {
     "id": "1514",
     "name": "亞力",
-    "sector": "產業代碼05",
-    "as_of": "2026-09-29",
+    "as_of": "2026-10-05",
     "status": "unconfirmed",
     "reasons": [
-      "現有支撐壓力無法提供合格風險報酬",
-      "族群強度或樣本數未通過／待確認",
-      "基本面未通過／待確認",
-      "有來源與時間的催化審核未通過／待確認",
-      "日週K／風險報酬未通過／待確認"
+      "還原行情過期"
     ],
-    "facts": {
-      "fundamental_ok": false,
-      "chips_ok": true,
-      "revenue_yoy": -26.52,
-      "revenue_period": "2026-08",
-      "profit_period": "2026-06-30",
-      "chips_date": "2026-09-29",
-      "chip_net_5d": 1007723.0,
-      "source": "https://api.finmindtrade.com/api/v4/data",
-      "observed_on": "2026-09-29",
-      "notes": [
-        "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-      ],
-      "errors": [],
-      "provider_observed_on": "2026-09-10"
-    },
-    "catalyst": null,
-    "gates": {
-      "market": true,
-      "sector": false,
-      "fundamental": false,
-      "catalyst": false,
-      "technical": false,
-      "chips": true
-    },
-    "candidate_plan": null,
-    "observed_close": 102.0
+    "facts": {}
   },
   "3703": {
     "id": "3703",
@@ -1505,41 +1474,12 @@
   "5009": {
     "id": "5009",
     "name": "榮剛",
-    "sector": "產業代碼10",
-    "as_of": "2026-09-29",
+    "as_of": "2026-10-05",
     "status": "unconfirmed",
     "reasons": [
-      "日週K趨勢尚未配合",
-      "有來源與時間的催化審核未通過／待確認",
-      "日週K／風險報酬未通過／待確認"
+      "還原行情過期"
     ],
-    "facts": {
-      "fundamental_ok": true,
-      "chips_ok": true,
-      "revenue_yoy": 38.9,
-      "revenue_period": "2026-08",
-      "profit_period": "2026-06-30",
-      "chips_date": "2026-09-29",
-      "chip_net_5d": 531200.0,
-      "source": "https://api.finmindtrade.com/api/v4/data",
-      "observed_on": "2026-09-29",
-      "notes": [
-        "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-      ],
-      "errors": [],
-      "provider_observed_on": "2026-09-10"
-    },
-    "catalyst": null,
-    "gates": {
-      "market": true,
-      "sector": true,
-      "fundamental": true,
-      "catalyst": false,
-      "technical": false,
-      "chips": true
-    },
-    "candidate_plan": null,
-    "observed_close": 32.6
+    "facts": {}
   },
   "2393": {
     "id": "2393",
@@ -2165,7 +2105,7 @@
   "1795": {
     "id": "1795",
     "name": "美時",
-    "as_of": "2026-09-30",
+    "as_of": "2026-10-05",
     "status": "unconfirmed",
     "reasons": [
       "還原行情過期"
@@ -2883,7 +2823,7 @@
   "2474": {
     "id": "2474",
     "name": "可成",
-    "as_of": "2026-10-02",
+    "as_of": "2026-10-05",
     "status": "unconfirmed",
     "reasons": [
       "還原行情過期"
@@ -3044,6 +2984,196 @@
     "id": "2388",
     "name": "威盛",
     "as_of": "2026-10-02",
+    "status": "unconfirmed",
+    "reasons": [
+      "還原行情過期"
+    ],
+    "facts": {}
+  },
+  "6913": {
+    "id": "6913",
+    "name": "鴻呈",
+    "sector": "產業代碼28",
+    "as_of": "2026-10-05",
+    "status": "unconfirmed",
+    "reasons": [
+      "日週K趨勢尚未配合",
+      "有來源與時間的催化審核未通過／待確認",
+      "日週K／風險報酬未通過／待確認",
+      "最新籌碼未通過／待確認"
+    ],
+    "facts": {
+      "fundamental_ok": true,
+      "chips_ok": false,
+      "revenue_yoy": 25.04,
+      "revenue_period": "2026-08",
+      "profit_period": "2026-06-30",
+      "chips_date": "2026-10-05",
+      "chip_net_5d": -131180.0,
+      "source": "https://api.finmindtrade.com/api/v4/data",
+      "observed_on": "2026-10-05",
+      "notes": [
+        "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+      ],
+      "errors": [],
+      "provider_observed_on": "2026-09-04"
+    },
+    "catalyst": null,
+    "gates": {
+      "market": true,
+      "sector": true,
+      "fundamental": true,
+      "catalyst": false,
+      "technical": false,
+      "chips": false
+    },
+    "candidate_plan": null,
+    "observed_close": 130.0
+  },
+  "6588": {
+    "id": "6588",
+    "name": "東典光電",
+    "as_of": "2026-10-05",
+    "status": "unconfirmed",
+    "reasons": [
+      "還原行情過期"
+    ],
+    "facts": {}
+  },
+  "3693": {
+    "id": "3693",
+    "name": "營邦",
+    "as_of": "2026-10-05",
+    "status": "unconfirmed",
+    "reasons": [
+      "還原行情過期"
+    ],
+    "facts": {}
+  },
+  "9939": {
+    "id": "9939",
+    "name": "宏全",
+    "as_of": "2026-10-05",
+    "status": "unconfirmed",
+    "reasons": [
+      "還原行情過期"
+    ],
+    "facts": {}
+  },
+  "9945": {
+    "id": "9945",
+    "name": "潤泰新",
+    "as_of": "2026-10-05",
+    "status": "unconfirmed",
+    "reasons": [
+      "還原行情過期"
+    ],
+    "facts": {}
+  },
+  "8155": {
+    "id": "8155",
+    "name": "博智",
+    "as_of": "2026-10-05",
+    "status": "unconfirmed",
+    "reasons": [
+      "還原行情過期"
+    ],
+    "facts": {}
+  },
+  "1440": {
+    "id": "1440",
+    "name": "南紡",
+    "as_of": "2026-10-05",
+    "status": "unconfirmed",
+    "reasons": [
+      "還原行情過期"
+    ],
+    "facts": {}
+  },
+  "8431": {
+    "id": "8431",
+    "name": "匯鑽科",
+    "as_of": "2026-10-05",
+    "status": "unconfirmed",
+    "reasons": [
+      "還原行情過期"
+    ],
+    "facts": {}
+  },
+  "6165": {
+    "id": "6165",
+    "name": "浪凡",
+    "as_of": "2026-10-05",
+    "status": "unconfirmed",
+    "reasons": [
+      "還原行情過期"
+    ],
+    "facts": {}
+  },
+  "4576": {
+    "id": "4576",
+    "name": "大銀微系統",
+    "as_of": "2026-10-05",
+    "status": "unconfirmed",
+    "reasons": [
+      "還原行情過期"
+    ],
+    "facts": {}
+  },
+  "2002": {
+    "id": "2002",
+    "name": "中鋼",
+    "as_of": "2026-10-05",
+    "status": "unconfirmed",
+    "reasons": [
+      "還原行情過期"
+    ],
+    "facts": {}
+  },
+  "6894": {
+    "id": "6894",
+    "name": "衛司特",
+    "as_of": "2026-10-05",
+    "status": "unconfirmed",
+    "reasons": [
+      "還原行情過期"
+    ],
+    "facts": {}
+  },
+  "3228": {
+    "id": "3228",
+    "name": "金麗科",
+    "as_of": "2026-10-05",
+    "status": "unconfirmed",
+    "reasons": [
+      "還原行情過期"
+    ],
+    "facts": {}
+  },
+  "6179": {
+    "id": "6179",
+    "name": "亞通",
+    "as_of": "2026-10-05",
+    "status": "unconfirmed",
+    "reasons": [
+      "還原行情過期"
+    ],
+    "facts": {}
+  },
+  "4915": {
+    "id": "4915",
+    "name": "致伸",
+    "as_of": "2026-10-05",
+    "status": "unconfirmed",
+    "reasons": [
+      "還原行情過期"
+    ],
+    "facts": {}
+  },
+  "2457": {
+    "id": "2457",
+    "name": "飛宏",
+    "as_of": "2026-10-05",
     "status": "unconfirmed",
     "reasons": [
       "還原行情過期"

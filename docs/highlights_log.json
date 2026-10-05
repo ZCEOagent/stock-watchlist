@@ -3631,5 +3631,39 @@
       "爆量",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-10-05",
+    "market": "tw",
+    "id": "6541",
+    "name": "泰福-KY",
+    "flagged_close": 31.45,
+    "flagged_change_pct": 6.25,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-05",
+    "market": "tw",
+    "id": "2301",
+    "name": "光寶科",
+    "flagged_close": 298.0,
+    "flagged_change_pct": 5.86,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-05",
+    "market": "tw",
+    "id": "7715",
+    "name": "裕山",
+    "flagged_close": 26.95,
+    "flagged_change_pct": -4.6,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
   }
 ]
