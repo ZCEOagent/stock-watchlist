@@ -3697,5 +3697,41 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-10-06",
+    "market": "tw",
+    "id": "7723",
+    "name": "築間",
+    "flagged_close": 19.85,
+    "flagged_change_pct": 9.97,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-06",
+    "market": "tw",
+    "id": "4735",
+    "name": "豪展",
+    "flagged_close": 38.2,
+    "flagged_change_pct": 5.96,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-06",
+    "market": "tw",
+    "id": "9955",
+    "name": "佳龍",
+    "flagged_close": 24.15,
+    "flagged_change_pct": 5.46,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
   }
 ]
