@@ -3665,5 +3665,37 @@
       "爆量",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-10-05",
+    "market": "us",
+    "id": "CHRW",
+    "name": "C.H. Robinson",
+    "flagged_close": 140.61,
+    "flagged_change_pct": -10.85,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-05",
+    "market": "us",
+    "id": "CMG",
+    "name": "Chipotle Mexican Grill",
+    "flagged_close": 30.85,
+    "flagged_change_pct": -4.67,
+    "tags": []
+  },
+  {
+    "date": "2026-10-05",
+    "market": "us",
+    "id": "CEG",
+    "name": "Constellation Energy",
+    "flagged_close": 267.62,
+    "flagged_change_pct": 3.93,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
