@@ -3760,5 +3760,39 @@
     "flagged_close": 71.73,
     "flagged_change_pct": 4.44,
     "tags": []
+  },
+  {
+    "date": "2026-10-07",
+    "market": "tw",
+    "id": "5398",
+    "name": "慕康生醫",
+    "flagged_close": 15.0,
+    "flagged_change_pct": 9.89,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-07",
+    "market": "tw",
+    "id": "3234",
+    "name": "光環",
+    "flagged_close": 191.0,
+    "flagged_change_pct": 8.52,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-07",
+    "market": "tw",
+    "id": "3672",
+    "name": "康聯訊",
+    "flagged_close": 12.85,
+    "flagged_change_pct": 8.44,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
   }
 ]
