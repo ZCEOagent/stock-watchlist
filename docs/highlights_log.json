@@ -3733,5 +3733,32 @@
       "爆量",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-10-06",
+    "market": "us",
+    "id": "STX",
+    "name": "Seagate Technology",
+    "flagged_close": 805.63,
+    "flagged_change_pct": -9.18,
+    "tags": []
+  },
+  {
+    "date": "2026-10-06",
+    "market": "us",
+    "id": "NRG",
+    "name": "NRG Energy",
+    "flagged_close": 103.6,
+    "flagged_change_pct": 7.02,
+    "tags": []
+  },
+  {
+    "date": "2026-10-06",
+    "market": "us",
+    "id": "PEG",
+    "name": "Public Service Enterprise Group",
+    "flagged_close": 71.73,
+    "flagged_change_pct": 4.44,
+    "tags": []
   }
 ]
