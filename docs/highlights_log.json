@@ -3794,5 +3794,38 @@
       "爆量",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-10-07",
+    "market": "us",
+    "id": "ALLE",
+    "name": "Allegion",
+    "flagged_close": 147.91,
+    "flagged_change_pct": -4.7,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-07",
+    "market": "us",
+    "id": "CAT",
+    "name": "Caterpillar Inc.",
+    "flagged_close": 813.83,
+    "flagged_change_pct": -5.75,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-07",
+    "market": "us",
+    "id": "HWM",
+    "name": "Howmet Aerospace",
+    "flagged_close": 222.75,
+    "flagged_change_pct": -3.82,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
