@@ -3827,5 +3827,40 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-10-08",
+    "market": "tw",
+    "id": "3447",
+    "name": "展達",
+    "flagged_close": 30.25,
+    "flagged_change_pct": 10.0,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-08",
+    "market": "tw",
+    "id": "3713",
+    "name": "新晶投控",
+    "flagged_close": 14.85,
+    "flagged_change_pct": 10.0,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-08",
+    "market": "tw",
+    "id": "4973",
+    "name": "廣穎電通",
+    "flagged_close": 149.0,
+    "flagged_change_pct": 9.96,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
