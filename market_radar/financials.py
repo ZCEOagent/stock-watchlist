@@ -9,6 +9,9 @@ import requests
 from lxml import etree
 
 URL = 'https://mopsov.twse.com.tw/server-java/t164sb01'
+REFRESH_DAYS = 4
+MAX_AGE_DAYS = 8
+
 NS = {'x': 'http://www.xbrl.org/2003/instance', 'ix': 'http://www.xbrl.org/2013/inlineXBRL'}
 
 
@@ -97,6 +100,8 @@ def matches(row, financial):
 def cached(store, companies, stamp):
     """Read verified matching facts, without network access."""
     result, eligible = {}, 0
+    reasons = dict(missing=0, changed=0, expired=0)
+    refresh_due = 0
     today = dt.date.fromisoformat(stamp[:10])
     for company in companies:
         code = company['code']
@@ -110,13 +115,18 @@ def cached(store, companies, stamp):
             age = (today-dt.date.fromisoformat(row.get('fetched_at', '')[:10])).days
         except ValueError:
             age = 999
-        if row and matches(row, fin) and 0 <= age < 8:
+        if row and matches(row, fin) and 0 <= age < MAX_AGE_DAYS:
             result[code] = row
+            refresh_due += age >= REFRESH_DAYS
+        else:
+            reason = 'missing' if not row else 'changed' if not matches(row, fin) else 'expired'
+            reasons[reason] += 1
     return result, {'eligible': eligible, 'verified': len(result), 'pending': eligible-len(result),
-                    'attempted': 0, 'failed': 0, 'excluded': len(companies)-eligible}
+                    'attempted': 0, 'failed': 0, 'excluded': len(companies)-eligible,
+                    'pending_reasons': reasons, 'refresh_due': refresh_due}
 
 
-def complete(store, companies, stamp, limit=100, budget=300):
+def complete(store, companies, stamp, limit=100, budget=300, priority=()):
     """Bounded maintenance; early refresh and persistent retry backoff."""
     result, health = cached(store, companies, stamp)
     eligible = health['eligible']
@@ -131,15 +141,30 @@ def complete(store, companies, stamp, limit=100, budget=300):
             continue
         fin = facts[-1]
         row = result.get(code, {})
-        if row and (now.date()-dt.date.fromisoformat(row['fetched_at'][:10])).days < 4:
+        if row and (now.date()-dt.date.fromisoformat(row['fetched_at'][:10])).days < REFRESH_DAYS:
             continue
         key = f"filing-attempt:v4:{code}:{fin['period']}"
         retry = store.meta(key + ':retry_at')
         if retry and now < dt.datetime.fromisoformat(retry):
             continue
         pending.append((company, fin, key))
-    pending.sort(key=lambda x: (x[0]['code'] in result, store.meta(x[2]) or '',
-                               x[0]['code'] not in ('2330', '6274'), x[0]['code']))
+    # Priority codes stay in memory only; never persist portfolio membership.
+    priority = set(priority) | {'2330', '6274', '3042'}
+    def order(item):
+        code, key = item[0]['code'], item[2]
+        return (store.meta(key) or '', code)
+    urgent = sorted([x for x in pending if x[0]['code'] in priority], key=order)
+    missing = sorted([x for x in pending if x[0]['code'] not in priority and x[0]['code'] not in result], key=order)
+    refresh = sorted([x for x in pending if x[0]['code'] not in priority and x[0]['code'] in result],
+                     key=lambda x: (result[x[0]['code']]['fetched_at'], order(x)))
+    # Reserve every fourth background slot for oldest verified evidence so
+    # initial backfill cannot starve refresh until the eight-day safety cutoff.
+    pending = urgent[:]
+    while missing or refresh:
+        pending.extend(missing[:3])
+        del missing[:3]
+        if refresh:
+            pending.append(refresh.pop(0))
     attempted, failed, consecutive_errors = 0, 0, 0
     started = time.monotonic()
     # Leave time for report delivery and artifact checkpoint before the job timeout.
@@ -205,6 +230,8 @@ def complete(store, companies, stamp, limit=100, budget=300):
             print(f'Financial completion: attempted={attempted}; verified={len(result)}; failed={failed}', flush=True)
         if consecutive_errors >= 5:
             break
-    return result, {'eligible': eligible, 'verified': len(result), 'attempted': attempted,
-                    'failed': failed, 'pending': eligible-len(result), 'excluded': health['excluded'],
-                    'refresh_due': sum(c['code'] in result for c, _, _ in pending[attempted:])}
+    result, final_health = cached(store, companies, stamp)
+    final_health.update(attempted=attempted, failed=failed,
+                        queued=len(pending)-attempted,
+                        budget_exhausted=time.monotonic()-started >= budget)
+    return result, final_health

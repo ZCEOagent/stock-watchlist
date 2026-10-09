@@ -187,8 +187,8 @@ def scan(feeds, health, store, today, supplements=None, expected_date=None):
     return {'day': today, 'version': VERSION, 'scanned': len(companies), 'health': health,
             'price_dates': sorted({r['price_date'] for r in results if r['price_date']}), 'stocks': results,
             'freshness': {'expected_date': expected_date,
-                          'current_prices': sum(r['price_date']==expected_date for r in results),
-                          'current_price_ratio': sum(r['price_date']==expected_date for r in results)/len(results)}}
+                          'current_prices': sum(r['price_date']==expected_date and (r.get('close') or 0)>0 for r in results),
+                          'current_price_ratio': sum(r['price_date']==expected_date and (r.get('close') or 0)>0 for r in results)/len(results)}}
 
 
 def apply_swing_gate(snapshot, cache, mode):

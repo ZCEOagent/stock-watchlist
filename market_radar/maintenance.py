@@ -3,6 +3,7 @@ from contextlib import closing
 import argparse
 import datetime as dt
 import json
+import os
 from pathlib import Path
 import sqlite3
 from zoneinfo import ZoneInfo
@@ -53,7 +54,19 @@ def run(args):
         if sum(c['market']=='twse' for c in companies)<700 or sum(c['market']=='tpex' for c in companies)<500:
             raise RuntimeError('maintenance universe incomplete')
         store.ingest(feeds)
-        _, fin = financials.complete(store,companies,stamp,limit=args.limit,budget=args.budget)
+        # Read private priority transiently; do not copy it to the public artifact.
+        holdings = json.loads(os.environ.get('RADAR_HOLDINGS_JSON', '{}'))
+        if not isinstance(holdings, dict):
+            raise ValueError('invalid holdings configuration')
+        snapshot = Store(args.seed) if Path(args.seed).is_file() else None
+        try:
+            latest = snapshot.latest() if snapshot else None
+        finally:
+            if snapshot:
+                snapshot.close()
+        candidates = [r['code'] for r in (latest or {}).get('stocks', []) if r.get('candidate')][:10]
+        _, fin = financials.complete(store,companies,stamp,limit=args.limit,budget=args.budget,
+                                    priority=set(holdings) | set(candidates))
         as_of = last_completed_session('tw')
         days = session_dates((dt.date.fromisoformat(as_of)-dt.timedelta(days=65)).isoformat(),as_of)[-30:]
         hist = history.backfill(store,companies,days)
