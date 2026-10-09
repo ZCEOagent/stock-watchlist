@@ -85,21 +85,21 @@ def run_tw(limit=None):
         universe = universe[:limit]
     print(f"台股清單共 {len(universe)} 檔")
 
-    print("正在抓台股股價（上市優先用官方API，上櫃用FinMind）...")
+    print("正在抓台股股價（上市與上櫃官方批次行情）...")
     raw_cache = read_json(f"{config.RUNTIME_CACHE_DIR}/tw_history.json", {}) if not limit else {}
     ids = [s["stock_id"] for s in universe]
-    if raw_cache.get("as_of") == as_of and raw_cache.get("ids") == ids:
+    if raw_cache.get("pipeline_version") == 2 and raw_cache.get("as_of") == as_of and raw_cache.get("ids") == ids:
         history, data_source = raw_cache["history"], raw_cache["source"]
         print("使用本交易日已驗證行情快取，重新檢查籌碼與催化。")
     else:
-        history, data_source = get_tw_history(universe)
+        history, data_source = get_tw_history(universe, as_of=as_of, persist=not limit)
     history, quality = assess_market(universe, history, as_of, "stock_id", threshold=config.RADAR_MIN_COVERAGE)
     print(f"台股資料品質：{quality['valid']}/{quality['total']}；拒絕原因：{quality['counts']}", flush=True)
     write_json(f"{config.RUNTIME_CACHE_DIR}/tw_quality.json", quality)
     if not quality["passed"]:
         raise RuntimeError(f"台股有效行情覆蓋率 {quality['coverage']:.1%}，未通過品質門檻；未覆蓋正式快取")
     if not limit:
-        write_json(f"{config.RUNTIME_CACHE_DIR}/tw_history.json", {"as_of": as_of, "ids": ids, "history": history, "source": data_source})
+        write_json(f"{config.RUNTIME_CACHE_DIR}/tw_history.json", {"pipeline_version": 2, "as_of": as_of, "ids": ids, "history": history, "source": data_source})
 
     print("正在計算技術指標並篩選...")
     watchlist = build_watchlist(universe, history, "stock_id", "stock_name", market="tw")
