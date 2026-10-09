@@ -85,7 +85,7 @@ class WatchTests(unittest.TestCase):
         from pathlib import Path
         from market_radar import watch,notify
         from market_radar.store import Store
-        rows=[dict(self.row,t='13:30:00'),dict(self.row,c='2330',z='203',h='203',l='203'),dict(self.row,c='6274',ex='otc',z='203',h='203',l='203')]
+        rows=[dict(self.row,t='13:30:00'),dict(self.row,t='13:30:00',c='2330',z='203',h='203',l='203'),dict(self.row,t='13:30:00',c='6274',ex='otc',z='203',h='203',l='203')]
         with tempfile.TemporaryDirectory() as tmp:
             s=Store(Path(tmp)/'s.db')
             with patch.object(watch,'fetch',return_value=rows) as fetch,patch.object(notify,'call',return_value={'message_id':790}):

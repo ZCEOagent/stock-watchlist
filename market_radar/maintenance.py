@@ -11,6 +11,7 @@ from zoneinfo import ZoneInfo
 from market_clock import last_completed_session, session_dates
 from . import financials, history, sources
 from .store import Store
+from .watch import TRACKED
 
 
 def import_public(store, path, kinds=('supplement', 'price'), history_markers=True):
@@ -66,7 +67,7 @@ def run(args):
                 snapshot.close()
         candidates = [r['code'] for r in (latest or {}).get('stocks', []) if r.get('candidate')][:10]
         _, fin = financials.complete(store,companies,stamp,limit=args.limit,budget=args.budget,
-                                    priority=set(holdings) | set(candidates))
+                                    priority=set(holdings) | set(candidates) | set(TRACKED))
         as_of = last_completed_session('tw')
         days = session_dates((dt.date.fromisoformat(as_of)-dt.timedelta(days=65)).isoformat(),as_of)[-30:]
         hist = history.backfill(store,companies,days)

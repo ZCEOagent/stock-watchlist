@@ -4,6 +4,9 @@ on:
   schedule:
     # Asia/Taipei: daily 18:20; Monday 08:00; weekdays 08:17-22:47 every 30 minutes.
     - cron: '20 10 * * *'
+    # Quote-only checks, Taiwan 09:02-13:32; off the top of the hour.
+    - cron: '2-57/5 1-4 * * 1-5'
+    - cron: '2-32/5 5 * * 1-5'
     # Retry only a failed scheduled report; otherwise no data fetch and no message.
     - cron: '35 * * * *'
     - cron: '0 0 * * 1'
@@ -12,7 +15,7 @@ on:
     inputs:
       mode:
         type: choice
-        options: [daily, weekly, events, retry]
+        options: [daily, weekly, events, retry, quotes]
         default: daily
       send:
         description: 'Send to the existing Telegram chat'
@@ -39,22 +42,29 @@ jobs:
       RADAR_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          cache: pip
       - name: Install the Bot dependencies
         run: pip install -r requirements.txt
       - uses: actions/cache/restore@v4
+        if: github.event.schedule != '2-57/5 1-4 * * 1-5' && github.event.schedule != '2-32/5 5 * * 1-5' && inputs.mode != 'quotes'
         with:
           path: .runtime
           key: market-radar-history-${{ github.run_id }}
           restore-keys: radar-tw-
       - name: Validate original Bot and added reports
+        if: github.event_name == 'workflow_dispatch'
         run: python -m unittest discover -s tests -q
       - name: Restore public market history and delivery receipts
         run: |
           python -m market_radar.restore
-          python -m market_radar.restore --name market-radar-maintenance --destination .maintenance
+      - name: Restore maintenance facts for full reports
+        if: github.event.schedule != '2-57/5 1-4 * * 1-5' && github.event.schedule != '2-32/5 5 * * 1-5' && inputs.mode != 'quotes'
+        run: python -m market_radar.restore --name market-radar-maintenance --destination .maintenance
       - name: Run radar
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -69,6 +79,8 @@ jobs:
           mode=daily
           if [ "$EVENT_NAME" = workflow_dispatch ]; then
             mode="$INPUT_MODE"
+          elif [ "$SCHEDULE" = '2-57/5 1-4 * * 1-5' ] || [ "$SCHEDULE" = '2-32/5 5 * * 1-5' ]; then
+            mode=quotes
           elif [ "$SCHEDULE" = '35 * * * *' ]; then
             mode=retry
           elif [ "$SCHEDULE" = '0 0 * * 1' ]; then
