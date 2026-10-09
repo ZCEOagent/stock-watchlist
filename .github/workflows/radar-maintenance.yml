@@ -27,6 +27,8 @@ jobs:
       RADAR_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -37,6 +39,7 @@ jobs:
           python -m market_radar.restore --name market-radar-maintenance --destination .maintenance
       - name: Resume bounded maintenance
         env:
+          RADAR_HOLDINGS_JSON: ${{ secrets.RADAR_HOLDINGS_JSON || '{}' }}
           BATCH_LIMIT: ${{ inputs.limit || '100' }}
         run: python -u -m market_radar.maintenance --limit "$BATCH_LIMIT"
       - name: Preserve partial progress independently of report delivery

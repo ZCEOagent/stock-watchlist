@@ -158,3 +158,33 @@ class FilingTests(unittest.TestCase):
                 financials.complete(store, companies, '2026-09-25')
                 self.assertEqual(fetch.call_count, 3)
             store.close()
+
+class CompletionQueueTests(unittest.TestCase):
+    def test_expiry_and_revision_are_distinct_and_never_requalified(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            store = Store(Path(tmp)/'s.db')
+            codes = ['1001','1002','1003','1004']
+            companies = [dict(code=c,market='twse') for c in codes]
+            store.ingest({('twse','financial'): [dict(code=c,period='2026Q2',eps=1,net=100) for c in codes]})
+            store.ingest({('twse','supplement'): [dict(code=c,period='2026Q2',current_eps=2 if c=='1003' else 1,net=100,
+                fetched_at='2026-10-01' if c=='1002' else '2026-10-05') for c in codes[1:]]})
+            rows, status = financials.cached(store,companies,'2026-10-09')
+            self.assertEqual(set(rows), {'1004'})
+            self.assertEqual(status['pending_reasons'],dict(missing=1,changed=1,expired=1))
+            self.assertEqual(status['refresh_due'],1)
+            store.close()
+
+    def test_priority_precedes_missing_and_refresh_gets_reserved_slot(self):
+        from unittest.mock import Mock
+        with tempfile.TemporaryDirectory() as tmp:
+            store = Store(Path(tmp)/'s.db')
+            codes = ['1001','1002','1003','1004','1005','9999']
+            companies = [dict(code=c,market='twse') for c in codes]
+            store.ingest({('twse','financial'): [dict(code=c,period='2026Q2',eps=1,net=100) for c in codes]})
+            store.ingest({('twse','supplement'): [dict(code='1005',period='2026Q2',current_eps=1,net=100,fetched_at='2026-10-03')]})
+            # Old FIFO would place the priority company last due to recent attempt.
+            store.meta('filing-attempt:v4:9999:2026Q2','2026-10-08')
+            with patch.object(financials.requests,'get',return_value=Mock(status_code=200,content=b'invalid')) as fetch, patch.object(financials.time,'sleep'):
+                financials.complete(store,companies,'2026-10-09',limit=5,priority={'9999'})
+            self.assertEqual([c.kwargs['params']['CO_ID'] for c in fetch.call_args_list],['9999','1001','1002','1003','1005'])
+            store.close()

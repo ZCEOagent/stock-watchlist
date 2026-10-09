@@ -183,17 +183,23 @@ def render(snapshot, previous, holdings, weekly=False):
     completion = snapshot.get('completion', {})
     if completion:
         f, h = completion['financials'], completion['history']
-        lines.append(f"資料狀況：一般產業財報已核對 {f['verified']} 家，還有 {f['pending']} 家待補。")
+        lines.append(f"資料狀況：一般產業財報已核對 {f['verified']} 家，{f['pending']} 家尚未通過資料核對。")
+        reasons = f.get('pending_reasons', {})
+        if reasons:
+            lines.append(f"尚未取得 {reasons.get('missing', 0)} 家／財報數值變更需重核 {reasons.get('changed', 0)} 家／核對已逾期 {reasons.get('expired', 0)} 家。")
+        if f.get('refresh_due'):
+            lines.append(f"另 {f['refresh_due']} 家仍在有效期，已排入例行重核；不算缺件。")
         if f.get('excluded'):
-            lines.append(f"另 {f['excluded']} 家不適用這套財報評分。")
+            lines.append(f"另 {f['excluded']} 家缺少一般產業評分所需欄位，或不適用此模型；不混入補件排隊數。")
         if h.get('pending_days', h.get('failed_days', 0)):
             lines.append('部分歷史股價仍待補，受影響股票先保留觀察。')
     freshness = snapshot.get('freshness', {})
     if freshness and freshness['current_prices'] < snapshot['scanned']:
-        lines.append(f"⚠️ {snapshot['scanned']-freshness['current_prices']} 檔行情未更新到 {freshness['expected_date']}，不列入買進判斷。")
+        lines.append(f"⚠️ {snapshot['scanned']-freshness['current_prices']} 檔缺少 {freshness['expected_date']} 的有效收盤價，暫停買進判斷；原因尚待核實，不直接判定停牌。")
     if any(not h['ok'] for h in snapshot.get('health', [])):
         lines.append('⚠️ 部分資料來源暫時失敗，受影響股票暫停買進判斷。')
-    lines.append(f"更新：{readable_time(snapshot.get('scan_completed_at') or snapshot.get('fetched_at'))}（台灣時間）｜掃描 {snapshot['scanned']} 檔")
+    lines.append('行情以最近已完成交易日為準，非盤中即時價。')
+    lines.append(f"完整分析：{readable_time(snapshot.get('scan_completed_at') or snapshot.get('fetched_at'))}（台灣時間）｜掃描 {snapshot['scanned']} 檔")
     lines.append('觀察名單不是買進建議；不會自動下單。')
     if snapshot.get('run_url'):
         lines += ['本次掃描紀錄：' + snapshot['run_url']]
