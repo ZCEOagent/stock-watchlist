@@ -64,6 +64,7 @@ class Store:
     def prune(self, today):
         # Financial same-quarter comparators need >1 year of history.
         for sql in (
+            "DELETE FROM facts WHERE kind IN ('entry-volume','entry-quality') AND substr(period,1,10) < date(?,'-45 days')",
             "DELETE FROM facts WHERE kind IN ('price','valuation','universe') AND period < date(?,'-180 days')",
             "DELETE FROM facts WHERE kind='revenue' AND period < strftime('%Y-%m',date(?,'-3 years'))",
             "DELETE FROM events WHERE published < date(?,'-90 days')",

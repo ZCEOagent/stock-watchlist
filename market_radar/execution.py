@@ -8,10 +8,10 @@ from statistics import mean
 import config
 from market_clock import last_completed_session, advance_session, session_dates
 from radar import verified_catalyst, net_rr
-from . import notify
+from . import notify, entry_quality
 
 KIND = 'execution-paper'
-VERSION = 'post-alert-quote-2-3-v1'
+VERSION = 'post-alert-quote-2-3-v2'
 GATES = ('market','sector','fundamental','catalyst','technical','chips','relative_strength')
 
 
@@ -74,10 +74,15 @@ def process(store, rows, cache, now, token=None, chat=None, enabled=False):
     started=time.perf_counter()
     initial_now=now
     quotes={r['c']:r for r in rows if fresh(r,now)}
+    for row in quotes.values():
+        entry_quality.observe_volume(store,row,now)
     items={i['id']:i for i in cache.get('radar',{}).get('items',[])}
+    base_eligible={c:eligible(i,cache,now,float(quotes[c]['z'])) for c,i in items.items() if c in quotes}
+    checks={c:entry_quality.inspect(store,items[c],quotes[c],now) for c,passed in base_eligible.items() if passed}
     store.meta('execution-health',json.dumps(dict(checked_at=now.isoformat(),cache_as_of=cache.get('as_of'),
         required_cache_date=last_completed_session('tw',now),fresh_quotes=len(quotes),
-        reviewed_plans=len(items),eligible_now=sum(eligible(i,cache,now,float(quotes[c]['z'])) for c,i in items.items() if c in quotes))))
+        reviewed_plans=len(items),base_eligible_now=sum(base_eligible.values()),
+        eligible_now=sum(c['hard_passed'] for c in checks.values()))))
     errors=[]
     existing=records(store)
     # Freeze evidence before notifying. Receipt recovery never changes the alert quote.
@@ -85,6 +90,10 @@ def process(store, rows, cache, now, token=None, chat=None, enabled=False):
         for code,item in items.items():
             row=quotes.get(code)
             if not row or not eligible(item,cache,now,float(row['z'])):
+                store.meta('entry-confirm:'+code,'{}')
+                continue
+            quality=entry_quality.inspect(store,item,row,now)
+            if not quality['hard_passed']:
                 store.meta('entry-confirm:'+code,'{}')
                 continue
             key=hashlib.sha256(f"{code}:{item.get('created_on')}:{VERSION}".encode()).hexdigest()[:24]
@@ -98,11 +107,11 @@ def process(store, rows, cache, now, token=None, chat=None, enabled=False):
                 continue
             p=dict(item['plan'])
             trade=dict(code=code,exchange=row['ex'],name=item.get('name',code),period=key,status='alert_pending',version=VERSION,
-                plan=p,created_at=now.isoformat(),alert_quote_at=observed,alert_quote=float(row['z']),
+                plan=p,entry_quality=quality,created_at=now.isoformat(),alert_quote_at=observed,alert_quote=float(row['z']),
                 valid_until=(now+dt.timedelta(minutes=10)).isoformat(),strategy_mode=config.RADAR_MODE,
                 shares=100,fee_rate=config.RADAR_FEE_RATE,tax_rate=config.RADAR_SELL_TAX_RATE,
                 slippage=config.RADAR_SLIPPAGE_RATE,minimum_fee=1,
-                execution_model='100-share paper estimate using regular-market last trades; not odd-lot fills',
+                execution_model='100-share paper estimate using regular-market ask/bid plus slippage; not odd-lot fills',
                 data_gaps=0)
             save(store,trade);existing.append(trade)
     for t in existing:
@@ -125,6 +134,9 @@ def process(store, rows, cache, now, token=None, chat=None, enabled=False):
                         t['delivery_status']='uncertain';save(store,t);continue
                     t['status']='expired';save(store,t);continue
                 if not accepted:
+                    quality=entry_quality.inspect(store,items[t['code']],row,now)
+                    if not quality['hard_passed']:
+                        t.update(status='cancelled',reason='entry_quality_changed');save(store,t);continue
                     label='模擬進場測試' if config.RADAR_MODE!='live' else '符合進場條件'
                     text=(f"台股雷達｜{label}｜{t['name']}（{t['code']}）\n"
                           f"基本面、催化、籌碼與技術門檻通過；盤中兩次確認價格在區間。\n"
@@ -142,11 +154,14 @@ def process(store, rows, cache, now, token=None, chat=None, enabled=False):
                     continue
                 if not eligible(items.get(t['code'],{}),cache,now,price):
                     t.update(status='cancelled',reason='entry_conditions_changed');save(store,t);continue
-                fill=price*(1+t['slippage'])
+                quality=entry_quality.inspect(store,items[t['code']],row,now)
+                if not quality['hard_passed']:
+                    t.update(status='cancelled',reason='entry_quality_changed');save(store,t);continue
+                fill=quality['book']['ask']*(1+t['slippage'])
                 if not p['entry_low']<=fill<=p['entry_high']:
                     t.update(status='cancelled',reason='slipped_entry_outside_range');save(store,t);continue
                 day=now.date().isoformat()
-                t.update(status='open',entry=fill,entry_quote=price,entry_at=stamp(row,now).isoformat(),
+                t.update(status='open',entry=fill,entry_quote=price,entry_ask=quality['book']['ask'],fill_quality=quality,entry_at=stamp(row,now).isoformat(),
                     entry_date=day,review_date=advance_session(day,1),exit_date_due=advance_session(day,2),
                     buy_cost=fill*t['shares']+max(t['minimum_fee'],fill*t['shares']*t['fee_rate']))
                 save(store,t)
@@ -161,14 +176,17 @@ def process(store, rows, cache, now, token=None, chat=None, enabled=False):
                 t.update(last_quote_at=traded,last_price=price,
                     max_observed_gap_seconds=max(t.get('max_observed_gap_seconds',0),(stamp(row,now)-previous).total_seconds()))
                 day=now.date().isoformat()
-                reason='stop' if price<=p['stop'] else 'target' if price>=p['target'] else None
+                reason=t.get('pending_exit_reason') or ('stop' if price<=p['stop'] else 'target' if price>=p['target'] else None)
                 if not reason and (day>t['exit_date_due'] or (day==t['exit_date_due'] and now.time().replace(tzinfo=None)>=dt.time(13,20))):
                     reason='time_exit'
                 if reason:
-                    exit_price=price*(1-t['slippage'])
+                    depth=entry_quality.book(row)
+                    if depth is None:
+                        t.update(pending_exit_reason=reason,execution_issue='missing_exit_bid');save(store,t);continue
+                    exit_price=depth['bid']*(1-t['slippage'])
                     gross=exit_price*t['shares']
                     net=gross-max(t['minimum_fee'],gross*t['fee_rate'])-gross*t['tax_rate']-t['buy_cost']
-                    t.update(status='closed',exit=exit_price,exit_at=traded,exit_reason=reason,
+                    t.update(status='closed',exit=exit_price,exit_bid=depth['bid'],exit_at=traded,exit_reason=reason,
                         delayed_exit=(day>t['exit_date_due'] or (reason=='time_exit' and now.time().replace(tzinfo=None)>dt.time(13,25))),net_profit=round(net,2),net_return_pct=round(net/t['buy_cost']*100,4))
                     save(store,t)
                 elif day>=t['review_date'] and not t.get('review_sent'):
@@ -189,11 +207,17 @@ def process(store, rows, cache, now, token=None, chat=None, enabled=False):
 
 def summary(store):
     trades=records(store)
-    closed=[t for t in trades if t['status']=='closed']
+    closed=[t for t in trades if t['status']=='closed' and t.get('version')==VERSION]
+    cohorts={}
+    for t in trades:
+        if t['status']=='closed':
+            cohorts.setdefault(t.get('version','legacy'),[]).append(t['net_return_pct'])
     return dict(version=VERSION,records=trades,closed=len(closed),
+        cohorts={v:dict(closed=len(values),mean_net_return_pct=mean(values)) for v,values in cohorts.items()},
+        signal_quality=entry_quality.summary(store),
         health=json.loads(store.meta('execution-health') or '{}'),
         open=sum(t['status']=='open' for t in trades),
         unfilled=sum(t['status'] in ('expired','cancelled') for t in trades),
         win_rate=sum(t['net_profit']>0 for t in closed)/len(closed) if closed else None,
         mean_net_return_pct=mean(t['net_return_pct'] for t in closed) if closed else None,
-        notice='提醒送達後行情的100股模擬；採一般行情與假設滑價，非零股實際成交。僅觀測時點觸價，排程空窗無法重建；缺行情不回填理想出場價。')
+        notice='提醒送達後行情的100股模擬；採一般交易買賣報價與假設滑價，非零股實際成交。僅觀測時點觸價，排程空窗無法重建；缺行情不回填理想出場價。')
