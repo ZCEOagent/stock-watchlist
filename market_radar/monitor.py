@@ -13,7 +13,8 @@ from . import notify
 from .store import Store
 
 UTC = dt.timezone.utc
-WORKFLOWS = {'market-radar.yml': 48, 'daily-tw.yml': 96, 'radar-maintenance.yml': 6}
+WORKFLOWS = {'market-radar.yml': 48, 'daily-tw.yml': 96, 'daily-us.yml': 96,
+             'health.yml': 36, 'radar-maintenance.yml': 6}
 
 
 def api(path):
@@ -126,8 +127,27 @@ def transition(current, previous, now):
     reasons = []
     if previous is None:
         reasons.append('雲端追蹤已接手')
-    elif current['issues'] != previous['issues']:
-        reasons.append('異常狀態變更' if current['issues'] else '先前異常已恢復')
+    # Consolidate alarms here instead of every producer notifying separately.
+    # A source flapping between healthy/failed must not flood Telegram.
+    alerts = dict((previous or {}).get('issue_alert_times', {}))
+    added = set(current['issues']) - set((previous or {}).get('issues', []))
+    fresh = [issue for issue in sorted(added) if issue not in alerts or
+             (now-timestamp(alerts[issue])).total_seconds() >= 6*3600]
+    if previous and fresh:
+        reasons.append('新增異常：' + '；'.join(fresh))
+    for issue in fresh:
+        alerts[issue] = now.isoformat()
+    current['issue_alert_times'] = alerts
+    current['unresolved_alert'] = bool(current['issues'] or (previous or {}).get('unresolved_alert')
+                                       or (previous or {}).get('issues'))
+    if not current['issues'] and current['unresolved_alert']:
+        since = (previous or {}).get('recovery_since') or now.isoformat()
+        current['recovery_since'] = since
+        if (now-timestamp(since)).total_seconds() >= 30*60:
+            reasons.append('先前異常已恢復（持續確認至少30分鐘）')
+            current['unresolved_alert'] = False
+    else:
+        current['recovery_since'] = None
     fin = current['financials']
     old = (previous or {}).get('financials', {})
     complete = fin.get('eligible', 0) > 0 and fin.get('pending') == 0 and fin.get('verified') == fin.get('eligible')
@@ -149,17 +169,23 @@ def transition(current, previous, now):
 def render(current, reasons, repo):
     f = current['financials']
     scanned = current['scanned']
-    lines = ['台股 Radar｜雲端運作追蹤', '；'.join(reasons),
+    lines = ['股票雷達｜系統狀態', '；'.join(reasons),
              f"掃描股票：{scanned if scanned is not None else '未知'}",
              f"財報核實：{f.get('verified', '未知')} / 可核實 {f.get('eligible', '未知')}；待補 {f.get('pending', '未知')}",
-             '價格資料日期：' + (', '.join(current['price_dates']) or '未知'),
-             f"既有送達紀錄：{current['receipts'].get('count', '未知')}；最後紀錄 {current['receipts'].get('latest') or '未知'}"]
+             '資料中的行情日期：' + (', '.join(current['price_dates']) or '未知')]
     if isinstance(scanned, int) and isinstance(f.get('eligible'), int):
         lines.append(f"尚未列入可核實財報範圍：{max(0, scanned-f['eligible'])} 檔")
-    lines += current['issues']
+    labels = {'daily-tw.yml': '台股收盤報告', 'daily-us.yml': '美股收盤報告',
+              'health.yml': '行情時效檢查', 'market-radar.yml': '台股摘要',
+              'radar-maintenance.yml': '背景資料補件'}
+    for issue in current['issues']:
+        for name, label in labels.items():
+            issue = issue.replace(name, label)
+        lines.append('• ' + issue)
     lines.append('目前仍有雲端掃描執行或排隊；沒有重啟掃描。' if current['active'] else '目前無掃描執行或排隊。')
-    lines += ['日常報告與補件沿用原排程；電腦關機不影響此追蹤。',
-              '程式錯誤會通知人工處理，不自動改碼、合併或下單。', f'https://github.com/{repo}/actions']
+    if current['issues']:
+        lines.append('受影響的資料暫不作買進依據；同一異常不重複洗版，新問題仍會通知。')
+    lines += ['詳細原因與執行紀錄：', f'https://github.com/{repo}/actions']
     return '\n'.join(lines)
 
 

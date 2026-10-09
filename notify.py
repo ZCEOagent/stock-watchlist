@@ -14,6 +14,7 @@ import requests
 import config
 from radar import LABELS
 from storage import read_json, write_json
+from publish_state import push_with_retry
 
 
 def send_telegram(text, token, chat_id, post=requests.post, sleep=time.sleep):
@@ -77,7 +78,7 @@ def checkpoint_git(path):
     changed = subprocess.run(["git", "diff", "--cached", "--quiet", "--", relative]).returncode
     if changed == 1:
         subprocess.run(["git", "commit", "-m", "Persist notification delivery state", "--", relative], check=True)
-        subprocess.run(["git", "push"], check=True)
+        push_with_retry()
     elif changed != 0:
         raise RuntimeError("Cannot verify staged delivery state")
 

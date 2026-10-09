@@ -25,6 +25,8 @@ jobs:
       MARKET_LIMIT: ${{ github.event.inputs.us_limit }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: master
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -55,7 +57,7 @@ jobs:
           git add docs/index.html docs/us_cache.json docs/highlights_log.json state/
           if ! git diff --cached --quiet; then
             git commit -m "Update us close report and radar state"
-            git push
+            python publish_state.py
           fi
       - name: 發送已驗證且去重的收盤通知
         if: env.MARKET_LIMIT == ''
@@ -63,15 +65,6 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python notify.py --market us --send --checkpoint-git
-      - name: 失敗通知
-        if: failure() && env.MARKET_LIMIT == ''
-        env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email 'github-actions[bot]@users.noreply.github.com'
-          python notify.py --market us --failure --send --checkpoint-git
       - name: 保存資料品質與測試診斷
         if: always()
         uses: actions/upload-artifact@v4
