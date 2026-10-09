@@ -1,0 +1,41 @@
+name: One-time Telegram connection test 20261009
+on:
+  push:
+    branches: [codex/telegram-test-20261009-1432]
+    paths: [.github/workflows/telegram-test-20261009.yml]
+permissions: {}
+jobs:
+  send-one:
+    if: github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Send exactly one connection test without automatic retry
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python3 - <<'PY'
+          import os, json, urllib.request, datetime
+          from zoneinfo import ZoneInfo
+          token = os.environ.get('TELEGRAM_BOT_TOKEN')
+          chat = os.environ.get('TELEGRAM_CHAT_ID')
+          if not token or not chat:
+              raise SystemExit('Configuration missing; no message sent')
+          stamp = datetime.datetime.now(ZoneInfo('Asia/Taipei')).strftime('%Y-%m-%d %H:%M:%S')
+          text = ('台股雷達｜連線測試\n\n這是依你要求發送的一次性測試訊息。\n'
+                  '不是買進或賣出訊號，不計入模擬或實際績效。\n\n'
+                  '發送時間：' + stamp + '（台灣時間）')
+          payload = json.dumps({'chat_id': chat, 'text': text}).encode()
+          request = urllib.request.Request('https://api.telegram.org/bot' + token + '/sendMessage',
+              data=payload, headers={'Content-Type': 'application/json'}, method='POST')
+          try:
+              with urllib.request.urlopen(request, timeout=25) as response:
+                  result = json.load(response)
+              if result.get('ok') is not True:
+                  raise ValueError('not acknowledged')
+              print(json.dumps({'confirmed': True, 'message_id': result['result']['message_id'],
+                                'telegram_date': result['result']['date']}))
+          except Exception:
+              raise SystemExit('Delivery not confirmed; do not automatically resend')
+          PY
