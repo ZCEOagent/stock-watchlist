@@ -104,3 +104,15 @@ jobs:
           include-hidden-files: true
           retention-days: 90
           if-no-files-found: ignore
+
+      - name: Preserve public validation and candidate evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: radar-validation
+          include-hidden-files: true
+          path: |
+            .radar/reports/validation.json
+            .radar/reports/candidate-review.json
+          retention-days: 90
+          if-no-files-found: ignore
