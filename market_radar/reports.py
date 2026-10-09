@@ -207,7 +207,9 @@ def render(snapshot, previous, holdings, weekly=False):
     if outcomes.get('records'):
         h = outcomes['horizons']['3']
         lines.append(f"提早提醒追蹤：共 {outcomes['records']} 筆；3 個交易日資料完整 {h['samples']} 筆、尚待觀察或缺價 {h['pending']} 筆。")
-        if h['samples']:
+        if 0 < h['samples'] < 20:
+            lines.append('成熟樣本不足 20 筆，暫不彙總方向比例；這也不是策略有效性的統計門檻。')
+        if h['samples'] >= 20:
             lines.append(f"3 日方向相符比例 {h['positive_ratio']:.0%}；平均方向報酬 {h['mean_directional_pct']:+.2f}%。未還原除權息、未扣成本，非交易勝率。")
     lines.append('觀察名單不是買進建議；不會自動下單。')
     if snapshot.get('run_url'):

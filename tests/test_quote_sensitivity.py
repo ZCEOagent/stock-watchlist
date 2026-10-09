@@ -32,7 +32,8 @@ class SensitivityTests(unittest.TestCase):
         with patch.object(watch,'fetch',return_value=[self.row]):
             watch.check(self.store,self.now)
             self.row['h']='109'
-            self.assertEqual(watch.check(self.store,self.now+dt.timedelta(minutes=5)),0)
+            with self.assertRaises(ValueError):
+                watch.check(self.store,self.now+dt.timedelta(minutes=5))
             self.row.update(h='104',t='10:11:00')
             self.assertEqual(watch.check(self.store,self.now+dt.timedelta(minutes=10)),0)
     def test_missing_one_stock_does_not_block_valid_risk_alert(self):
@@ -70,3 +71,53 @@ class SensitivityTests(unittest.TestCase):
             cli.run(args)
             collect.assert_not_called()
             seed.assert_not_called()
+    def test_request_elapsed_time_does_not_reject_quote_arriving_during_fetch(self):
+        self.row.update(t='10:02:05',z='108',h='109')
+        with patch.object(watch,'fetch',return_value=[self.row]), patch.object(watch.time,'monotonic',side_effect=[100,110]):
+            self.assertEqual(watch.check(self.store,self.now),1)
+    def test_all_missing_quotes_are_a_failed_inspection_with_health_saved(self):
+        import json
+        with patch.object(watch,'fetch',return_value=[]):
+            with self.assertRaises(ValueError):
+                watch.check(self.store,self.now)
+        health=json.loads(self.store.meta('watch-health'))
+        self.assertEqual(health['valid'],0)
+        self.assertEqual(health['missing'],health['requested'])
+    def test_duplicate_quote_is_quarantined_without_blocking_other_codes(self):
+        import json
+        strong=dict(self.row,z='108',h='109')
+        other=dict(strong,c='2330')
+        with patch.object(watch,'fetch',return_value=[strong,dict(strong,z='101'),other]):
+            self.assertEqual(watch.check(self.store,self.now),1)
+        self.assertEqual(json.loads(self.store.meta('watch-health'))['duplicate_codes'],1)
+        self.assertEqual(self.store.history('watch-quote','3042'),[])
+    def test_one_network_batch_failure_still_returns_other_batch(self):
+        import requests
+        from unittest.mock import Mock
+        codes={str(1000+i):'tse' for i in range(51)}
+        with patch.object(watch.requests,'Session') as session:
+            get=session.return_value.__enter__.return_value.get
+            response=Mock()
+            response.json.return_value=dict(rtcode='0000',msgArray=[dict(self.row,c='1050')])
+            get.side_effect=[requests.Timeout('timeout'),response]
+            self.assertEqual(watch.fetch(codes)[0]['c'],'1050')
+            self.assertEqual(get.call_count,2)
+    def test_uncertain_delivery_never_overwrites_original_evidence(self):
+        import json
+        from market_radar import reports
+        self.row.update(z='108',h='109')
+        key=reports.message_key('watch-price:2026-09-29:3042:up:',8)
+        self.store.meta('delivery:'+key+':0','uncertain')
+        self.store.meta('watch-evidence:'+key,json.dumps({'price':105}))
+        with patch.object(watch,'fetch',return_value=[self.row]):
+            with self.assertRaises(notify.DeliveryUncertain):
+                watch.check(self.store,self.now,'t','c',True)
+        self.assertEqual(json.loads(self.store.meta('watch-evidence:'+key))['price'],105)
+        self.assertEqual(self.store.history('watch-signal','3042'),[])
+    def test_small_sample_report_does_not_advertise_direction_ratio(self):
+        from market_radar import reports
+        snapshot=dict(day='2026-09-29',stocks=[],scanned=0,version='test',health=[],
+            alert_outcomes=dict(records=1,horizons={'3':dict(samples=1,pending=0,positive_ratio=1,mean_directional_pct=5)}))
+        text=reports.render(snapshot,None,{})
+        self.assertIn('成熟樣本不足 20 筆',text)
+        self.assertNotIn('方向相符比例',text)
