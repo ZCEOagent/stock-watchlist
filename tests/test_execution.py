@@ -130,3 +130,9 @@ class ExecutionTests(unittest.TestCase):
         self.assertTrue(self.trade()['cancel_sent'])
         self.assertEqual(ex.summary(self.s)['closed'],0)
         self.assertIsNone(ex.summary(self.s)['win_rate'])
+    def test_delivery_wait_cannot_turn_old_quote_into_current_entry(self):
+        self.run_at(self.now)
+        with patch.object(ex.time,'perf_counter',side_effect=[0,240]):
+            self.run_at(self.now+dt.timedelta(minutes=5))
+        self.assertEqual(self.messages,[])
+        self.assertNotEqual(self.trade()['status'],'open')

@@ -3,6 +3,7 @@ import datetime as dt
 import hashlib
 import json
 import math
+import time
 from statistics import mean
 import config
 from market_clock import last_completed_session, advance_session, session_dates
@@ -70,6 +71,8 @@ def process(store, rows, cache, now, token=None, chat=None, enabled=False):
     """Rows must be validated by watch.valid_quote; no effects in a dry run."""
     if not enabled or not session_dates(now.date().isoformat(),now.date().isoformat()):
         return
+    started=time.perf_counter()
+    initial_now=now
     quotes={r['c']:r for r in rows if fresh(r,now)}
     items={i['id']:i for i in cache.get('radar',{}).get('items',[])}
     store.meta('execution-health',json.dumps(dict(checked_at=now.isoformat(),cache_as_of=cache.get('as_of'),
@@ -104,7 +107,10 @@ def process(store, rows, cache, now, token=None, chat=None, enabled=False):
             save(store,trade);existing.append(trade)
     for t in existing:
         try:
+            now=initial_now+dt.timedelta(seconds=max(0,time.perf_counter()-started))
             row=quotes.get(t['code'])
+            if row is not None and not fresh(row,now):
+                row=None
             price=float(row['z']) if row else None
             p=t['plan']
             if t['status'] in ('expired','cancelled') and t.get('alerted_at') and not t.get('cancel_sent'):
