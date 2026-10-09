@@ -103,7 +103,7 @@ def run(args):
         store.ingest(feeds)
         if args.mode == 'events':
             try:
-                quote_count = watch.check(store, now, token, chat, args.send, holdings=holdings)
+                quote_count = watch.check(store, dt.datetime.now(ZoneInfo('Asia/Taipei')), token, chat, args.send, holdings=holdings)
                 print(f'Watch price check: {quote_count} signals')
             except Exception as exc:
                 health.append({'market':'watch','kind':'price','ok':False,'error':type(exc).__name__})

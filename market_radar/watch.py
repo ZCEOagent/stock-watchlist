@@ -1,6 +1,7 @@
 """Scheduled official quote alerts for the explicit watchlist, never trading signals."""
 import datetime as dt
 import json
+import time
 import requests
 from market_clock import session_dates
 from . import sources, notify, reports
@@ -37,13 +38,17 @@ def fetch(watchlist=None):
     items = sorted(watchlist.items())
     with requests.Session() as session:
         for start in range(0,len(items),50):
-            response = session.get(URL, params={'ex_ch': '|'.join(f'{m}_{c}.tw' for c,m in items[start:start+50]),
-                                               'json': '1', 'delay': '0'}, timeout=25)
-            response.raise_for_status()
-            data = response.json()
-            if data.get('rtcode') != '0000' or not isinstance(data.get('msgArray'), list):
-                raise ValueError('official quote response invalid')
-            result.extend(data['msgArray'])
+            try:
+                response = session.get(URL, params={'ex_ch': '|'.join(f'{m}_{c}.tw' for c,m in items[start:start+50]),
+                                                   'json': '1', 'delay': '0'}, timeout=25)
+                response.raise_for_status()
+                data = response.json()
+                if data.get('rtcode') != '0000' or not isinstance(data.get('msgArray'), list):
+                    continue
+                result.extend(r for r in data['msgArray'] if isinstance(r,dict))
+            except (requests.RequestException, ValueError):
+                # Other batches can still contain valid holding risk observations.
+                continue
     return result
 
 
@@ -95,6 +100,7 @@ def valid_quote(row, now, watched):
 
 
 def check(store, now, token=None, chat=None, send=False, holdings=None):
+    started = time.monotonic()
     holdings = holdings or {}
     today = now.date().isoformat()
     if not dt.time(9) <= now.time().replace(tzinfo=None) <= dt.time(23) or not session_dates(today,today):
@@ -103,6 +109,14 @@ def check(store, now, token=None, chat=None, send=False, holdings=None):
         return 0
     watched = universe(store,now,holdings)
     rows = fetch(watched)
+    # Include elapsed I/O time; a quote received during the request is not future data.
+    now += dt.timedelta(seconds=max(0,time.monotonic()-started))
+    grouped = {}
+    for row in rows:
+        if isinstance(row,dict) and row.get('c') in watched:
+            grouped.setdefault(row['c'],[]).append(row)
+    duplicates = sum(len(group)>1 for group in grouped.values())
+    rows = [group[0] for group in grouped.values() if len(group)==1]
     missing_codes = set(watched) - {r.get('c') for r in rows}
     valid_count = 0
     for code in missing_codes:
@@ -165,7 +179,7 @@ def check(store, now, token=None, chat=None, send=False, holdings=None):
                     period=today+':'+signal['direction']+':'+str(signal['level']),date=today,
                     price=signal['last'],direction=signal['direction'],level=signal['level'],
                     traded=signal['traded'],observed_at=now.isoformat(),source=URL)
-                if store.sent(delivery_key+':0'):
+                if store.sent(delivery_key+':0') or store.meta('delivery:'+delivery_key+':0') in ('sending','uncertain'):
                     observation = json.loads(store.meta(evidence_key) or 'null')
                 else:
                     store.meta(evidence_key,json.dumps(observation))
@@ -180,7 +194,9 @@ def check(store, now, token=None, chat=None, send=False, holdings=None):
             count += 1
     old_health = json.loads(store.meta('watch-health') or '{}')
     gap = (now-dt.datetime.fromisoformat(old_health['checked_at'])).total_seconds() if old_health.get('checked_at') else None
-    store.meta('watch-health',json.dumps(dict(checked_at=now.isoformat(),requested=len(watched),valid=valid_count,missing=len(missing_codes),interval_seconds=gap)))
+    store.meta('watch-health',json.dumps(dict(checked_at=now.isoformat(),requested=len(watched),valid=valid_count,missing=len(missing_codes),duplicate_codes=duplicates,interval_seconds=gap)))
+    if not valid_count:
+        raise ValueError('No valid watch quotes; inspection incomplete, not zero signals')
     if send and now.time() >= dt.time(13,30) and valid_count == len(watched):
         store.meta('watch-close:' + today, 'checked')
     return count
