@@ -11,7 +11,7 @@ class ExecutionTests(unittest.TestCase):
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory(); self.s=Store(Path(self.tmp.name)/'s.db')
         self.now=dt.datetime(2026,9,21,10,2,tzinfo=ZoneInfo('Asia/Taipei'))
-        self.p=dict(entry_low=100,entry_high=103,stop=95,target=125)
+        self.p=dict(entry_low=100,entry_high=103,stop=95,target=125,atr=10)
         self.item=dict(id='3042',name='晶技',created_on='2026-09-18',expires_on='2026-09-23',as_of='2026-09-18',status='waiting',plan=self.p,
             gates={g:True for g in ex.GATES},catalyst=dict(reviewed=True,source_url='https://example.org/filing',published_at='2026-09-18T10:00:00+08:00',observed_on='2026-09-18',valid_until='2026-09-24',thesis='fixture',impact='fixture',priced_in_risk='fixture',cancel_if='fixture'))
         self.cache=dict(as_of='2026-09-18',quality={'passed':True},radar={'items':[self.item]})
@@ -23,7 +23,7 @@ class ExecutionTests(unittest.TestCase):
     def tearDown(self):
         self.mock.stop();self.s.close();self.tmp.cleanup()
     def row(self,now,price=101,**kw):
-        return dict(c='3042',ex='tse',d=now.strftime('%Y%m%d'),t=now.strftime('%H:%M:%S'),z=str(price),y='100',h=str(max(price,110)),l=str(min(price,90)),**kw)
+        return dict(c='3042',ex='tse',d=now.strftime('%Y%m%d'),t=now.strftime('%H:%M:%S'),z=str(price),a=str(price+.05)+'_',b=str(price-.05)+'_',v='1000',y='100',h=str(max(price,110)),l=str(min(price,90)),**kw)
     def run_at(self,now,price=101,rows=None,enabled=True):
         ex.process(self.s,[self.row(now,price)] if rows is None else rows,self.cache,now,'t','c',enabled)
     def trade(self):return ex.records(self.s)[0]
@@ -60,11 +60,11 @@ class ExecutionTests(unittest.TestCase):
         self.opened();self.run_at(self.now+dt.timedelta(minutes=15),101)
         self.assertEqual(self.trade()['status'],'open')
         self.run_at(self.now+dt.timedelta(minutes=20),126)
-        t=self.trade();self.assertEqual(t['exit_reason'],'target');self.assertAlmostEqual(t['exit'],126*.999)
+        t=self.trade();self.assertEqual(t['exit_reason'],'target');self.assertAlmostEqual(t['exit'],125.95*.999)
         self.assertLess(t['net_return_pct'],(126/101-1)*100)
     def test_gap_stop_uses_observed_price_not_ideal_stop(self):
         self.opened();self.run_at(self.now+dt.timedelta(days=1),90)
-        self.assertEqual(self.trade()['exit_reason'],'stop');self.assertAlmostEqual(self.trade()['exit'],89.91)
+        self.assertEqual(self.trade()['exit_reason'],'stop');self.assertAlmostEqual(self.trade()['exit'],89.95*.999)
     def test_day_two_review_day_three_time_exit_once(self):
         self.opened();self.run_at(self.now+dt.timedelta(days=1));self.assertTrue(self.trade()['review_sent'])
         self.run_at(self.now+dt.timedelta(days=1,minutes=5));self.assertEqual(len([m for m in self.messages if m[0].endswith(':review')]),1)
@@ -76,7 +76,7 @@ class ExecutionTests(unittest.TestCase):
         self.opened();self.run_at(self.now.replace(day=23,hour=13,minute=22),rows=[])
         self.assertEqual(self.trade()['status'],'open')
         self.run_at(self.now.replace(day=24),99)
-        self.assertTrue(self.trade()['delayed_exit']);self.assertAlmostEqual(self.trade()['exit'],98.901)
+        self.assertTrue(self.trade()['delayed_exit']);self.assertAlmostEqual(self.trade()['exit'],98.95*.999)
     def test_close_receipt_failure_preserves_exit_price_for_retry(self):
         self.opened()
         with patch.object(notify,'deliver',side_effect=RuntimeError('rejected')):
@@ -136,3 +136,14 @@ class ExecutionTests(unittest.TestCase):
             self.run_at(self.now+dt.timedelta(minutes=5))
         self.assertEqual(self.messages,[])
         self.assertNotEqual(self.trade()['status'],'open')
+    def test_post_alert_fill_requires_valid_ask_and_target_distance(self):
+        self.alert();row=self.row(self.now+dt.timedelta(minutes=10));row['a']='-'
+        self.run_at(self.now+dt.timedelta(minutes=10),rows=[row])
+        self.assertEqual(self.trade()['status'],'cancelled')
+    def test_stop_without_bid_waits_then_uses_next_bid_even_after_rebound(self):
+        self.opened();now=self.now+dt.timedelta(days=1);row=self.row(now,90);row['b']='-'
+        self.run_at(now,rows=[row]);self.assertEqual(self.trade()['status'],'open')
+        self.assertEqual(self.trade()['pending_exit_reason'],'stop')
+        self.run_at(now+dt.timedelta(minutes=5),98)
+        self.assertEqual(self.trade()['exit_reason'],'stop')
+        self.assertAlmostEqual(self.trade()['exit'],97.95*.999)
