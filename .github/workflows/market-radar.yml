@@ -112,6 +112,7 @@ jobs:
           name: radar-validation
           include-hidden-files: true
           path: |
+            .radar/reports/execution.json
             .radar/reports/validation.json
             .radar/reports/candidate-review.json
           retention-days: 90

@@ -208,6 +208,11 @@ def render(snapshot, previous, holdings, weekly=False):
         lines.append(f"預警驗收：已觀測符合規則 {audit['observed_eligible_directions']} 個股票方向，其中 {audit['uncovered_directions']} 個尚未確認送達最高觸發等級（含額度限制）；不代表全市場漏報率。")
     if snapshot.get('review_queue'):
         lines.append(f"候選證據包：{snapshot['review_queue']['pending']} 檔待審；自動整理不等於人工審核通過。")
+    paper = snapshot.get('paper_execution', {})
+    if paper:
+        lines.append(f"盤中提醒後模擬：已結束 {paper['closed']} 筆；100股模型，已扣費稅及假設滑價，非實際帳戶損益。")
+        if paper['closed']:
+            lines.append(f"模擬淨獲利比例 {paper['win_rate']:.0%}；平均淨報酬 {paper['mean_net_return_pct']:+.2f}%。樣本表現不代表已驗證有效。")
     outcomes = snapshot.get('alert_outcomes', {})
     if outcomes.get('records'):
         h = outcomes['horizons']['3']

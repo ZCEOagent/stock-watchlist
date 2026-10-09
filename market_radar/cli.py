@@ -9,7 +9,7 @@ import config
 from market_clock import last_completed_session, session_dates
 from storage import read_json
 
-from . import engine, notify, reports, sources, history, financials, watch, validation
+from . import engine, notify, reports, sources, history, financials, watch, validation, execution
 from .store import Store
 from .maintenance import import_public
 
@@ -83,7 +83,7 @@ def run(args):
         if args.mode == 'quotes':
             # Small quote-only path: no full-market downloads, scoring or backfill.
             try:
-                count = watch.check(store,now,token,chat,args.send,holdings=holdings)
+                count = watch.check(store,now,token,chat,args.send,holdings=holdings,cache=read_json(config.TW_CACHE_PATH, {}))
             finally:
                 check_day = now.date().isoformat()
                 (output/'validation.json').write_text(json.dumps(validation.audit(store,check_day,watch.outcomes(store,last_completed_session('tw'))),ensure_ascii=False),encoding='utf-8')
@@ -107,7 +107,7 @@ def run(args):
         store.ingest(feeds)
         if args.mode == 'events':
             try:
-                quote_count = watch.check(store, dt.datetime.now(ZoneInfo('Asia/Taipei')), token, chat, args.send, holdings=holdings)
+                quote_count = watch.check(store, dt.datetime.now(ZoneInfo('Asia/Taipei')), token, chat, args.send, holdings=holdings,cache=read_json(config.TW_CACHE_PATH, {}))
                 print(f'Watch price check: {quote_count} signals')
             except Exception as exc:
                 health.append({'market':'watch','kind':'price','ok':False,'error':type(exc).__name__})
@@ -164,6 +164,8 @@ def run(args):
         snapshot['scan_completed_at'] = dt.datetime.now(ZoneInfo('Asia/Taipei')).isoformat()
         if os.environ.get('GITHUB_RUN_ID') and os.environ.get('GITHUB_REPOSITORY'):
             snapshot['run_url'] = f"https://github.com/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}"
+        paper = execution.summary(store)
+        snapshot['paper_execution'] = {k:v for k,v in paper.items() if k != 'records'}
         snapshot['quote_health'] = json.loads(store.meta('watch-health') or '{}')
         snapshot['alert_outcomes'] = watch.outcomes(store, as_of)
         snapshot['completion'] = {'history': history_health, 'financials': financial_health}
@@ -200,7 +202,10 @@ def run(args):
             store.meta('report-retry','')
         store.prune(today)
     finally:
-        store.close()
+        try:
+            (output/'execution.json').write_text(json.dumps(execution.summary(store),ensure_ascii=False,indent=2),encoding='utf-8')
+        finally:
+            store.close()
 
 
 def main():

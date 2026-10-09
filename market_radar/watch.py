@@ -4,7 +4,7 @@ import json
 import time
 import requests
 from market_clock import session_dates
-from . import sources, notify, reports, validation
+from . import sources, notify, reports, validation, execution
 
 URL = 'https://mis.twse.com.tw/stock/api/getStockInfo.jsp'
 WATCH = {'2330': 'tse', '6274': 'otc', '3042': 'tse'}
@@ -15,13 +15,16 @@ TRACKED = ('6443','2406','3576','6477','4956','6168','3339','2332','2419','2444'
            '6488','3016','2426','3042','2409','3105','4576')
 
 
-def universe(store, now, holdings):
-    wanted = set(TRACKED) | set(holdings) | set(WATCH)
+def universe(store, now, holdings, cache=None):
+    wanted = set(TRACKED) | set(holdings) | set(WATCH) | execution.active_codes(store)
+    wanted.update(i["id"] for i in (cache or {}).get("radar",{}).get("items",[]) if i.get("plan"))
     snap = store.latest() or {}
     # A stale report must not keep nominating "current" opportunities forever.
     if sources.date(snap.get('day')) and 0 <= (now.date()-dt.date.fromisoformat(snap['day'])).days <= 4:
         wanted.update(r['code'] for r in snap.get('stocks', [])[:10] if r.get('candidate'))
     result = dict(WATCH)
+    result.update({t["code"]:t["exchange"] for t in execution.records(store)
+                   if t["status"] in ("alert_pending","awaiting_fill","open") and t.get("exchange") in ("tse","otc")})
     for code in sorted(wanted):
         roster = store.history('universe',code)
         if roster:
@@ -99,15 +102,15 @@ def valid_quote(row, now, watched):
         return False
 
 
-def check(store, now, token=None, chat=None, send=False, holdings=None):
+def check(store, now, token=None, chat=None, send=False, holdings=None, cache=None):
     started = time.monotonic()
     holdings = holdings or {}
     today = now.date().isoformat()
     if not dt.time(9) <= now.time().replace(tzinfo=None) <= dt.time(23) or not session_dates(today,today):
         return 0
-    if now.time() >= dt.time(13,30) and store.meta('watch-close:' + today) == 'checked':
+    if cache is None and now.time() >= dt.time(13,30) and store.meta('watch-close:' + today) == 'checked':
         return 0
-    watched = universe(store,now,holdings)
+    watched = universe(store,now,holdings,cache)
     rows = fetch(watched)
     # Include elapsed I/O time; a quote received during the request is not future data.
     now += dt.timedelta(seconds=max(0,time.monotonic()-started))
@@ -117,6 +120,12 @@ def check(store, now, token=None, chat=None, send=False, holdings=None):
             grouped.setdefault(row['c'],[]).append(row)
     duplicates = sum(len(group)>1 for group in grouped.values())
     rows = [group[0] for group in grouped.values() if len(group)==1]
+    execution_error = None
+    if cache is not None:
+        try:
+            execution.process(store,[r for r in rows if valid_quote(r,now,watched)],cache,now,token,chat,send)
+        except Exception as exc:
+            execution_error = exc  # Still inspect other holding price risks and save quote health.
     missing_codes = set(watched) - {r.get('c') for r in rows}
     valid_count = 0
     for code in missing_codes:
@@ -213,6 +222,8 @@ def check(store, now, token=None, chat=None, send=False, holdings=None):
     store.meta('watch-health',json.dumps(dict(checked_at=now.isoformat(),requested=len(watched),valid=valid_count,missing=len(missing_codes),duplicate_codes=duplicates,interval_seconds=gap)))
     if not valid_count:
         raise ValueError('No valid watch quotes; inspection incomplete, not zero signals')
+    if execution_error is not None:
+        raise execution_error
     if send and now.time() >= dt.time(13,30) and valid_count == len(watched):
         store.meta('watch-close:' + today, 'checked')
     return count
