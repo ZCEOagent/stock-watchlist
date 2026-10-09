@@ -1,6 +1,11 @@
 {
   "as_of": "2026-10-08",
-  "method": "forward-next-open-v2",
+  "method": "short-swing-next-open-benchmark-v3",
+  "role": "next_open_benchmark_only",
+  "entry_alert_performance": {
+    "status": "pending",
+    "reason": "requires_post_alert_execution_evidence"
+  },
   "records": {},
   "summary": {
     "counts": {},
@@ -8,5 +13,5 @@
     "win_rate": null,
     "mean_net_return_pct": null
   },
-  "notice": "訊號次日開盤模擬；不是實際成交或投資組合報酬，無訊號時不產生績效。"
+  "notice": "2–3交易日次日開盤對照模擬；不是盤中進場提醒績效或實際成交。缺少提醒後成交依據時，正式進場績效待確認。"
 }

@@ -1,36 +1,45 @@
 {
-  "generated_at": "2026-10-09T03:17+08:00",
+  "generated_at": "2026-10-10T02:50+08:00",
   "as_of": "2026-10-08",
   "quality": {
     "as_of": "2026-10-08",
-    "coverage": 0.9127,
+    "coverage": 0.9107,
     "passed": true,
-    "valid": 1809,
+    "valid": 1805,
     "total": 1982,
     "rejected": {
+      "1213": "missing",
       "1240": "missing",
       "1259": "missing",
+      "1341": "missing",
+      "1423": "missing",
+      "1435": "missing",
+      "1439": "missing",
+      "1441": "missing",
+      "1472": "missing",
+      "1525": "missing",
       "1538": "missing",
+      "1541": "missing",
       "1589": "missing",
-      "1781": "missing",
-      "1788": "missing",
-      "1796": "missing",
-      "1813": "missing",
+      "2024": "missing",
       "2035": "missing",
       "2064": "missing",
       "2067": "missing",
       "2073": "missing",
       "2235": "missing",
+      "2321": "missing",
       "2323": "missing",
+      "2601": "missing",
       "2718": "missing",
       "2719": "missing",
       "2724": "missing",
       "2751": "missing",
       "2752": "missing",
-      "2924": "missing",
       "2926": "missing",
       "2937": "missing",
+      "2938": "missing",
       "2941": "missing",
+      "2945": "missing",
       "2947": "missing",
       "2948": "missing",
       "2949": "missing",
@@ -40,33 +49,31 @@
       "3095": "missing",
       "3115": "missing",
       "3118": "missing",
-      "3158": "missing",
+      "3164": "missing",
+      "3168": "missing",
       "3171": "missing",
-      "3252": "missing",
-      "3259": "missing",
       "3285": "missing",
       "3332": "missing",
+      "3356": "missing",
+      "3432": "missing",
       "3531": "missing",
+      "3591": "missing",
       "3625": "missing",
       "3629": "missing",
       "3632": "missing",
-      "3664": "missing",
       "3684": "missing",
+      "3710": "missing",
       "4154": "missing",
       "4155": "missing",
       "4175": "missing",
       "4183": "missing",
       "4192": "missing",
-      "4198": "missing",
       "4305": "missing",
-      "4402": "missing",
-      "4406": "missing",
       "4413": "missing",
       "4419": "missing",
       "4502": "missing",
+      "4527": "missing",
       "4530": "missing",
-      "4535": "missing",
-      "4550": "missing",
       "4568": "missing",
       "4581": "missing",
       "4584": "missing",
@@ -77,13 +84,10 @@
       "4950": "missing",
       "5016": "missing",
       "5205": "missing",
-      "5212": "missing",
-      "5245": "missing",
       "5276": "missing",
       "5301": "missing",
       "5310": "missing",
       "5345": "missing",
-      "5348": "missing",
       "5455": "missing",
       "5514": "missing",
       "5520": "missing",
@@ -93,12 +97,10 @@
       "5878": "missing",
       "5902": "missing",
       "5906": "missing",
-      "6103": "missing",
       "6114": "missing",
-      "6124": "missing",
+      "6129": "missing",
       "6167": "missing",
       "6169": "missing",
-      "6171": "missing",
       "6173": "missing",
       "6195": "missing",
       "6198": "missing",
@@ -108,61 +110,62 @@
       "6228": "missing",
       "6236": "missing",
       "6242": "missing",
-      "6264": "missing",
       "6276": "missing",
+      "6461": "missing",
       "6482": "missing",
       "6496": "missing",
       "6512": "missing",
       "6542": "missing",
-      "6560": "missing",
-      "6590": "missing",
+      "6550": "missing",
       "6597": "missing",
+      "6604": "missing",
       "6615": "missing",
       "6624": "missing",
-      "6649": "missing",
+      "6641": "missing",
+      "6655": "missing",
       "6661": "missing",
       "6662": "missing",
       "6680": "missing",
       "6692": "missing",
-      "6697": "missing",
       "6720": "missing",
       "6721": "missing",
       "6730": "missing",
       "6751": "missing",
-      "6752": "missing",
       "6762": "missing",
       "6767": "missing",
-      "6843": "missing",
-      "6846": "missing",
+      "6807": "missing",
       "6855": "missing",
       "6856": "missing",
-      "6865": "missing",
       "6881": "missing",
       "6884": "missing",
       "6904": "missing",
+      "6921": "missing",
       "6929": "missing",
+      "6952": "missing",
+      "6955": "missing",
       "6997": "missing",
       "7584": "missing",
       "7708": "missing",
       "7713": "missing",
       "7716": "missing",
-      "7743": "missing",
+      "7732": "missing",
       "7747": "missing",
-      "7757": "missing",
       "7767": "missing",
       "7782": "missing",
-      "7811": "missing",
       "7812": "missing",
       "7820": "missing",
+      "7825": "missing",
       "7842": "missing",
+      "7856": "missing",
       "8047": "missing",
-      "8066": "missing",
+      "8059": "missing",
       "8077": "missing",
       "8080": "missing",
       "8087": "missing",
       "8093": "missing",
       "8102": "missing",
       "8107": "missing",
+      "8277": "missing",
       "8342": "missing",
       "8409": "missing",
       "8416": "missing",
@@ -172,42 +175,43 @@
       "8444": "missing",
       "8455": "missing",
       "8488": "missing",
+      "8499": "missing",
       "8905": "missing",
       "8917": "missing",
       "8921": "missing",
       "8923": "missing",
       "8929": "missing",
-      "8931": "missing",
       "8941": "missing",
+      "9110": "missing",
       "9949": "missing",
       "9960": "missing"
     },
     "counts": {
-      "missing": 173
+      "missing": 177
     }
   },
   "radar": {
     "as_of": "2026-10-08",
     "mode": "shadow",
     "context": {
-      "benchmark": 0.008720930232558155,
-      "breadth": 0.5948037589828634,
+      "benchmark": 0.008908685968819663,
+      "breadth": 0.5950138504155125,
       "sectors": {
         "產業代碼01": {
           "return": -0.021857923497267673,
           "count": 7
         },
         "產業代碼02": {
-          "return": -0.0222510822510823,
-          "count": 30
+          "return": -0.021601946975081276,
+          "count": 32
         },
         "產業代碼16": {
-          "return": -0.011806096339971095,
-          "count": 38
+          "return": -0.011029232939345324,
+          "count": 40
         },
         "產業代碼03": {
-          "return": 0.04170780503013927,
-          "count": 24
+          "return": 0.05514705882352944,
+          "count": 23
         },
         "產業代碼14": {
           "return": -0.018181818181818077,
@@ -215,39 +219,39 @@
         },
         "產業代碼12": {
           "return": 0.0,
-          "count": 43
+          "count": 41
         },
         "產業代碼28": {
-          "return": 0.05459568118194036,
-          "count": 202
+          "return": 0.054003724394785735,
+          "count": 201
         },
         "產業代碼20": {
-          "return": -0.008558426664714736,
-          "count": 80
+          "return": -0.00877192982456143,
+          "count": 77
         },
         "產業代碼04": {
           "return": -0.0034843205574912606,
           "count": 49
         },
         "產業代碼37": {
-          "return": -0.023010308618260922,
-          "count": 24
+          "return": -0.02171813587871979,
+          "count": 26
         },
         "產業代碼05": {
           "return": -0.003481354001284742,
           "count": 90
         },
         "產業代碼22": {
-          "return": 0.007717750826901959,
-          "count": 137
+          "return": 0.00649739784089165,
+          "count": 138
         },
         "產業代碼25": {
           "return": 0.008051529790660261,
           "count": 105
         },
         "產業代碼24": {
-          "return": 0.04632152588555849,
-          "count": 203
+          "return": 0.04653937947494047,
+          "count": 201
         },
         "產業代碼06": {
           "return": 0.0,
@@ -258,8 +262,8 @@
           "count": 42
         },
         "產業代碼31": {
-          "return": 0.018927444794952564,
-          "count": 89
+          "return": 0.02091020910209096,
+          "count": 87
         },
         "產業代碼08": {
           "return": -0.007499999999999951,
@@ -270,56 +274,56 @@
           "count": 7
         },
         "產業代碼10": {
-          "return": 0.004636785162287493,
-          "count": 43
+          "return": 0.004805954770198406,
+          "count": 42
         },
         "產業代碼38": {
-          "return": -0.011298113654719999,
+          "return": -0.007244143485701127,
           "count": 22
         },
         "產業代碼35": {
-          "return": -0.005094614264919972,
-          "count": 40
+          "return": -0.010189228529839944,
+          "count": 39
         },
         "產業代碼11": {
           "return": -0.0046948356807511304,
           "count": 11
         },
         "產業代碼15": {
-          "return": -0.011285721332500331,
-          "count": 32
+          "return": -0.009273570324575098,
+          "count": 31
         },
         "產業代碼27": {
-          "return": 0.05084745762711873,
-          "count": 87
+          "return": 0.049130625365283453,
+          "count": 86
         },
         "產業代碼29": {
           "return": 0.02366381682685592,
           "count": 38
         },
         "產業代碼26": {
-          "return": 0.04662723785166245,
-          "count": 110
+          "return": 0.04619565217391308,
+          "count": 109
         },
         "產業代碼30": {
-          "return": 0.027190332326283873,
-          "count": 35
+          "return": 0.027048080961348253,
+          "count": 40
         },
         "產業代碼23": {
-          "return": -0.006049541809851178,
-          "count": 10
+          "return": -0.005154639175257825,
+          "count": 11
         },
         "產業代碼36": {
-          "return": 0.0047549006317273435,
-          "count": 34
+          "return": 0.0032467532467532756,
+          "count": 35
         },
         "產業代碼17": {
           "return": -0.008823529411764675,
           "count": 39
         },
         "產業代碼18": {
-          "return": -0.010067114093959662,
-          "count": 17
+          "return": -0.007306284319707146,
+          "count": 16
         },
         "產業代碼32": {
           "return": 0.0,
@@ -330,8 +334,8 @@
           "count": 3
         },
         "產業代碼91": {
-          "return": 0.05900906648253512,
-          "count": 4
+          "return": -0.005760368663594306,
+          "count": 3
         }
       },
       "label": "有效樣本20日報酬中位數／站上20日線比例（非官方指數，初篩用）"
@@ -1118,25 +1122,30 @@
       }
     ],
     "coverage": {
-      "market_valid": 1809,
+      "market_valid": 1805,
       "deep_review": 20
     },
     "notice": "收盤研究／影子驗證；尚無即時報價確認，不代表實際持倉或已成交。",
     "performance": {
       "as_of": "2026-10-08",
-      "method": "forward-next-open-v2",
+      "method": "short-swing-next-open-benchmark-v3",
+      "role": "next_open_benchmark_only",
+      "entry_alert_performance": {
+        "status": "pending",
+        "reason": "requires_post_alert_execution_evidence"
+      },
       "summary": {
         "counts": {},
         "closed": 0,
         "win_rate": null,
         "mean_net_return_pct": null
       },
-      "notice": "訊號次日開盤模擬；不是實際成交或投資組合報酬，無訊號時不產生績效。"
+      "notice": "2–3交易日次日開盤對照模擬；不是盤中進場提醒績效或實際成交。缺少提醒後成交依據時，正式進場績效待確認。"
     }
   },
   "scanned": 1982,
-  "success": 1809,
-  "data_source": "官方API（上市）＋ FinMind（上櫃）",
+  "success": 1805,
+  "data_source": "TWSE＋TPEx 官方批次行情（最近30交易日，逐日快取）",
   "watchlist": [
     {
       "id": "2424",
@@ -1905,6 +1914,31 @@
       "sector": "產業代碼35"
     },
     {
+      "id": "1781",
+      "name": "合世",
+      "reasons": [
+        "上漲9.77%",
+        "成交量達均量44.7倍",
+        "站上5日均線",
+        "站上20日均線"
+      ],
+      "signal_count": 4,
+      "tags": [
+        "爆量",
+        "均線同步"
+      ],
+      "latest_date": "2026-10-08",
+      "close": 10.9,
+      "change_pct": 9.77,
+      "volume": 645465,
+      "ma_short": 10.12,
+      "ma_long": 10.1,
+      "volume_ratio": 44.7,
+      "cross_short": "站上",
+      "cross_long": "站上",
+      "sector": "產業代碼22"
+    },
+    {
       "id": "6716",
       "name": "應廣",
       "reasons": [
@@ -2096,26 +2130,6 @@
       "cross_short": null,
       "cross_long": null,
       "sector": "產業代碼22"
-    },
-    {
-      "id": "3591",
-      "name": "艾笛森",
-      "reasons": [
-        "上漲8.58%",
-        "站上5日均線"
-      ],
-      "signal_count": 2,
-      "tags": [],
-      "latest_date": "2026-10-08",
-      "close": 29.1,
-      "change_pct": 8.58,
-      "volume": 2655399,
-      "ma_short": 27.81,
-      "ma_long": 25.25,
-      "volume_ratio": 1.13,
-      "cross_short": "站上",
-      "cross_long": null,
-      "sector": "產業代碼26"
     },
     {
       "id": "5243",
@@ -3155,6 +3169,26 @@
       "cross_short": null,
       "cross_long": null,
       "sector": "產業代碼35"
+    },
+    {
+      "id": "6103",
+      "name": "合邦",
+      "reasons": [
+        "下跌5.26%",
+        "成交量達均量1.88倍"
+      ],
+      "signal_count": 2,
+      "tags": [],
+      "latest_date": "2026-10-08",
+      "close": 37.8,
+      "change_pct": -5.26,
+      "volume": 84598,
+      "ma_short": 37.37,
+      "ma_long": 35.82,
+      "volume_ratio": 1.88,
+      "cross_short": null,
+      "cross_long": null,
+      "sector": "產業代碼24"
     },
     {
       "id": "5475",
@@ -4272,26 +4306,6 @@
       "sector": "產業代碼24"
     },
     {
-      "id": "6550",
-      "name": "北極星藥業-KY",
-      "reasons": [
-        "上漲4.05%",
-        "站上5日均線"
-      ],
-      "signal_count": 2,
-      "tags": [],
-      "latest_date": "2026-10-08",
-      "close": 16.7,
-      "change_pct": 4.05,
-      "volume": 770188,
-      "ma_short": 16.35,
-      "ma_long": 12.85,
-      "volume_ratio": 0.61,
-      "cross_short": "站上",
-      "cross_long": null,
-      "sector": "產業代碼22"
-    },
-    {
       "id": "2484",
       "name": "希華",
       "reasons": [
@@ -4432,6 +4446,25 @@
       "sector": "產業代碼28"
     },
     {
+      "id": "3259",
+      "name": "鑫創",
+      "reasons": [
+        "上漲3.91%"
+      ],
+      "signal_count": 1,
+      "tags": [],
+      "latest_date": "2026-10-08",
+      "close": 11.95,
+      "change_pct": 3.91,
+      "volume": 8099,
+      "ma_short": 12.31,
+      "ma_long": 11.13,
+      "volume_ratio": 0.21,
+      "cross_short": null,
+      "cross_long": null,
+      "sector": "產業代碼24"
+    },
+    {
       "id": "6153",
       "name": "嘉聯益",
       "reasons": [
@@ -4538,29 +4571,6 @@
       "sector": "產業代碼22"
     },
     {
-      "id": "6807",
-      "name": "峰源-KY",
-      "reasons": [
-        "上漲3.82%",
-        "成交量達均量4.42倍",
-        "站上20日均線"
-      ],
-      "signal_count": 3,
-      "tags": [
-        "爆量"
-      ],
-      "latest_date": "2026-10-08",
-      "close": 34.0,
-      "change_pct": 3.82,
-      "volume": 41333,
-      "ma_short": 32.63,
-      "ma_long": 32.92,
-      "volume_ratio": 4.42,
-      "cross_short": null,
-      "cross_long": "站上",
-      "sector": "產業代碼38"
-    },
-    {
       "id": "6215",
       "name": "和椿",
       "reasons": [
@@ -4599,30 +4609,6 @@
       "cross_short": "跌破",
       "cross_long": null,
       "sector": "產業代碼21"
-    },
-    {
-      "id": "1439",
-      "name": "雋揚",
-      "reasons": [
-        "下跌3.77%",
-        "成交量達均量1.71倍",
-        "跌破5日均線",
-        "跌破20日均線"
-      ],
-      "signal_count": 4,
-      "tags": [
-        "均線同步"
-      ],
-      "latest_date": "2026-10-08",
-      "close": 28.05,
-      "change_pct": -3.77,
-      "volume": 41322,
-      "ma_short": 28.89,
-      "ma_long": 28.75,
-      "volume_ratio": 1.71,
-      "cross_short": "跌破",
-      "cross_long": "跌破",
-      "sector": "產業代碼14"
     },
     {
       "id": "2302",
@@ -4702,6 +4688,26 @@
       "cross_short": null,
       "cross_long": null,
       "sector": "產業代碼24"
+    },
+    {
+      "id": "7743",
+      "name": "金利食安",
+      "reasons": [
+        "下跌3.7%",
+        "跌破5日均線"
+      ],
+      "signal_count": 2,
+      "tags": [],
+      "latest_date": "2026-10-08",
+      "close": 26.0,
+      "change_pct": -3.7,
+      "volume": 130789,
+      "ma_short": 26.15,
+      "ma_long": 24.54,
+      "volume_ratio": 0.81,
+      "cross_short": "跌破",
+      "cross_long": null,
+      "sector": "產業代碼02"
     },
     {
       "id": "8404",
@@ -4991,25 +4997,6 @@
       "cross_short": "跌破",
       "cross_long": null,
       "sector": "產業代碼28"
-    },
-    {
-      "id": "7825",
-      "name": "和亞智慧",
-      "reasons": [
-        "下跌3.46%"
-      ],
-      "signal_count": 1,
-      "tags": [],
-      "latest_date": "2026-10-08",
-      "close": 75.4,
-      "change_pct": -3.46,
-      "volume": 240381,
-      "ma_short": 79.52,
-      "ma_long": 84.31,
-      "volume_ratio": 0.42,
-      "cross_short": null,
-      "cross_long": null,
-      "sector": "產業代碼31"
     },
     {
       "id": "6907",
@@ -6340,25 +6327,6 @@
       "sector": "產業代碼08"
     },
     {
-      "id": "7856",
-      "name": "漢測",
-      "reasons": [
-        "跌破5日均線"
-      ],
-      "signal_count": 1,
-      "tags": [],
-      "latest_date": "2026-10-08",
-      "close": 4260.0,
-      "change_pct": -2.74,
-      "volume": 524957,
-      "ma_short": 4261.0,
-      "ma_long": 4589.0,
-      "volume_ratio": 1.27,
-      "cross_short": "跌破",
-      "cross_long": null,
-      "sector": "產業代碼24"
-    },
-    {
       "id": "2887",
       "name": "台新新光金",
       "reasons": [
@@ -6635,44 +6603,6 @@
       "cross_short": "跌破",
       "cross_long": null,
       "sector": "產業代碼26"
-    },
-    {
-      "id": "1435",
-      "name": "中福",
-      "reasons": [
-        "成交量達均量1.56倍"
-      ],
-      "signal_count": 1,
-      "tags": [],
-      "latest_date": "2026-10-08",
-      "close": 20.5,
-      "change_pct": -2.61,
-      "volume": 18316,
-      "ma_short": 21.39,
-      "ma_long": 22.27,
-      "volume_ratio": 1.56,
-      "cross_short": null,
-      "cross_long": null,
-      "sector": "產業代碼20"
-    },
-    {
-      "id": "1213",
-      "name": "大飲",
-      "reasons": [
-        "站上20日均線"
-      ],
-      "signal_count": 1,
-      "tags": [],
-      "latest_date": "2026-10-08",
-      "close": 7.5,
-      "change_pct": 2.6,
-      "volume": 4285,
-      "ma_short": 7.26,
-      "ma_long": 7.31,
-      "volume_ratio": 0.37,
-      "cross_short": null,
-      "cross_long": "站上",
-      "sector": "產業代碼02"
     },
     {
       "id": "6269",
@@ -7526,26 +7456,6 @@
       "sector": "產業代碼30"
     },
     {
-      "id": "6655",
-      "name": "科定",
-      "reasons": [
-        "成交量達均量2.36倍",
-        "跌破5日均線"
-      ],
-      "signal_count": 2,
-      "tags": [],
-      "latest_date": "2026-10-08",
-      "close": 125.5,
-      "change_pct": -2.33,
-      "volume": 49014,
-      "ma_short": 127.5,
-      "ma_long": 124.22,
-      "volume_ratio": 2.36,
-      "cross_short": "跌破",
-      "cross_long": null,
-      "sector": "產業代碼20"
-    },
-    {
       "id": "3169",
       "name": "亞信",
       "reasons": [
@@ -8017,27 +7927,6 @@
       "cross_short": null,
       "cross_long": null,
       "sector": "產業代碼27"
-    },
-    {
-      "id": "9110",
-      "name": "越南控-DR",
-      "reasons": [
-        "成交量達均量7.11倍"
-      ],
-      "signal_count": 1,
-      "tags": [
-        "爆量"
-      ],
-      "latest_date": "2026-10-08",
-      "close": 3.45,
-      "change_pct": 2.07,
-      "volume": 261000,
-      "ma_short": 3.2,
-      "ma_long": 3.0,
-      "volume_ratio": 7.11,
-      "cross_short": null,
-      "cross_long": null,
-      "sector": "產業代碼91"
     },
     {
       "id": "1466",
@@ -9486,6 +9375,28 @@
       "sector": "產業代碼05"
     },
     {
+      "id": "1796",
+      "name": "金穎生技",
+      "reasons": [
+        "跌破5日均線",
+        "跌破20日均線"
+      ],
+      "signal_count": 2,
+      "tags": [
+        "均線同步"
+      ],
+      "latest_date": "2026-10-08",
+      "close": 29.5,
+      "change_pct": -1.67,
+      "volume": 10003,
+      "ma_short": 29.7,
+      "ma_long": 29.58,
+      "volume_ratio": 1.06,
+      "cross_short": "跌破",
+      "cross_long": "跌破",
+      "sector": "產業代碼02"
+    },
+    {
       "id": "2449",
       "name": "京元電子",
       "reasons": [
@@ -10370,25 +10281,6 @@
       "sector": "產業代碼06"
     },
     {
-      "id": "3164",
-      "name": "景岳",
-      "reasons": [
-        "成交量達均量1.91倍"
-      ],
-      "signal_count": 1,
-      "tags": [],
-      "latest_date": "2026-10-08",
-      "close": 16.95,
-      "change_pct": 1.5,
-      "volume": 54708,
-      "ma_short": 16.65,
-      "ma_long": 16.2,
-      "volume_ratio": 1.91,
-      "cross_short": null,
-      "cross_long": null,
-      "sector": "產業代碼22"
-    },
-    {
       "id": "8091",
       "name": "翔名",
       "reasons": [
@@ -11120,25 +11012,6 @@
       "sector": "產業代碼14"
     },
     {
-      "id": "2938",
-      "name": "床的世界",
-      "reasons": [
-        "站上5日均線"
-      ],
-      "signal_count": 1,
-      "tags": [],
-      "latest_date": "2026-10-08",
-      "close": 18.55,
-      "change_pct": 1.37,
-      "volume": 54308,
-      "ma_short": 18.33,
-      "ma_long": 19.38,
-      "volume_ratio": 0.45,
-      "cross_short": "站上",
-      "cross_long": null,
-      "sector": "產業代碼38"
-    },
-    {
       "id": "3060",
       "name": "銘異",
       "reasons": [
@@ -11193,25 +11066,6 @@
       "volume_ratio": 0.62,
       "cross_short": "跌破",
       "cross_long": null,
-      "sector": "產業代碼28"
-    },
-    {
-      "id": "3432",
-      "name": "台端",
-      "reasons": [
-        "跌破20日均線"
-      ],
-      "signal_count": 1,
-      "tags": [],
-      "latest_date": "2026-10-08",
-      "close": 14.5,
-      "change_pct": -1.36,
-      "volume": 16100,
-      "ma_short": 14.71,
-      "ma_long": 14.65,
-      "volume_ratio": 0.39,
-      "cross_short": null,
-      "cross_long": "跌破",
       "sector": "產業代碼28"
     },
     {
@@ -11406,25 +11260,6 @@
       "cross_short": "站上",
       "cross_long": null,
       "sector": "產業代碼14"
-    },
-    {
-      "id": "3356",
-      "name": "奇偶",
-      "reasons": [
-        "跌破5日均線"
-      ],
-      "signal_count": 1,
-      "tags": [],
-      "latest_date": "2026-10-08",
-      "close": 66.7,
-      "change_pct": -1.33,
-      "volume": 223140,
-      "ma_short": 67.2,
-      "ma_long": 64.53,
-      "volume_ratio": 0.57,
-      "cross_short": "跌破",
-      "cross_long": null,
-      "sector": "產業代碼26"
     },
     {
       "id": "6527",
@@ -11948,6 +11783,25 @@
       "cross_short": "跌破",
       "cross_long": null,
       "sector": "產業代碼31"
+    },
+    {
+      "id": "6649",
+      "name": "台生材",
+      "reasons": [
+        "站上20日均線"
+      ],
+      "signal_count": 1,
+      "tags": [],
+      "latest_date": "2026-10-08",
+      "close": 36.6,
+      "change_pct": 1.24,
+      "volume": 14007,
+      "ma_short": 36.98,
+      "ma_long": 36.31,
+      "volume_ratio": 0.23,
+      "cross_short": null,
+      "cross_long": "站上",
+      "sector": "產業代碼22"
     },
     {
       "id": "6863",
@@ -12965,6 +12819,26 @@
       "sector": "產業代碼14"
     },
     {
+      "id": "6846",
+      "name": "綠茵",
+      "reasons": [
+        "成交量達均量1.61倍",
+        "站上5日均線"
+      ],
+      "signal_count": 2,
+      "tags": [],
+      "latest_date": "2026-10-08",
+      "close": 58.3,
+      "change_pct": 1.04,
+      "volume": 9000,
+      "ma_short": 58.16,
+      "ma_long": 58.48,
+      "volume_ratio": 1.61,
+      "cross_short": "站上",
+      "cross_long": null,
+      "sector": "產業代碼02"
+    },
+    {
       "id": "3047",
       "name": "訊舟",
       "reasons": [
@@ -13178,6 +13052,28 @@
       "cross_short": "跌破",
       "cross_long": null,
       "sector": "產業代碼35"
+    },
+    {
+      "id": "4406",
+      "name": "新昕纖",
+      "reasons": [
+        "站上5日均線",
+        "站上20日均線"
+      ],
+      "signal_count": 2,
+      "tags": [
+        "均線同步"
+      ],
+      "latest_date": "2026-10-08",
+      "close": 10.15,
+      "change_pct": 1.0,
+      "volume": 13002,
+      "ma_short": 10.1,
+      "ma_long": 10.14,
+      "volume_ratio": 0.16,
+      "cross_short": "站上",
+      "cross_long": "站上",
+      "sector": "產業代碼04"
     },
     {
       "id": "6278",
@@ -14485,27 +14381,6 @@
       "sector": "產業代碼03"
     },
     {
-      "id": "2024",
-      "name": "志聯",
-      "reasons": [
-        "成交量達均量4.59倍"
-      ],
-      "signal_count": 1,
-      "tags": [
-        "爆量"
-      ],
-      "latest_date": "2026-10-08",
-      "close": 12.85,
-      "change_pct": 0.78,
-      "volume": 74329,
-      "ma_short": 13.0,
-      "ma_long": 12.99,
-      "volume_ratio": 4.59,
-      "cross_short": null,
-      "cross_long": null,
-      "sector": "產業代碼10"
-    },
-    {
       "id": "2743",
       "name": "山富",
       "reasons": [
@@ -14913,6 +14788,28 @@
       "cross_short": null,
       "cross_long": "跌破",
       "sector": "產業代碼12"
+    },
+    {
+      "id": "6697",
+      "name": "東捷資訊",
+      "reasons": [
+        "跌破5日均線",
+        "跌破20日均線"
+      ],
+      "signal_count": 2,
+      "tags": [
+        "均線同步"
+      ],
+      "latest_date": "2026-10-08",
+      "close": 40.8,
+      "change_pct": -0.73,
+      "volume": 26559,
+      "ma_short": 41.04,
+      "ma_long": 41.08,
+      "volume_ratio": 1.01,
+      "cross_short": "跌破",
+      "cross_long": "跌破",
+      "sector": "產業代碼30"
     },
     {
       "id": "2801",
@@ -15790,25 +15687,6 @@
       "sector": "產業代碼14"
     },
     {
-      "id": "1423",
-      "name": "利華",
-      "reasons": [
-        "站上5日均線"
-      ],
-      "signal_count": 1,
-      "tags": [],
-      "latest_date": "2026-10-08",
-      "close": 34.75,
-      "change_pct": 0.58,
-      "volume": 3748,
-      "ma_short": 34.71,
-      "ma_long": 35.03,
-      "volume_ratio": 0.4,
-      "cross_short": "站上",
-      "cross_long": null,
-      "sector": "產業代碼04"
-    },
-    {
       "id": "3567",
       "name": "逸昌",
       "reasons": [
@@ -15867,6 +15745,27 @@
       "cross_short": null,
       "cross_long": null,
       "sector": "產業代碼20"
+    },
+    {
+      "id": "5348",
+      "name": "正能量智能",
+      "reasons": [
+        "成交量達均量4.86倍"
+      ],
+      "signal_count": 1,
+      "tags": [
+        "爆量"
+      ],
+      "latest_date": "2026-10-08",
+      "close": 17.3,
+      "change_pct": -0.57,
+      "volume": 34347,
+      "ma_short": 17.1,
+      "ma_long": 16.46,
+      "volume_ratio": 4.86,
+      "cross_short": null,
+      "cross_long": null,
+      "sector": "產業代碼37"
     },
     {
       "id": "5607",
@@ -16490,6 +16389,25 @@
       "sector": "產業代碼38"
     },
     {
+      "id": "1813",
+      "name": "寶利徠",
+      "reasons": [
+        "成交量達均量2.34倍"
+      ],
+      "signal_count": 1,
+      "tags": [],
+      "latest_date": "2026-10-08",
+      "close": 11.1,
+      "change_pct": -0.45,
+      "volume": 41525,
+      "ma_short": 11.19,
+      "ma_long": 11.3,
+      "volume_ratio": 2.34,
+      "cross_short": null,
+      "cross_long": null,
+      "sector": "產業代碼22"
+    },
+    {
       "id": "2537",
       "name": "聯上發",
       "reasons": [
@@ -16820,6 +16738,25 @@
       "sector": "產業代碼22"
     },
     {
+      "id": "5212",
+      "name": "凌網",
+      "reasons": [
+        "跌破5日均線"
+      ],
+      "signal_count": 1,
+      "tags": [],
+      "latest_date": "2026-10-08",
+      "close": 48.9,
+      "change_pct": -0.41,
+      "volume": 9142,
+      "ma_short": 49.1,
+      "ma_long": 47.94,
+      "volume_ratio": 0.55,
+      "cross_short": "跌破",
+      "cross_long": null,
+      "sector": "產業代碼30"
+    },
+    {
       "id": "1324",
       "name": "地球",
       "reasons": [
@@ -16921,6 +16858,25 @@
       "sector": "產業代碼21"
     },
     {
+      "id": "1788",
+      "name": "杏昌",
+      "reasons": [
+        "成交量達均量2.94倍"
+      ],
+      "signal_count": 1,
+      "tags": [],
+      "latest_date": "2026-10-08",
+      "close": 127.5,
+      "change_pct": 0.39,
+      "volume": 50780,
+      "ma_short": 127.7,
+      "ma_long": 127.88,
+      "volume_ratio": 2.94,
+      "cross_short": null,
+      "cross_long": null,
+      "sector": "產業代碼22"
+    },
+    {
       "id": "2359",
       "name": "所羅門",
       "reasons": [
@@ -16957,6 +16913,25 @@
       "cross_short": null,
       "cross_long": null,
       "sector": "產業代碼21"
+    },
+    {
+      "id": "6843",
+      "name": "進典",
+      "reasons": [
+        "成交量達均量2.37倍"
+      ],
+      "signal_count": 1,
+      "tags": [],
+      "latest_date": "2026-10-08",
+      "close": 38.0,
+      "change_pct": -0.39,
+      "volume": 24016,
+      "ma_short": 38.25,
+      "ma_long": 38.55,
+      "volume_ratio": 2.37,
+      "cross_short": null,
+      "cross_long": null,
+      "sector": "產業代碼05"
     },
     {
       "id": "9941",
@@ -17033,25 +17008,6 @@
       "cross_short": "跌破",
       "cross_long": null,
       "sector": "產業代碼28"
-    },
-    {
-      "id": "6952",
-      "name": "大武山",
-      "reasons": [
-        "跌破5日均線"
-      ],
-      "signal_count": 1,
-      "tags": [],
-      "latest_date": "2026-10-08",
-      "close": 38.95,
-      "change_pct": -0.38,
-      "volume": 10282,
-      "ma_short": 38.96,
-      "ma_long": 38.88,
-      "volume_ratio": 0.72,
-      "cross_short": "跌破",
-      "cross_long": null,
-      "sector": "產業代碼20"
     },
     {
       "id": "1227",
@@ -17339,6 +17295,28 @@
       "volume_ratio": 1.1,
       "cross_short": "跌破",
       "cross_long": null,
+      "sector": "產業代碼16"
+    },
+    {
+      "id": "3252",
+      "name": "海灣",
+      "reasons": [
+        "站上5日均線",
+        "站上20日均線"
+      ],
+      "signal_count": 2,
+      "tags": [
+        "均線同步"
+      ],
+      "latest_date": "2026-10-08",
+      "close": 15.35,
+      "change_pct": 0.33,
+      "volume": 33138,
+      "ma_short": 15.31,
+      "ma_long": 15.32,
+      "volume_ratio": 1.24,
+      "cross_short": "站上",
+      "cross_long": "站上",
       "sector": "產業代碼16"
     },
     {
@@ -18094,6 +18072,28 @@
       "sector": "產業代碼22"
     },
     {
+      "id": "4550",
+      "name": "長佳",
+      "reasons": [
+        "站上5日均線",
+        "站上20日均線"
+      ],
+      "signal_count": 2,
+      "tags": [
+        "均線同步"
+      ],
+      "latest_date": "2026-10-08",
+      "close": 24.1,
+      "change_pct": 0.21,
+      "volume": 10013,
+      "ma_short": 24.06,
+      "ma_long": 24.08,
+      "volume_ratio": 0.83,
+      "cross_short": "站上",
+      "cross_long": "站上",
+      "sector": "產業代碼05"
+    },
+    {
       "id": "6016",
       "name": "康和證",
       "reasons": [
@@ -18464,6 +18464,25 @@
       "cross_short": "站上",
       "cross_long": null,
       "sector": "產業代碼14"
+    },
+    {
+      "id": "3664",
+      "name": "安瑞-KY",
+      "reasons": [
+        "站上5日均線"
+      ],
+      "signal_count": 1,
+      "tags": [],
+      "latest_date": "2026-10-08",
+      "close": 8.2,
+      "change_pct": 0.12,
+      "volume": 5000,
+      "ma_short": 8.18,
+      "ma_long": 8.18,
+      "volume_ratio": 0.12,
+      "cross_short": "站上",
+      "cross_long": null,
+      "sector": "產業代碼27"
     },
     {
       "id": "2114",
@@ -18889,6 +18908,25 @@
       "sector": "產業代碼36"
     },
     {
+      "id": "7811",
+      "name": "民盛",
+      "reasons": [
+        "站上20日均線"
+      ],
+      "signal_count": 1,
+      "tags": [],
+      "latest_date": "2026-10-08",
+      "close": 73.0,
+      "change_pct": 0.0,
+      "volume": 6000,
+      "ma_short": 72.54,
+      "ma_long": 72.95,
+      "volume_ratio": 0.71,
+      "cross_short": null,
+      "cross_long": "站上",
+      "sector": "產業代碼37"
+    },
+    {
       "id": "8085",
       "name": "福華",
       "reasons": [
@@ -19096,54 +19134,54 @@
       "published": "Tue, 29 Sep 2026 01:06:00 GMT"
     },
     {
-      "title": "載板供需吃緊需求爆發！「這大廠」明年EPS有望破27元　目標價看1300元",
-      "link": "https://tw.news.yahoo.com/%E8%BC%89%E6%9D%BF%E4%BE%9B%E9%9C%80%E5%90%83%E7%B7%8A%E9%9C%80%E6%B1%82%E7%88%86%E7%99%BC-%E9%80%99%E5%A4%A7%E5%BB%A0-%E6%98%8E%E5%B9%B4eps%E6%9C%89%E6%9C%9B%E7%A0%B427%E5%85%83-%E7%9B%AE%E6%A8%99%E5%83%B9%E7%9C%8B1300%E5%85%83-183600590.html",
-      "published": "Thu, 08 Oct 2026 18:36:00 +0800"
+      "title": "三星Q3獲利破紀錄　股價竟不漲反跌！隱憂曝光",
+      "link": "https://tw.news.yahoo.com/%E4%B8%89%E6%98%9Fq3%E7%8D%B2%E5%88%A9%E7%A0%B4%E7%B4%80%E9%8C%84-%E8%82%A1%E5%83%B9%E7%AB%9F%E4%B8%8D%E6%BC%B2%E5%8F%8D%E8%B7%8C-%E9%9A%B1%E6%86%82%E6%9B%9D%E5%85%89-181500293.html",
+      "published": "Fri, 09 Oct 2026 18:15:00 +0800"
     },
     {
-      "title": "川湖營收降溫　陸行之曝AI風向變化",
-      "link": "https://tw.news.yahoo.com/%E5%B7%9D%E6%B9%96%E7%87%9F%E6%94%B6%E9%99%8D%E6%BA%AB-%E9%99%B8%E8%A1%8C%E4%B9%8B%E6%9B%9Dai%E9%A2%A8%E5%90%91%E8%AE%8A%E5%8C%96-181500839.html",
-      "published": "Thu, 08 Oct 2026 18:15:00 +0800"
+      "title": "明年EPS衝22元！「這大廠」受惠高階銅箔需求點火　法人喊目標價至620元",
+      "link": "https://tw.news.yahoo.com/%E6%98%8E%E5%B9%B4eps%E8%A1%9D22%E5%85%83-%E9%80%99%E5%A4%A7%E5%BB%A0-%E5%8F%97%E6%83%A0%E9%AB%98%E9%9A%8E%E9%8A%85%E7%AE%94%E9%9C%80%E6%B1%82%E9%BB%9E%E7%81%AB-%E6%B3%95%E4%BA%BA%E5%96%8A%E7%9B%AE%E6%A8%99%E5%83%B9%E8%87%B3620%E5%85%83-180600090.html",
+      "published": "Fri, 09 Oct 2026 18:06:00 +0800"
     },
     {
-      "title": "AI建廠需求催油門！這大廠上半年EPS15.4元　海外營收占比已達30%",
-      "link": "https://tw.news.yahoo.com/ai%E5%BB%BA%E5%BB%A0%E9%9C%80%E6%B1%82%E5%82%AC%E6%B2%B9%E9%96%80-%E9%80%99%E5%A4%A7%E5%BB%A0%E4%B8%8A%E5%8D%8A%E5%B9%B4eps15-4%E5%85%83-%E6%B5%B7%E5%A4%96%E7%87%9F%E6%94%B6%E5%8D%A0%E6%AF%94%E5%B7%B2%E9%81%9430-181000131.html",
-      "published": "Thu, 08 Oct 2026 18:10:00 +0800"
+      "title": "股市震盪錢往哪逃！這6檔規模、單位數雙增　小資防禦首選",
+      "link": "https://tw.news.yahoo.com/%E8%82%A1%E5%B8%82%E9%9C%87%E7%9B%AA%E9%8C%A2%E5%BE%80%E5%93%AA%E9%80%83-%E9%80%996%E6%AA%94%E8%A6%8F%E6%A8%A1-%E5%96%AE%E4%BD%8D%E6%95%B8%E9%9B%99%E5%A2%9E-%E5%B0%8F%E8%B3%87%E9%98%B2%E7%A6%A6%E9%A6%96%E9%81%B8-172600773.html",
+      "published": "Fri, 09 Oct 2026 17:26:00 +0800"
     },
     {
-      "title": "DRAM合約價漲最高20%！「這記憶體大廠」明年EPS估衝120元　目標價曝光",
-      "link": "https://tw.news.yahoo.com/dram%E5%90%88%E7%B4%84%E5%83%B9%E6%BC%B2%E6%9C%80%E9%AB%9820-%E9%80%99%E8%A8%98%E6%86%B6%E9%AB%94%E5%A4%A7%E5%BB%A0-%E6%98%8E%E5%B9%B4eps%E4%BC%B0%E8%A1%9D120%E5%85%83-%E7%9B%AE%E6%A8%99%E5%83%B9%E6%9B%9D%E5%85%89-180500373.html",
-      "published": "Thu, 08 Oct 2026 18:05:00 +0800"
+      "title": "快訊／OpenAI營收衝擊暫平息！科技股反彈　SpaceX大漲",
+      "link": "https://tw.news.yahoo.com/%E5%BF%AB%E8%A8%8A-openai%E7%87%9F%E6%94%B6%E8%A1%9D%E6%93%8A%E6%9A%AB%E5%B9%B3%E6%81%AF-%E7%A7%91%E6%8A%80%E8%82%A1%E5%8F%8D%E5%BD%88-spacex%E5%A4%A7%E6%BC%B2-164400617.html",
+      "published": "Fri, 09 Oct 2026 16:44:00 +0800"
     },
     {
-      "title": "外資一週賣71億！這3檔包辦買超前3　合計狂掃近30萬張",
-      "link": "https://tw.news.yahoo.com/%E5%A4%96%E8%B3%87-%E9%80%B1%E8%B3%A371%E5%84%84-%E9%80%993%E6%AA%94%E5%8C%85%E8%BE%A6%E8%B2%B7%E8%B6%85%E5%89%8D3-%E5%90%88%E8%A8%88%E7%8B%82%E6%8E%83%E8%BF%9130%E8%90%AC%E5%BC%B5-172700420.html",
-      "published": "Thu, 08 Oct 2026 17:27:00 +0800"
+      "title": "桃園觀光工廠創意遊嘉年華登場　串聯設計與產業展現觀光魅力",
+      "link": "https://tw.news.yahoo.com/%E6%A1%83%E5%9C%92%E8%A7%80%E5%85%89%E5%B7%A5%E5%BB%A0%E5%89%B5%E6%84%8F%E9%81%8A%E5%98%89%E5%B9%B4%E8%8F%AF%E7%99%BB%E5%A0%B4-%E4%B8%B2%E8%81%AF%E8%A8%AD%E8%A8%88%E8%88%87%E7%94%A2%E6%A5%AD%E5%B1%95%E7%8F%BE%E8%A7%80%E5%85%89%E9%AD%85%E5%8A%9B-155853414.html",
+      "published": "Fri, 09 Oct 2026 15:58:53 +0800"
     },
     {
-      "title": "1.6T光模組出貨量翻倍　這3台廠吃單",
-      "link": "https://tw.news.yahoo.com/1-6t%E5%85%89%E6%A8%A1%E7%B5%84%E5%87%BA%E8%B2%A8%E9%87%8F%E7%BF%BB%E5%80%8D-%E9%80%993%E5%8F%B0%E5%BB%A0%E5%90%83%E5%96%AE-170500538.html",
-      "published": "Thu, 08 Oct 2026 17:05:00 +0800"
+      "title": "台北文創節「翻閱台北」登場　文創市集、體驗活動與ESG課程一次看",
+      "link": "https://tw.news.yahoo.com/%E5%8F%B0%E5%8C%97%E6%96%87%E5%89%B5%E7%AF%80-%E7%BF%BB%E9%96%B1%E5%8F%B0%E5%8C%97-%E7%99%BB%E5%A0%B4-%E6%96%87%E5%89%B5%E5%B8%82%E9%9B%86-%E9%AB%94%E9%A9%97%E6%B4%BB%E5%8B%95%E8%88%87esg%E8%AA%B2%E7%A8%8B-154005515.html",
+      "published": "Fri, 09 Oct 2026 15:40:05 +0800"
     },
     {
-      "title": "玻纖布吃緊　漲價效應+Intel新平台加持！「這CCL大廠」目標價至1085元",
-      "link": "https://tw.news.yahoo.com/%E7%8E%BB%E7%BA%96%E5%B8%83%E5%90%83%E7%B7%8A-%E6%BC%B2%E5%83%B9%E6%95%88%E6%87%89-intel%E6%96%B0%E5%B9%B3%E5%8F%B0%E5%8A%A0%E6%8C%81-%E9%80%99ccl%E5%A4%A7%E5%BB%A0-%E7%9B%AE%E6%A8%99%E5%83%B9%E8%87%B31085%E5%85%83-170500389.html",
-      "published": "Thu, 08 Oct 2026 17:05:00 +0800"
+      "title": "2026臺北國際牛肉麵節花博登場　115組高手角逐「臺灣牛肉麵王」",
+      "link": "https://tw.news.yahoo.com/2026%E8%87%BA%E5%8C%97%E5%9C%8B%E9%9A%9B%E7%89%9B%E8%82%89%E9%BA%B5%E7%AF%80%E8%8A%B1%E5%8D%9A%E7%99%BB%E5%A0%B4-115%E7%B5%84%E9%AB%98%E6%89%8B%E8%A7%92%E9%80%90-%E8%87%BA%E7%81%A3%E7%89%9B%E8%82%89%E9%BA%B5%E7%8E%8B-153608331.html",
+      "published": "Fri, 09 Oct 2026 15:36:08 +0800"
     },
     {
-      "title": "快訊／通膨疑慮加劇！四指、晶片股慘綠　台指期重挫656點",
-      "link": "https://tw.news.yahoo.com/%E5%BF%AB%E8%A8%8A-%E9%80%9A%E8%86%A8%E7%96%91%E6%85%AE%E5%8A%A0%E5%8A%87-%E5%9B%9B%E6%8C%87-%E6%99%B6%E7%89%87%E8%82%A1%E6%85%98%E7%B6%A0-%E5%8F%B0%E6%8C%87%E6%9C%9F%E9%87%8D%E6%8C%AB656%E9%BB%9E-170300250.html",
-      "published": "Thu, 08 Oct 2026 17:03:00 +0800"
+      "title": "獨家／客家庄如何變科技重鎮？楊文科的一句「客家諺語」藏玄機！",
+      "link": "https://tw.stock.yahoo.com/news/%E7%8D%A8%E5%AE%B6-%E5%AE%A2%E5%AE%B6%E5%BA%84%E5%A6%82%E4%BD%95%E8%AE%8A%E7%A7%91%E6%8A%80%E9%87%8D%E9%8E%AE-%E6%A5%8A%E6%96%87%E7%A7%91%E7%9A%84-%E5%8F%A5-%E5%AE%A2%E5%AE%B6%E8%AB%BA%E8%AA%9E-152102991.html",
+      "published": "Fri, 09 Oct 2026 15:21:02 +0800"
     },
     {
-      "title": "國道客運司機曬「單月15.4萬」薪資單！嗨喊規劃出國　內行揭驚人密辛",
-      "link": "https://tw.news.yahoo.com/%E5%9C%8B%E9%81%93%E5%AE%A2%E9%81%8B%E5%8F%B8%E6%A9%9F%E6%9B%AC-%E5%96%AE%E6%9C%8815-4%E8%90%AC-%E8%96%AA%E8%B3%87%E5%96%AE-%E5%97%A8%E5%96%8A%E8%A6%8F%E5%8A%83%E5%87%BA%E5%9C%8B-163100783.html",
-      "published": "Thu, 08 Oct 2026 16:31:00 +0800"
+      "title": "獨家／新竹縣家庭所得超越台北！背後原因不只半導體？",
+      "link": "https://tw.stock.yahoo.com/news/%E7%8D%A8%E5%AE%B6-%E6%96%B0%E7%AB%B9%E7%B8%A3%E5%AE%B6%E5%BA%AD%E6%89%80%E5%BE%97%E8%B6%85%E8%B6%8A%E5%8F%B0%E5%8C%97-%E8%83%8C%E5%BE%8C%E5%8E%9F%E5%9B%A0%E4%B8%8D%E5%8F%AA%E5%8D%8A%E5%B0%8E%E9%AB%94-152028457.html",
+      "published": "Fri, 09 Oct 2026 15:20:28 +0800"
     },
     {
-      "title": "全台99家門市到位！五金通路9月營收年增12%　線上線下雙線搶客",
-      "link": "https://tw.news.yahoo.com/%E5%85%A8%E5%8F%B099%E5%AE%B6%E9%96%80%E5%B8%82%E5%88%B0%E4%BD%8D-%E4%BA%94%E9%87%91%E9%80%9A%E8%B7%AF9%E6%9C%88%E7%87%9F%E6%94%B6%E5%B9%B4%E5%A2%9E12-%E7%B7%9A%E4%B8%8A%E7%B7%9A%E4%B8%8B%E9%9B%99%E7%B7%9A%E6%90%B6%E5%AE%A2-160300868.html",
-      "published": "Thu, 08 Oct 2026 16:03:00 +0800"
+      "title": "全民共享經濟果實  賴清德：將台灣成就化為實在的幸福",
+      "link": "https://tw.stock.yahoo.com/news/%E5%85%A8%E6%B0%91%E5%85%B1%E4%BA%AB%E7%B6%93%E6%BF%9F%E6%9E%9C%E5%AF%A6-%E8%B3%B4%E6%B8%85%E5%BE%B7-%E5%B0%87%E5%8F%B0%E7%81%A3%E6%88%90%E5%B0%B1%E5%8C%96%E7%82%BA%E5%AF%A6%E5%9C%A8%E7%9A%84%E5%B9%B8%E7%A6%8F-150324117.html",
+      "published": "Fri, 09 Oct 2026 15:03:24 +0800"
     }
   ],
   "latest_prices": {
@@ -19157,7 +19195,6 @@
     "1201": 11.55,
     "1203": 42.75,
     "1210": 51.3,
-    "1213": 7.5,
     "1215": 106.5,
     "1216": 75.6,
     "1217": 9.95,
@@ -19202,7 +19239,6 @@
     "1338": 15.1,
     "1339": 42.25,
     "1340": 5.14,
-    "1341": 59.1,
     "1342": 101.0,
     "1402": 28.4,
     "1409": 26.05,
@@ -19213,16 +19249,12 @@
     "1417": 8.16,
     "1418": 18.65,
     "1419": 65.9,
-    "1423": 34.75,
     "1432": 15.0,
     "1434": 19.45,
-    "1435": 20.5,
     "1436": 36.0,
     "1437": 31.25,
     "1438": 21.6,
-    "1439": 28.05,
     "1440": 14.35,
-    "1441": 9.6,
     "1442": 26.65,
     "1443": 22.55,
     "1444": 7.0,
@@ -19247,7 +19279,6 @@
     "1468": 13.15,
     "1470": 24.2,
     "1471": 9.31,
-    "1472": 89.7,
     "1473": 18.95,
     "1474": 10.05,
     "1475": 26.0,
@@ -19266,7 +19297,6 @@
     "1521": 25.8,
     "1522": 26.4,
     "1524": 26.95,
-    "1525": 63.2,
     "1526": 14.9,
     "1527": 32.45,
     "1528": 23.7,
@@ -19280,7 +19310,6 @@
     "1537": 114.0,
     "1539": 15.6,
     "1540": 18.95,
-    "1541": 20.5,
     "1558": 107.5,
     "1560": 1010.0,
     "1563": 79.3,
@@ -19349,12 +19378,15 @@
     "1776": 19.35,
     "1777": 75.7,
     "1780": 24.65,
+    "1781": 10.9,
     "1783": 38.1,
     "1784": 59.3,
     "1785": 103.5,
     "1786": 41.7,
+    "1788": 127.5,
     "1789": 19.1,
     "1795": 180.5,
+    "1796": 29.5,
     "1799": 28.6,
     "1802": 63.9,
     "1805": 9.99,
@@ -19362,6 +19394,7 @@
     "1808": 32.55,
     "1809": 45.45,
     "1810": 23.4,
+    "1813": 11.1,
     "1815": 135.0,
     "1817": 39.7,
     "1903": 47.45,
@@ -19384,7 +19417,6 @@
     "2020": 24.15,
     "2022": 7.15,
     "2023": 13.95,
-    "2024": 12.85,
     "2025": 13.6,
     "2027": 48.25,
     "2028": 16.75,
@@ -19448,7 +19480,6 @@
     "2314": 10.9,
     "2316": 171.0,
     "2317": 249.0,
-    "2321": 25.6,
     "2324": 35.5,
     "2327": 635.0,
     "2328": 48.05,
@@ -19602,7 +19633,6 @@
     "2548": 91.8,
     "2596": 34.15,
     "2597": 164.0,
-    "2601": 6.12,
     "2603": 232.5,
     "2605": 36.7,
     "2606": 74.9,
@@ -19695,10 +19725,9 @@
     "2915": 58.9,
     "2916": 40.6,
     "2923": 24.0,
+    "2924": 18.15,
     "2929": 5.76,
-    "2938": 18.55,
     "2939": 23.6,
-    "2945": 39.4,
     "3002": 18.75,
     "3003": 58.0,
     "3004": 120.5,
@@ -19778,11 +19807,10 @@
     "3149": 76.6,
     "3150": 15.6,
     "3152": 243.0,
+    "3158": 85.0,
     "3162": 82.2,
     "3163": 689.0,
-    "3164": 16.95,
     "3167": 1055.0,
-    "3168": 42.1,
     "3169": 106.5,
     "3176": 38.7,
     "3178": 67.5,
@@ -19809,7 +19837,9 @@
     "3232": 19.95,
     "3234": 183.0,
     "3236": 58.9,
+    "3252": 15.35,
     "3257": 49.25,
+    "3259": 11.95,
     "3260": 362.5,
     "3264": 256.0,
     "3265": 238.5,
@@ -19845,7 +19875,6 @@
     "3346": 22.0,
     "3349": 18.5,
     "3354": 32.0,
-    "3356": 66.7,
     "3357": 226.5,
     "3360": 15.4,
     "3362": 190.0,
@@ -19864,7 +19893,6 @@
     "3416": 182.0,
     "3419": 11.95,
     "3430": 111.0,
-    "3432": 14.5,
     "3434": 30.9,
     "3437": 21.15,
     "3438": 60.6,
@@ -19934,7 +19962,6 @@
     "3583": 736.0,
     "3587": 243.0,
     "3588": 53.2,
-    "3591": 29.1,
     "3592": 235.5,
     "3593": 11.6,
     "3594": 46.25,
@@ -19958,6 +19985,7 @@
     "3653": 7165.0,
     "3661": 4345.0,
     "3663": 61.6,
+    "3664": 8.2,
     "3665": 2360.0,
     "3666": 26.6,
     "3669": 32.25,
@@ -19982,7 +20010,6 @@
     "3707": 85.9,
     "3708": 94.1,
     "3709": 66.2,
-    "3710": 8.26,
     "3711": 744.0,
     "3712": 20.2,
     "3713": 14.85,
@@ -20036,12 +20063,15 @@
     "4188": 13.95,
     "4190": 24.5,
     "4195": 16.3,
+    "4198": 47.15,
     "4205": 67.8,
     "4207": 19.45,
     "4303": 31.65,
     "4304": 16.65,
     "4306": 14.55,
     "4401": 13.95,
+    "4402": 13.35,
+    "4406": 10.15,
     "4414": 8.07,
     "4416": 12.25,
     "4417": 48.8,
@@ -20061,12 +20091,12 @@
     "4513": 16.15,
     "4523": 24.0,
     "4526": 33.0,
-    "4527": 45.0,
     "4528": 14.8,
     "4529": 3.31,
     "4532": 24.4,
     "4533": 25.45,
     "4534": 30.75,
+    "4535": 26.5,
     "4536": 159.0,
     "4538": 17.6,
     "4540": 57.5,
@@ -20075,6 +20105,7 @@
     "4543": 32.55,
     "4545": 38.35,
     "4549": 98.0,
+    "4550": 24.1,
     "4551": 184.0,
     "4552": 15.35,
     "4554": 27.85,
@@ -20194,6 +20225,7 @@
     "5209": 181.0,
     "5210": 29.9,
     "5211": 20.6,
+    "5212": 48.9,
     "5213": 20.05,
     "5215": 37.7,
     "5220": 22.1,
@@ -20207,6 +20239,7 @@
     "5236": 125.0,
     "5243": 105.0,
     "5244": 40.85,
+    "5245": 19.95,
     "5251": 29.8,
     "5258": 41.9,
     "5263": 96.1,
@@ -20235,6 +20268,7 @@
     "5340": 94.4,
     "5344": 14.1,
     "5347": 186.5,
+    "5348": 17.3,
     "5351": 115.0,
     "5353": 28.9,
     "5355": 7.77,
@@ -20321,6 +20355,7 @@
     "6026": 15.8,
     "6028": 113.5,
     "6101": 38.2,
+    "6103": 37.8,
     "6104": 87.3,
     "6108": 25.6,
     "6109": 10.5,
@@ -20335,11 +20370,11 @@
     "6121": 364.0,
     "6122": 63.0,
     "6123": 42.5,
+    "6124": 27.45,
     "6125": 51.2,
     "6126": 31.9,
     "6127": 64.1,
     "6128": 19.15,
-    "6129": 14.25,
     "6130": 23.0,
     "6133": 27.05,
     "6134": 28.0,
@@ -20370,6 +20405,7 @@
     "6166": 125.0,
     "6168": 40.35,
     "6170": 49.6,
+    "6171": 24.1,
     "6174": 64.0,
     "6175": 77.9,
     "6176": 91.1,
@@ -20433,6 +20469,7 @@
     "6259": 33.1,
     "6261": 76.4,
     "6263": 176.0,
+    "6264": 6.06,
     "6265": 49.2,
     "6266": 26.5,
     "6269": 63.6,
@@ -20477,7 +20514,6 @@
     "6449": 271.0,
     "6451": 420.5,
     "6456": 100.0,
-    "6461": 29.2,
     "6462": 100.5,
     "6464": 76.3,
     "6465": 41.7,
@@ -20518,10 +20554,10 @@
     "6546": 61.5,
     "6547": 62.0,
     "6548": 77.3,
-    "6550": 16.7,
     "6552": 24.5,
     "6556": 61.9,
     "6558": 25.1,
+    "6560": 32.8,
     "6561": 308.5,
     "6568": 129.0,
     "6569": 91.4,
@@ -20538,13 +20574,13 @@
     "6585": 99.2,
     "6588": 107.5,
     "6589": 51.3,
+    "6590": 64.0,
     "6591": 41.8,
     "6592": 56.7,
     "6593": 32.3,
     "6596": 96.8,
     "6598": 27.6,
     "6603": 29.55,
-    "6604": 25.3,
     "6605": 136.5,
     "6606": 24.45,
     "6609": 38.65,
@@ -20558,13 +20594,12 @@
     "6629": 101.0,
     "6637": 56.0,
     "6640": 1050.0,
-    "6641": 17.25,
     "6642": 77.6,
     "6643": 489.0,
     "6645": 13.5,
+    "6649": 36.6,
     "6651": 141.5,
     "6654": 218.0,
-    "6655": 125.5,
     "6657": 34.85,
     "6658": 214.5,
     "6664": 373.5,
@@ -20584,6 +20619,7 @@
     "6691": 789.0,
     "6693": 196.5,
     "6695": 50.9,
+    "6697": 40.8,
     "6698": 31.6,
     "6703": 99.9,
     "6706": 151.5,
@@ -20603,6 +20639,7 @@
     "6741": 54.2,
     "6742": 57.9,
     "6743": 35.5,
+    "6752": 97.0,
     "6753": 131.0,
     "6754": 41.5,
     "6756": 97.6,
@@ -20627,7 +20664,6 @@
     "6803": 265.0,
     "6804": 17.85,
     "6805": 2370.0,
-    "6807": 34.0,
     "6811": 281.0,
     "6821": 44.9,
     "6823": 59.7,
@@ -20639,12 +20675,15 @@
     "6838": 25.1,
     "6840": 94.5,
     "6841": 56.7,
+    "6843": 38.0,
     "6844": 56.1,
+    "6846": 58.3,
     "6854": 92.9,
     "6859": 120.5,
     "6861": 262.5,
     "6862": 146.5,
     "6863": 95.6,
+    "6865": 26.45,
     "6869": 70.6,
     "6870": 319.0,
     "6872": 21.8,
@@ -20671,7 +20710,6 @@
     "6916": 18.8,
     "6918": 75.5,
     "6919": 77.5,
-    "6921": 65.7,
     "6922": 203.0,
     "6923": 73.4,
     "6924": 133.5,
@@ -20687,9 +20725,7 @@
     "6947": 68.0,
     "6949": 46.85,
     "6951": 68.0,
-    "6952": 38.95,
     "6953": 255.0,
-    "6955": 93.0,
     "6957": 448.0,
     "6958": 16.65,
     "6961": 45.6,
@@ -20727,16 +20763,17 @@
     "7723": 22.3,
     "7728": 631.0,
     "7730": 201.5,
-    "7732": 33.55,
     "7734": 2710.0,
     "7736": 70.7,
     "7738": 161.0,
     "7740": 118.5,
+    "7743": 26.0,
     "7744": 506.0,
     "7749": 364.0,
     "7750": 1975.0,
     "7751": 1620.0,
     "7753": 35.7,
+    "7757": 88.9,
     "7760": 33.0,
     "7765": 236.0,
     "7768": 300.0,
@@ -20755,19 +20792,18 @@
     "7803": 17.4,
     "7805": 505.0,
     "7810": 245.0,
+    "7811": 73.0,
     "7814": 28.5,
     "7818": 61.0,
     "7819": 32.95,
     "7821": 35.1,
     "7822": 948.0,
     "7823": 79.9,
-    "7825": 75.4,
     "7827": 169.0,
     "7828": 1840.0,
     "7835": 19.6,
     "7839": 44.0,
     "7855": 41.6,
-    "7856": 4260.0,
     "8011": 16.55,
     "8016": 291.0,
     "8021": 557.0,
@@ -20789,8 +20825,8 @@
     "8049": 24.45,
     "8050": 60.4,
     "8054": 81.0,
-    "8059": 17.6,
     "8064": 133.5,
+    "8066": 14.5,
     "8067": 11.5,
     "8068": 18.75,
     "8069": 144.0,
@@ -20843,7 +20879,6 @@
     "8261": 180.5,
     "8271": 199.5,
     "8272": 60.6,
-    "8277": 15.45,
     "8279": 80.9,
     "8284": 68.0,
     "8289": 60.9,
@@ -20893,7 +20928,6 @@
     "8482": 50.1,
     "8487": 70.1,
     "8489": 21.9,
-    "8499": 253.5,
     "8906": 28.6,
     "8908": 39.8,
     "8916": 40.85,
@@ -20902,6 +20936,7 @@
     "8927": 18.25,
     "8928": 22.25,
     "8930": 28.0,
+    "8931": 42.55,
     "8932": 92.7,
     "8933": 4.45,
     "8935": 18.9,
@@ -20913,7 +20948,6 @@
     "8996": 1710.0,
     "9103": 5.88,
     "9105": 8.63,
-    "9110": 3.45,
     "9136": 9.2,
     "9802": 65.9,
     "9902": 13.3,
