@@ -203,6 +203,11 @@ def render(snapshot, previous, holdings, weekly=False):
     q = snapshot.get('quote_health', {})
     if q:
         lines.append(f"最近行情檢查 {readable_time(q['checked_at'])}：有效 {q['valid']}／追蹤 {q['requested']} 檔；未通過時間或價格驗證者不發價格訊號。")
+    audit = snapshot.get('validation', {})
+    if audit.get('quote_attempts'):
+        lines.append(f"預警驗收：已觀測符合規則 {audit['observed_eligible_directions']} 個股票方向，其中 {audit['uncovered_directions']} 個尚未確認送達最高觸發等級（含額度限制）；不代表全市場漏報率。")
+    if snapshot.get('review_queue'):
+        lines.append(f"候選證據包：{snapshot['review_queue']['pending']} 檔待審；自動整理不等於人工審核通過。")
     outcomes = snapshot.get('alert_outcomes', {})
     if outcomes.get('records'):
         h = outcomes['horizons']['3']

@@ -4,7 +4,7 @@ import json
 import time
 import requests
 from market_clock import session_dates
-from . import sources, notify, reports
+from . import sources, notify, reports, validation
 
 URL = 'https://mis.twse.com.tw/stock/api/getStockInfo.jsp'
 WATCH = {'2330': 'tse', '6274': 'otc', '3042': 'tse'}
@@ -121,6 +121,8 @@ def check(store, now, token=None, chat=None, send=False, holdings=None):
     valid_count = 0
     for code in missing_codes:
         store.meta(f'watch-confirm:{today}:{code}', '{}')
+        validation.observation(store,code,now)
+        validation.observation(store,code,now,result='missing_or_duplicate')
     count = 0
     rows = sorted(rows,key=lambda r:(r.get('c') not in holdings,r.get('c') not in WATCH,r.get('c','')))
     for row in rows:
@@ -144,15 +146,24 @@ def check(store, now, token=None, chat=None, send=False, holdings=None):
                 selected = [dict(code=row['c'],name=row.get('n',row['c']),direction=direction,level=3,
                                  change=change,last=sources.number(row['z']),previous=sources.number(row['y']),
                                  high=sources.number(row['h']),low=sources.number(row['l']),traded=dt.datetime.combine(now.date(),dt.time.fromisoformat(row['t']),tzinfo=now.tzinfo).isoformat(),date=today)]
+        validation.observation(store,row['c'],now,valid=valid,eligible=selected if send else [])
+        if not valid:
+            validation.observation(store,row['c'],now,result='invalid_quote')
+        elif not selected:
+            validation.observation(store,row['c'],now,result='not_triggered_or_unconfirmed')
         if selected:
             store.ingest({('watch','watch-quote'):[dict(row,code=row['c'],date=today,source_date=today,source=URL,fetched_at=now.isoformat())]})
         for signal in selected:
             prefix = f"watch-price:{today}:{signal['code']}:{signal['direction']}:"
-            if any(store.sent(prefix+str(level)) for level in (3,5,8) if level >= signal['level']):
+            delivered_levels=[level for level in (3,5,8) if store.sent(prefix+str(level))]
+            if any(level >= signal['level'] for level in delivered_levels):
+                validation.observation(store,row['c'],now,result='already_delivered',direction=signal['direction'],level=max(delivered_levels))
                 continue
             if signal['code'] not in holdings and int(store.meta('watch-public-count:'+today) or '0') >= 6:
+                validation.observation(store,row['c'],now,result='public_budget')
                 continue
             if signal['level']==3 and signal['code'] not in holdings and int(store.meta('watch-early-count:'+today) or '0') >= 3:
+                validation.observation(store,row['c'],now,result='early_budget')
                 continue
             period = '收盤後回顧' if now.time() >= dt.time(13,30) else '盤中排程檢查'
             extreme = '最高漲到' if signal['direction'] == 'up' else '最低跌到'
@@ -183,7 +194,12 @@ def check(store, now, token=None, chat=None, send=False, holdings=None):
                     observation = json.loads(store.meta(evidence_key) or 'null')
                 else:
                     store.meta(evidence_key,json.dumps(observation))
-                notify.deliver(store,token,chat,delivery_key,text,now.isoformat())
+                try:
+                    notify.deliver(store,token,chat,delivery_key,text,now.isoformat())
+                except Exception:
+                    validation.observation(store,row['c'],now,result='delivery_not_confirmed')
+                    raise
+                validation.observation(store,row['c'],now,result='delivered',direction=signal['direction'],level=signal['level'])
                 store.mark_sent(prefix+str(signal['level']),now.isoformat())
                 if observation:
                     store.ingest({('watch','watch-signal'):[observation]})
@@ -221,6 +237,7 @@ def outcomes(store, as_of):
             changes.append((target/row['price']-1)*100*(1 if row['direction']=='up' else -1))
         horizons[str(horizon)] = dict(samples=len(changes),pending=len(records)-len(changes),
             positive_ratio=sum(x>0 for x in changes)/len(changes) if changes else None,
+            opposite_ratio=sum(x<0 for x in changes)/len(changes) if changes else None,
             mean_directional_pct=sum(changes)/len(changes) if changes else None)
     return dict(records=len(records),as_of=as_of,horizons=horizons,
                 method='observed-quote-to-future-close; unadjusted gross directional change, not trade win rate')

@@ -49,13 +49,16 @@ jobs:
           else
             python main.py --market tw
           fi
+      - name: 整理波段審核證據
+        if: env.MARKET_LIMIT == ''
+        run: python -m market_radar.validation --cache docs/tw_cache.json --output docs/radar_validation.json
       - name: 發布報告與研究狀態
         if: env.MARKET_LIMIT == ''
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
           mkdir -p state
-          git add docs/index.html docs/tw_cache.json docs/highlights_log.json state/
+          git add docs/radar_validation.json docs/index.html docs/tw_cache.json docs/highlights_log.json state/
           if ! git diff --cached --quiet; then
             git commit -m "Update tw close report and radar state"
             python publish_state.py
@@ -80,6 +83,7 @@ jobs:
           path: |
             docs/index.html
             docs/tw_cache.json
+            docs/radar_validation.json
             docs/highlights_log.json
             state/
           retention-days: 7

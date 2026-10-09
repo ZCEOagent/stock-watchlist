@@ -9,7 +9,7 @@ import config
 from market_clock import last_completed_session, session_dates
 from storage import read_json
 
-from . import engine, notify, reports, sources, history, financials, watch
+from . import engine, notify, reports, sources, history, financials, watch, validation
 from .store import Store
 from .maintenance import import_public
 
@@ -82,7 +82,11 @@ def run(args):
             store.meta('report-retry',json.dumps({'day':today,'mode':args.mode}))
         if args.mode == 'quotes':
             # Small quote-only path: no full-market downloads, scoring or backfill.
-            count = watch.check(store,now,token,chat,args.send,holdings=holdings)
+            try:
+                count = watch.check(store,now,token,chat,args.send,holdings=holdings)
+            finally:
+                check_day = now.date().isoformat()
+                (output/'validation.json').write_text(json.dumps(validation.audit(store,check_day,watch.outcomes(store,last_completed_session('tw'))),ensure_ascii=False),encoding='utf-8')
             print(f"Quote check: {count} signals; " + (store.meta('watch-health') or '{}'))
             return
         previous = json.loads(store.meta('report-baseline') or 'null')
@@ -163,7 +167,14 @@ def run(args):
         snapshot['quote_health'] = json.loads(store.meta('watch-health') or '{}')
         snapshot['alert_outcomes'] = watch.outcomes(store, as_of)
         snapshot['completion'] = {'history': history_health, 'financials': financial_health}
-        engine.apply_swing_gate(snapshot, read_json(config.TW_CACHE_PATH, {}), config.RADAR_MODE)
+        swing_cache = read_json(config.TW_CACHE_PATH, {})
+        engine.apply_swing_gate(snapshot, swing_cache, config.RADAR_MODE)
+        review = validation.reviews(snapshot,store,swing_cache)
+        inspection = validation.audit(store,as_of,snapshot['alert_outcomes'])
+        snapshot['validation'] = inspection
+        snapshot['review_queue'] = {'pending':len(review['items']),'approved':0}
+        (output/'candidate-review.json').write_text(json.dumps(review,ensure_ascii=False,indent=2),encoding='utf-8')
+        (output/'validation.json').write_text(json.dumps(inspection,ensure_ascii=False,indent=2),encoding='utf-8')
         # Public research snapshots contain no position sizes, stops or ownership flags.
         store.snapshot(today, snapshot)
         summary = reports.render(snapshot, previous, holdings, weekly=args.mode == 'weekly')
