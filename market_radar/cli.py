@@ -80,6 +80,11 @@ def run(args):
         scheduled = args.send and getattr(args,'delivery_slot','manual') == 'scheduled' and args.mode in ('daily','weekly')
         if scheduled:
             store.meta('report-retry',json.dumps({'day':today,'mode':args.mode}))
+        if args.mode == 'quotes':
+            # Small quote-only path: no full-market downloads, scoring or backfill.
+            count = watch.check(store,now,token,chat,args.send,holdings=holdings)
+            print(f"Quote check: {count} signals; " + (store.meta('watch-health') or '{}'))
+            return
         previous = json.loads(store.meta('report-baseline') or 'null')
         ingest_seed(store, args.price_seed)
         import_public(store, getattr(args, "maintenance_state", ".maintenance/state.sqlite"))
@@ -98,7 +103,7 @@ def run(args):
         store.ingest(feeds)
         if args.mode == 'events':
             try:
-                quote_count = watch.check(store, now, token, chat, args.send)
+                quote_count = watch.check(store, now, token, chat, args.send, holdings=holdings)
                 print(f'Watch price check: {quote_count} signals')
             except Exception as exc:
                 health.append({'market':'watch','kind':'price','ok':False,'error':type(exc).__name__})
@@ -155,6 +160,8 @@ def run(args):
         snapshot['scan_completed_at'] = dt.datetime.now(ZoneInfo('Asia/Taipei')).isoformat()
         if os.environ.get('GITHUB_RUN_ID') and os.environ.get('GITHUB_REPOSITORY'):
             snapshot['run_url'] = f"https://github.com/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}"
+        snapshot['quote_health'] = json.loads(store.meta('watch-health') or '{}')
+        snapshot['alert_outcomes'] = watch.outcomes(store, as_of)
         snapshot['completion'] = {'history': history_health, 'financials': financial_health}
         engine.apply_swing_gate(snapshot, read_json(config.TW_CACHE_PATH, {}), config.RADAR_MODE)
         # Public research snapshots contain no position sizes, stops or ownership flags.
@@ -187,7 +194,7 @@ def run(args):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('mode', choices=('daily', 'weekly', 'events', 'retry'))
+    parser.add_argument('mode', choices=('daily', 'weekly', 'events', 'retry', 'quotes'))
     parser.add_argument('--state', default='.radar/state.sqlite')
     parser.add_argument('--output', default='.radar/reports')
     parser.add_argument('--price-seed', default='.runtime/tw_history.json')

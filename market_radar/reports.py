@@ -200,6 +200,15 @@ def render(snapshot, previous, holdings, weekly=False):
         lines.append('⚠️ 部分資料來源暫時失敗，受影響股票暫停買進判斷。')
     lines.append('行情以最近已完成交易日為準，非盤中即時價。')
     lines.append(f"完整分析：{readable_time(snapshot.get('scan_completed_at') or snapshot.get('fetched_at'))}（台灣時間）｜掃描 {snapshot['scanned']} 檔")
+    q = snapshot.get('quote_health', {})
+    if q:
+        lines.append(f"最近行情檢查 {readable_time(q['checked_at'])}：有效 {q['valid']}／追蹤 {q['requested']} 檔；未通過時間或價格驗證者不發價格訊號。")
+    outcomes = snapshot.get('alert_outcomes', {})
+    if outcomes.get('records'):
+        h = outcomes['horizons']['3']
+        lines.append(f"提早提醒追蹤：共 {outcomes['records']} 筆；3 個交易日資料完整 {h['samples']} 筆、尚待觀察或缺價 {h['pending']} 筆。")
+        if h['samples']:
+            lines.append(f"3 日方向相符比例 {h['positive_ratio']:.0%}；平均方向報酬 {h['mean_directional_pct']:+.2f}%。未還原除權息、未扣成本，非交易勝率。")
     lines.append('觀察名單不是買進建議；不會自動下單。')
     if snapshot.get('run_url'):
         lines += ['本次掃描紀錄：' + snapshot['run_url']]
