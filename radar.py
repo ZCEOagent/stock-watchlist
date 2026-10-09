@@ -177,12 +177,15 @@ def evaluate(item, rows, context, facts, catalyst, as_of, previous=None):
         output["status"] = "unconfirmed" if not gates["catalyst"] or not gates["fundamental"] or not gates["chips"] else "observe"
         output["candidate_plan"] = plan
         return output
+    # Keep frozen prices and dates, but explicitly migrate the holding policy.
+    output["plan"] = dict(output["plan"], holding_sessions=[2, 3],
+                          max_holding_sessions=3, simulation_holding_sessions=3,
+                          holding_policy="short-swing-2-3-v1")
     active = output["plan"]
     latest = rows[-1]
     if output.get('triggered_on'):
         elapsed = len(sessions_after(output['triggered_on'], as_of))
-        extended = bool(verified_catalyst(catalyst, as_of) and catalyst.get('extend_to_8_weeks') is True and gates['technical'])
-        ceiling = config.RADAR_MAX_HOLD_SESSIONS if extended else config.RADAR_HOLD_SESSIONS[1]
+        ceiling = config.RADAR_HOLD_SESSIONS[1]
     # Inspect every intervening bar if the scheduler skipped days.
     since = previous.get("as_of", output["created_on"]) if previous else output["created_on"]
     intervening = [r for r in rows if since < r["date"] <= as_of]
@@ -200,8 +203,7 @@ def evaluate(item, rows, context, facts, catalyst, as_of, previous=None):
         output["status"] = "unconfirmed"
     elif output.get("triggered_on"):
         elapsed = len(sessions_after(output["triggered_on"], as_of))
-        extended = bool(catalyst and catalyst.get("extend_to_8_weeks") is True and gates["technical"])
-        ceiling = config.RADAR_MAX_HOLD_SESSIONS if extended else config.RADAR_HOLD_SESSIONS[1]
+        ceiling = config.RADAR_HOLD_SESSIONS[1]
         if elapsed >= ceiling:
             output["status"] = "expired"
             output["reasons"].append("交易計畫期限已到，不能自動延長持有")

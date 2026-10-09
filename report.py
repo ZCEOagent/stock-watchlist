@@ -46,15 +46,15 @@ def _radar_html(radar):
     mode = "影子驗證（不推送波段訊號）" if radar.get("mode") != "live" else "收盤訊號通知"
     stats = radar.get('performance', {}).get('summary', {})
     count = stats.get('closed', 0)
-    performance = f'<p>前瞻模擬已結束 {count} 筆。'
+    performance = f'<p>次日開盤對照模擬已結束 {count} 筆。'
     if count:
         performance += f"勝率 {stats['win_rate']:.1%}；每筆平均淨報酬 {stats['mean_net_return_pct']:+.2f}%。"
     else:
         performance += '尚無已結束樣本，不能判斷獲利能力。'
-    performance += '這是固定規則的訊號模擬，不是實際成交或帳戶報酬。</p>'
+    performance += '這僅是次日開盤對照模擬，不是盤中提醒後的成交績效。盤中進場績效仍待成交依據。</p>'
     return (f'<p>{mode}。{html.escape(radar.get("notice", ""))}</p>'
-            '<p>預計2～4週；訊號有效3個交易日，觸發後第5個交易日重評。條件失效即取消，'
-            '4～8週延伸需重新確認；不是持倉或成交紀錄。</p>'
+            '<p>預計2～3個交易日；訊號有效3個交易日，觸發後第2個交易日重評，第3個交易日到期。'
+            '不得自動延長至中長波段；不是持倉或成交紀錄。</p>'
             f'<p>有效行情 {radar.get("coverage", {}).get("market_valid", 0)} 檔；深入檢查 '
             f'{radar.get("coverage", {}).get("deep_review", 0)} 檔。未深入檢查不代表通過。</p>'
             + performance + '<details class="full-list"><summary>研究候選與未通過原因（展開查看）</summary>'

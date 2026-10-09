@@ -61,7 +61,7 @@ def build_messages(market, cache):
                     f"觀察進場區：{p['entry_low']:.2f}～{p['entry_high']:.2f}\n"
                     f"失效：{p['stop']:.2f}｜目標：{p['target']:.2f}\n"
                     f"扣成本 R:R：{item.get('current_rr', p['rr']):.2f}\n"
-                    f"有效至：{item['expires_on']}｜預計2～4週，第5交易日重評\n"
+                    f"有效至：{item['expires_on']}｜預計2～3交易日，第2交易日重評、第3交易日到期\n"
                     "實際進場仍需即時價格與可成交性確認。")
             messages.append((key, text + '\n研究計畫追蹤；不是你的實際持倉或成交紀錄。'))
     return messages

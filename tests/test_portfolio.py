@@ -106,12 +106,12 @@ class PerformanceTests(unittest.TestCase):
         bars = [dict(date='2026-09-23', open=101, high=102, low=100, close=101, volume=100)]
         self.assertEqual(replay(p, '2026-09-21', bars)['status'], 'invalid_data')
 
-    def test_default_simulation_exits_at_twenty_not_forty(self):
+    def test_default_simulation_exits_at_three_not_forty(self):
         from market_clock import session_dates
         dates = session_dates('2026-09-22', '2026-11-30')[:21]
         bars = [dict(date=d, open=101, high=102, low=100, close=101, volume=100) for d in dates]
         p = dict(entry_low=100, entry_high=102, stop=95, target=120, max_holding_sessions=40)
-        self.assertEqual(replay(p, '2026-09-21', bars)['sessions_held'], 20)
+        self.assertEqual(replay(p, '2026-09-21', bars)['sessions_held'], 3)
 
     def test_no_signal_no_invented_performance(self):
         p = evaluate_signals([], {}, '2026-09-21')
