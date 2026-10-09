@@ -4,7 +4,7 @@ from collections import Counter
 from statistics import mean
 from evaluation import replay
 
-VERSION = 'forward-next-open-v2'
+VERSION = 'short-swing-next-open-benchmark-v3'
 
 
 def signal_snapshots(events):
@@ -26,7 +26,7 @@ def evaluate_signals(events, histories, as_of, previous=None):
         if snap['triggered_on'] > as_of:
             continue
         old = previous.get(key, {})
-        if old.get('outcome', {}).get('status') in ('closed', 'not_filled'):
+        if old.get('method') == VERSION and old.get('outcome', {}).get('status') in ('closed', 'not_filled'):
             records[key] = old
             continue
         bars = [b for b in histories.get(snap['id'], []) if b['date'] <= as_of]
@@ -43,8 +43,10 @@ def evaluate_signals(events, histories, as_of, previous=None):
                         'evaluated_on': as_of, 'method': VERSION, 'outcome': outcome}
     counts = dict(Counter(r['outcome']['status'] for r in records.values()))
     closed = [r['outcome']['net_return_pct'] for r in records.values() if r['outcome']['status'] == 'closed']
-    return {'as_of': as_of, 'method': VERSION, 'records': records,
+    return {'as_of': as_of, 'method': VERSION, 'role': 'next_open_benchmark_only',
+            'entry_alert_performance': {'status': 'pending', 'reason': 'requires_post_alert_execution_evidence'},
+            'records': records,
             'summary': {'counts': counts, 'closed': len(closed),
                         'win_rate': sum(x > 0 for x in closed) / len(closed) if closed else None,
                         'mean_net_return_pct': mean(closed) if closed else None},
-            'notice': '訊號次日開盤模擬；不是實際成交或投資組合報酬，無訊號時不產生績效。'}
+            'notice': '2–3交易日次日開盤對照模擬；不是盤中進場提醒績效或實際成交。缺少提醒後成交依據時，正式進場績效待確認。'}
