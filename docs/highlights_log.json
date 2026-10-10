@@ -3893,5 +3893,40 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-10-09",
+    "market": "us",
+    "id": "TMUS",
+    "name": "T-Mobile US",
+    "flagged_close": 148.58,
+    "flagged_change_pct": -13.27,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-09",
+    "market": "us",
+    "id": "HUM",
+    "name": "Humana",
+    "flagged_close": 431.87,
+    "flagged_change_pct": 11.56,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-09",
+    "market": "us",
+    "id": "CCI",
+    "name": "Crown Castle",
+    "flagged_close": 79.64,
+    "flagged_change_pct": 15.6,
+    "tags": [
+      "爆量"
+    ]
   }
 ]
