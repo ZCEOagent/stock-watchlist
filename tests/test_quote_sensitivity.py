@@ -121,3 +121,20 @@ class SensitivityTests(unittest.TestCase):
         text=reports.render(snapshot,None,{})
         self.assertIn('成熟樣本不足 20 筆',text)
         self.assertNotIn('方向相符比例',text)
+
+class IntradayCoverageTests(unittest.TestCase):
+    def test_close_quote_does_not_increment_intraday_count(self):
+        import json
+        with tempfile.TemporaryDirectory() as folder:
+            store=Store(Path(folder)/'s.db')
+            morning=dt.datetime(2026,9,29,10,2,tzinfo=ZoneInfo('Asia/Taipei'))
+            row=dict(c='3042',ex='tse',d='20260929',t='10:01:00',y='100',z='101',h='102',l='100')
+            with patch.object(watch,'fetch',return_value=[row]): watch.check(store,morning)
+            before=json.loads(store.meta('watch-health'))['intraday']
+            row['t']='13:30:00'
+            with patch.object(watch,'fetch',return_value=[row]):watch.check(store,morning.replace(hour=14))
+            after=json.loads(store.meta('watch-health'))['intraday']
+            self.assertEqual(after,before)
+            self.assertEqual(after['checks'],1)
+            self.assertGreater(after['max_gap_seconds'],3500)
+            store.close()

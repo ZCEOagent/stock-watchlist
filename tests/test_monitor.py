@@ -105,5 +105,21 @@ class MonitorTests(unittest.TestCase):
             self.assertFalse(target.exists())
 
 
+class QuoteCoverageTests(unittest.TestCase):
+    def test_after_close_success_does_not_prove_intraday_coverage(self):
+        now=dt.datetime.fromisoformat('2026-10-12T19:00:00+08:00')
+        health={'checked_at':'2026-10-12T14:50:24+08:00','valid':39,'requested':39}
+        self.assertTrue(monitor.quote_coverage_issues(health,now))
+    def test_holiday_or_previous_day_does_not_create_false_intraday_alarm(self):
+        now=dt.datetime.fromisoformat('2026-10-11T19:00:00+08:00')
+        self.assertEqual(monitor.quote_coverage_issues({'checked_at':'2026-10-08T13:27:00+08:00'},now),[])
+    def test_long_intraday_gap_remains_visible_after_close(self):
+        now=dt.datetime.fromisoformat('2026-10-12T19:00:00+08:00')
+        health={'checked_at':'2026-10-12T14:50:00+08:00','intraday':{'checks':3,'last_at':'2026-10-12T13:27:00+08:00','max_gap_seconds':1800}}
+        self.assertTrue(monitor.quote_coverage_issues(health,now))
+        health['intraday']['max_gap_seconds']=300
+        self.assertEqual(monitor.quote_coverage_issues(health,now),[])
+
+
 if __name__ == '__main__':
     unittest.main()
