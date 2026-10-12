@@ -3928,5 +3928,41 @@
     "tags": [
       "爆量"
     ]
+  },
+  {
+    "date": "2026-10-12",
+    "market": "tw",
+    "id": "2429",
+    "name": "銘旺科",
+    "flagged_close": 33.0,
+    "flagged_change_pct": 10.0,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-12",
+    "market": "tw",
+    "id": "6261",
+    "name": "久元",
+    "flagged_close": 84.0,
+    "flagged_change_pct": 9.95,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-12",
+    "market": "tw",
+    "id": "1530",
+    "name": "亞崴",
+    "flagged_close": 28.8,
+    "flagged_change_pct": 9.92,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
   }
 ]
