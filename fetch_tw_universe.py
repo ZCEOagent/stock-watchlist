@@ -4,6 +4,7 @@
 只保留：4碼純數字、上市(twse)或上櫃(tpex)、排除 ETF 和存託憑證(TDR)的一般股票。
 """
 import re
+import time
 import requests
 from datetime import date
 from market_clock import now_tw
@@ -31,6 +32,29 @@ def parse_roster(rows, market, today):
     return result
 
 
+def fetch_roster_rows(url):
+    """Retry transient read failures, including truncated response bodies.
+
+    Do not retry validation failures or use a stale/partial roster as fallback.
+    """
+    for attempt in range(3):
+        try:
+            with requests.get(url, timeout=30) as response:
+                response.raise_for_status()
+                return response.json()
+        except requests.exceptions.HTTPError as exc:
+            status = exc.response.status_code if exc.response is not None else None
+            if status != 429 and (status is None or not 500 <= status < 600):
+                raise
+            if attempt == 2:
+                raise
+        except (requests.exceptions.ConnectionError, requests.exceptions.Timeout,
+                requests.exceptions.ChunkedEncodingError):
+            if attempt == 2:
+                raise
+        time.sleep(2 ** attempt)
+
+
 def get_tw_universe():
     """Current official common-share roster, not a historical ticker directory.
 
@@ -42,9 +66,7 @@ filter the universe by whether price download happened to succeed.
     sources = [('twse', 'https://openapi.twse.com.tw/v1/opendata/t187ap03_L', 800),
                ('tpex', 'https://www.tpex.org.tw/openapi/v1/mopsfin_t187ap03_O', 500)]
     for market, url, minimum in sources:
-        response = requests.get(url, timeout=30)
-        response.raise_for_status()
-        roster = parse_roster(response.json(), market, today)
+        roster = parse_roster(fetch_roster_rows(url), market, today)
         if len(roster) < minimum or universe.keys() & roster.keys():
             raise RuntimeError('官方現行名冊不足或重複，停止掃描')
         universe.update(roster)
