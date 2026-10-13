@@ -3993,5 +3993,39 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-10-13",
+    "market": "tw",
+    "id": "6541",
+    "name": "泰福-KY",
+    "flagged_close": 30.35,
+    "flagged_change_pct": -8.86,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-13",
+    "market": "tw",
+    "id": "1519",
+    "name": "華城",
+    "flagged_close": 663.0,
+    "flagged_change_pct": -8.43,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-13",
+    "market": "tw",
+    "id": "4979",
+    "name": "華星光",
+    "flagged_close": 535.0,
+    "flagged_change_pct": -8.08,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
