@@ -3964,5 +3964,34 @@
       "爆量",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-10-12",
+    "market": "us",
+    "id": "FICO",
+    "name": "Fair Isaac",
+    "flagged_close": 740.0,
+    "flagged_change_pct": 10.85,
+    "tags": []
+  },
+  {
+    "date": "2026-10-12",
+    "market": "us",
+    "id": "CMG",
+    "name": "Chipotle Mexican Grill",
+    "flagged_close": 30.4,
+    "flagged_change_pct": -3.77,
+    "tags": []
+  },
+  {
+    "date": "2026-10-12",
+    "market": "us",
+    "id": "ZBH",
+    "name": "Zimmer Biomet",
+    "flagged_close": 92.17,
+    "flagged_change_pct": 3.4,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
