@@ -13274,5 +13274,345 @@
       "facts": {}
     },
     "event_id": "2c4ffe20c598b81fed1e3fe6"
+  },
+  {
+    "id": "4966",
+    "as_of": "2026-10-14",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "4966",
+      "name": "譜瑞-KY",
+      "as_of": "2026-10-14",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "e0b4329ecd9e9b3f0ebed25f"
+  },
+  {
+    "id": "5351",
+    "as_of": "2026-10-14",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "5351",
+      "name": "鈺創",
+      "as_of": "2026-10-14",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "ba8954dbd6744be8a80cb8cf"
+  },
+  {
+    "id": "2211",
+    "as_of": "2026-10-14",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "2211",
+      "name": "長榮鋼",
+      "as_of": "2026-10-14",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "08cef31add296a6721e3d5d4"
+  },
+  {
+    "id": "4915",
+    "as_of": "2026-10-14",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "4915",
+      "name": "致伸",
+      "as_of": "2026-10-14",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "145929b15aecc9c38cac60b2"
+  },
+  {
+    "id": "2369",
+    "as_of": "2026-10-14",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "2369",
+      "name": "菱生",
+      "as_of": "2026-10-14",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "80a0eed9965d165f44673c71"
+  },
+  {
+    "id": "3413",
+    "as_of": "2026-10-14",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "3413",
+      "name": "京鼎",
+      "as_of": "2026-10-14",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "9b3fb5fb0f80df18adc207ed"
+  },
+  {
+    "id": "3583",
+    "as_of": "2026-10-14",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "3583",
+      "name": "辛耘",
+      "as_of": "2026-10-14",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "eaadfef0f1cf67bb456d3ece"
+  },
+  {
+    "id": "2049",
+    "as_of": "2026-10-14",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "2049",
+      "name": "上銀",
+      "as_of": "2026-10-14",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "0c343e7c3359f8fc75900bd1"
+  },
+  {
+    "id": "4123",
+    "as_of": "2026-10-14",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "4123",
+      "name": "晟德",
+      "as_of": "2026-10-14",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "48a1be9752e849e2cde2492c"
+  },
+  {
+    "id": "2535",
+    "as_of": "2026-10-14",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "2535",
+      "name": "達欣工",
+      "as_of": "2026-10-14",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "468ce6c22f2dedc4d8bf9e20"
+  },
+  {
+    "id": "2883",
+    "as_of": "2026-10-14",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "2883",
+      "name": "凱基金",
+      "as_of": "2026-10-14",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "ff53c8996245adb0821782b4"
+  },
+  {
+    "id": "8936",
+    "as_of": "2026-10-14",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "8936",
+      "name": "國統",
+      "as_of": "2026-10-14",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "21d2fa57e28cc6937d534caa"
+  },
+  {
+    "id": "6416",
+    "as_of": "2026-10-14",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "6416",
+      "name": "瑞祺電通",
+      "as_of": "2026-10-14",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "bdf7c367d931a21e2d913c65"
+  },
+  {
+    "id": "2464",
+    "as_of": "2026-10-14",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "2464",
+      "name": "盟立",
+      "as_of": "2026-10-14",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "e42d360d8922868a281aba89"
+  },
+  {
+    "id": "2330",
+    "as_of": "2026-10-14",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "2330",
+      "name": "台積電",
+      "as_of": "2026-10-14",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "0308d54f2604ad3028f63293"
+  },
+  {
+    "id": "4763",
+    "as_of": "2026-10-14",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "4763",
+      "name": "材料*-KY",
+      "as_of": "2026-10-14",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "47c1b2fbf1a7e00c0d767360"
+  },
+  {
+    "id": "2360",
+    "as_of": "2026-10-14",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "2360",
+      "name": "致茂",
+      "as_of": "2026-10-14",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "4840d4460e2e1c35017ca1ac"
+  },
+  {
+    "id": "2887",
+    "as_of": "2026-10-14",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "2887",
+      "name": "台新新光金",
+      "as_of": "2026-10-14",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "dba8f0be925600e94ea8dd6d"
+  },
+  {
+    "id": "3021",
+    "as_of": "2026-10-14",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "3021",
+      "name": "鴻名",
+      "as_of": "2026-10-14",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "7e41be2652fe1459654fec04"
+  },
+  {
+    "id": "2072",
+    "as_of": "2026-10-14",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "2072",
+      "name": "世紀風電",
+      "as_of": "2026-10-14",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "8f97447a4031d8fdcb121de4"
   }
 ]
