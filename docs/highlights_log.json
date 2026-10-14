@@ -4027,5 +4027,39 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-10-14",
+    "market": "tw",
+    "id": "6885",
+    "name": "全福生技",
+    "flagged_close": 31.9,
+    "flagged_change_pct": 10.0,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-14",
+    "market": "tw",
+    "id": "6290",
+    "name": "良維",
+    "flagged_close": 292.0,
+    "flagged_change_pct": 9.98,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-14",
+    "market": "tw",
+    "id": "4979",
+    "name": "華星光",
+    "flagged_close": 588.0,
+    "flagged_change_pct": 9.91,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
