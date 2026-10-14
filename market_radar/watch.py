@@ -219,7 +219,15 @@ def check(store, now, token=None, chat=None, send=False, holdings=None, cache=No
             count += 1
     old_health = json.loads(store.meta('watch-health') or '{}')
     gap = (now-dt.datetime.fromisoformat(old_health['checked_at'])).total_seconds() if old_health.get('checked_at') else None
-    store.meta('watch-health',json.dumps(dict(checked_at=now.isoformat(),requested=len(watched),valid=valid_count,missing=len(missing_codes),duplicate_codes=duplicates,interval_seconds=gap)))
+    intraday = dict(old_health.get('intraday', {})) if old_health.get('session_date') == today else {}
+    if now.time().replace(tzinfo=None) <= dt.time(13,30) and valid_count:
+        previous = intraday.get('last_at') or dt.datetime.combine(now.date(),dt.time(9,2),tzinfo=now.tzinfo).isoformat()
+        elapsed = max(0,(now-dt.datetime.fromisoformat(previous)).total_seconds())
+        intraday.update(checks=intraday.get('checks',0)+1,last_at=now.isoformat(),
+                        max_gap_seconds=max(intraday.get('max_gap_seconds',0),elapsed))
+    store.meta('watch-health',json.dumps(dict(checked_at=now.isoformat(),session_date=today,
+        intraday=intraday,requested=len(watched),valid=valid_count,missing=len(missing_codes),
+        duplicate_codes=duplicates,interval_seconds=gap)))
     if not valid_count:
         raise ValueError('No valid watch quotes; inspection incomplete, not zero signals')
     if execution_error is not None:

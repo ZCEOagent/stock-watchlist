@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 import sqlite3
 import subprocess
+from zoneinfo import ZoneInfo
 
 from . import notify
 from .store import Store
@@ -53,6 +54,9 @@ def read_snapshot(path):
         if health_row:
             diagnostic = json.loads(health_row[0])
             snapshot['health'] = diagnostic['health']
+        quote_row = db.execute("SELECT value FROM meta WHERE key='watch-health'").fetchone()
+        if quote_row:
+            snapshot['quote_health'] = json.loads(quote_row[0])
         snapshot['report_retry'] = bool(db.execute("SELECT value FROM meta WHERE key='report-retry' AND value != ''").fetchone())
         receipt_count, last_receipt = db.execute('SELECT count(*), max(sent_at) FROM receipts').fetchone()
         uncertain = db.execute("SELECT count(*) FROM meta WHERE key LIKE 'delivery:%' AND value IN ('sending','uncertain')").fetchone()[0]
@@ -77,6 +81,25 @@ def include_maintenance(current, maintenance, now):
         current['financials'] = maintenance['financials']
     current['maintenance_at'] = stamp
     current['maintenance_history'] = maintenance.get('history', {})
+
+
+def quote_coverage_issues(health, now):
+    # A same-day check only exists after watch's trading-calendar guard passes.
+    # Do not infer an exchange session from weekdays alone or alarm on holidays.
+    local = now.astimezone(ZoneInfo('Asia/Taipei'))
+    checked = health.get('checked_at')
+    if not checked or timestamp(checked).astimezone(local.tzinfo).date() != local.date():
+        return []
+    if local.time() < dt.time(9,17):
+        return []
+    intraday = health.get('intraday', {})
+    if not intraday.get('last_at'):
+        return ['未記錄到當日有效盤中行情檢查；盤後成功不代表盤中監控正常']
+    end = min(local,dt.datetime.combine(local.date(),dt.time(13,30),tzinfo=local.tzinfo))
+    tail = max(0,(end-timestamp(intraday['last_at'])).total_seconds())
+    if max(tail,intraday.get('max_gap_seconds',0)) > 15*60:
+        return ['當日盤中行情檢查有超過15分鐘空窗，無法保證及時提醒']
+    return []
 
 
 def assess(snapshot, receipts, workflows, now):
@@ -114,12 +137,14 @@ def assess(snapshot, receipts, workflows, now):
         issues.append('例行報告尚未完成送達，等待自動重試或通知核對')
     if receipts.get('uncertain'):
         issues.append('有 Telegram 送達狀態不明的紀錄，需人工核對，未自動重送')
+    issues.extend(quote_coverage_issues(snapshot.get('quote_health', {}),now))
     financials = snapshot.get('completion', {}).get('financials', {})
     if not financials or not financials.get('eligible'):
         issues.append('缺少有效的財報核實進度')
     return {'issues': sorted(set(issues)), 'active': active, 'scanned': snapshot.get('scanned'),
             'financials': financials, 'price_dates': snapshot.get('price_dates', []),
-            'snapshot_at': snapshot.get('fetched_at'), 'receipts': receipts}
+            'snapshot_at': snapshot.get('fetched_at'), 'receipts': receipts,
+            'quote_health': snapshot.get('quote_health', {})}
 
 
 def transition(current, previous, now):
