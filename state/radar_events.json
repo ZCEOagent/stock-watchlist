@@ -14543,5 +14543,345 @@
       "observed_close": 51.2
     },
     "event_id": "212387fda6e3f9fc212cb612"
+  },
+  {
+    "id": "2617",
+    "as_of": "2026-10-15",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "2617",
+      "name": "台航",
+      "as_of": "2026-10-15",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "e99a9c895dc010281bbb2d52"
+  },
+  {
+    "id": "2009",
+    "as_of": "2026-10-15",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "2009",
+      "name": "第一銅",
+      "as_of": "2026-10-15",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "04d9d177c0544e7f4a6082be"
+  },
+  {
+    "id": "5328",
+    "as_of": "2026-10-15",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "5328",
+      "name": "華容",
+      "as_of": "2026-10-15",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "e8352c1b7a4567b8737296a8"
+  },
+  {
+    "id": "7810",
+    "as_of": "2026-10-15",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "7810",
+      "name": "捷創科技",
+      "as_of": "2026-10-15",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "f1c9ed083de9732985da9f05"
+  },
+  {
+    "id": "3576",
+    "as_of": "2026-10-15",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "3576",
+      "name": "聯合再生",
+      "as_of": "2026-10-15",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "e6be4aab6f4f3fb9dbc35e84"
+  },
+  {
+    "id": "4768",
+    "as_of": "2026-10-15",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "4768",
+      "name": "晶呈科技",
+      "as_of": "2026-10-15",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "1269e1984fe21339e18598f2"
+  },
+  {
+    "id": "2731",
+    "as_of": "2026-10-15",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "2731",
+      "name": "雄獅",
+      "as_of": "2026-10-15",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "da67a72a507c520077a7d2bf"
+  },
+  {
+    "id": "2646",
+    "as_of": "2026-10-15",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "2646",
+      "name": "星宇航空",
+      "as_of": "2026-10-15",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "56db89c69da08cf34bc6afc7"
+  },
+  {
+    "id": "2845",
+    "as_of": "2026-10-15",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "2845",
+      "name": "遠東銀",
+      "as_of": "2026-10-15",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "e5cd1c9c162faa194eb36286"
+  },
+  {
+    "id": "3016",
+    "as_of": "2026-10-15",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "3016",
+      "name": "嘉晶",
+      "as_of": "2026-10-15",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "44fc2d113af0bb49ce81bbe8"
+  },
+  {
+    "id": "8114",
+    "as_of": "2026-10-15",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "8114",
+      "name": "振樺電",
+      "as_of": "2026-10-15",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "89e19cf7974382378053c4fc"
+  },
+  {
+    "id": "2204",
+    "as_of": "2026-10-15",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "2204",
+      "name": "中華",
+      "as_of": "2026-10-15",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "1740dea34051d3c972ba71bf"
+  },
+  {
+    "id": "1314",
+    "as_of": "2026-10-15",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "1314",
+      "name": "中石化",
+      "as_of": "2026-10-15",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "a7ac64c5d697eb324d2a9f1e"
+  },
+  {
+    "id": "6412",
+    "as_of": "2026-10-15",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "6412",
+      "name": "群電",
+      "as_of": "2026-10-15",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "7aeb49afff92bed0b9e15391"
+  },
+  {
+    "id": "3630",
+    "as_of": "2026-10-15",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "3630",
+      "name": "新鉅科",
+      "as_of": "2026-10-15",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "7a24e8798899651dbc6f9e1c"
+  },
+  {
+    "id": "9910",
+    "as_of": "2026-10-15",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "9910",
+      "name": "豐泰",
+      "as_of": "2026-10-15",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "e21976bdbd3a7d0c066e08fa"
+  },
+  {
+    "id": "8131",
+    "as_of": "2026-10-15",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "8131",
+      "name": "福懋科",
+      "as_of": "2026-10-15",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "543c9458a7dc29a608f41efa"
+  },
+  {
+    "id": "3702",
+    "as_of": "2026-10-15",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "3702",
+      "name": "大聯大",
+      "as_of": "2026-10-15",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "aef91af4eff10645f7933832"
+  },
+  {
+    "id": "4772",
+    "as_of": "2026-10-15",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "4772",
+      "name": "台特化",
+      "as_of": "2026-10-15",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "319767b42ae669a97494d3f0"
+  },
+  {
+    "id": "3221",
+    "as_of": "2026-10-15",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "3221",
+      "name": "台嘉碩",
+      "as_of": "2026-10-15",
+      "status": "unconfirmed",
+      "reasons": [
+        "還原行情過期"
+      ],
+      "facts": {}
+    },
+    "event_id": "501f4af968306e33aa4a0e35"
   }
 ]
