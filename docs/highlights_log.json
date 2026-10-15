@@ -4061,5 +4061,38 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-10-15",
+    "market": "tw",
+    "id": "2380",
+    "name": "虹光",
+    "flagged_close": 17.15,
+    "flagged_change_pct": 9.94,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-15",
+    "market": "tw",
+    "id": "3711",
+    "name": "日月光投控",
+    "flagged_close": 673.0,
+    "flagged_change_pct": -9.91,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-15",
+    "market": "tw",
+    "id": "4979",
+    "name": "華星光",
+    "flagged_close": 542.0,
+    "flagged_change_pct": -7.82,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
