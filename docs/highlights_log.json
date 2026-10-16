@@ -4094,5 +4094,40 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-10-16",
+    "market": "tw",
+    "id": "6418",
+    "name": "詠昇",
+    "flagged_close": 36.4,
+    "flagged_change_pct": 9.97,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-16",
+    "market": "tw",
+    "id": "4188",
+    "name": "安克",
+    "flagged_close": 14.4,
+    "flagged_change_pct": 9.92,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-16",
+    "market": "tw",
+    "id": "4939",
+    "name": "亞電",
+    "flagged_close": 83.3,
+    "flagged_change_pct": 9.89,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
