@@ -14,7 +14,12 @@ class MonitorTests(unittest.TestCase):
         self.now = dt.datetime(2026, 9, 23, 12, tzinfo=dt.timezone.utc)
         self.snapshot = {'scanned': 1900, 'fetched_at': self.now.isoformat(),
                          'price_dates': ['2026-09-23'], 'health': [{'ok': True}],
-                         'completion': {'financials': {'eligible': 1800, 'verified': 450, 'pending': 1350}}}
+                         'completion': {'financials': {'eligible': 1800, 'verified': 450, 'pending': 1350}},
+                         # A healthy trading day now has intraday checks and finished slots on record.
+                         'quote_health': {'checked_at': '2026-09-23T13:31:00+08:00',
+                                          'intraday': {'last_at': '2026-09-23T13:29:00+08:00', 'max_gap_seconds': 80}},
+                         'slots': {'2026-09-23:intraday': {'status': 'completed'},
+                                   '2026-09-23:radar-daily': {'status': 'completed'}}}
         self.runs = {name: [{'id': 1, 'created_at': self.now.isoformat(),
                             'status': 'completed', 'conclusion': 'success'}] for name in monitor.WORKFLOWS}
 
@@ -119,6 +124,54 @@ class QuoteCoverageTests(unittest.TestCase):
         self.assertTrue(monitor.quote_coverage_issues(health,now))
         health['intraday']['max_gap_seconds']=300
         self.assertEqual(monitor.quote_coverage_issues(health,now),[])
+
+
+
+
+class MonitorBlindSpotTests(unittest.TestCase):
+    """Regression for the 2026-10 incidents: absence of work must be an alert."""
+    def setUp(self):
+        self.base = MonitorTests('test_success_does_not_mean_backfill_complete')
+        self.base.setUp()
+
+    def test_trading_day_with_zero_intraday_checks_is_an_issue(self):
+        self.base.snapshot['quote_health'] = {'checked_at': '2026-09-22T13:31:00+08:00'}   # yesterday only
+        issues = self.base.current()['issues']
+        self.assertIn('交易日完全沒有盤中行情檢查紀錄（排程可能未觸發）', issues)
+
+    def test_non_trading_day_without_checks_stays_quiet(self):
+        now = dt.datetime(2026, 10, 18, 6, tzinfo=dt.timezone.utc)   # Sunday 14:00 Taipei
+        self.assertEqual(monitor.quote_coverage_issues({}, now), [])
+        self.assertEqual(monitor.slot_issues({}, now), [])
+
+    def test_missing_and_failed_slots_are_reported_after_deadline(self):
+        self.base.snapshot['slots'] = {'2026-09-23:intraday': {'status': 'failed'}}
+        issues = self.base.current()['issues']
+        self.assertIn('今日盤中長駐行情檢查未完成（狀態 failed）', issues)
+        self.assertIn('今日18:20 全市場摘要未完成（沒有執行紀錄）', issues)
+
+    def test_slots_not_due_yet_are_not_reported(self):
+        morning = dt.datetime(2026, 9, 23, 2, tzinfo=dt.timezone.utc)   # 10:00 Taipei
+        self.assertEqual(monitor.slot_issues({}, morning), [])
+
+    def test_retry_runs_no_longer_mask_missing_digest(self):
+        # Hourly no-op runs made market-radar.yml look fresh; the ledger does not care.
+        self.base.runs['market-radar.yml'] = [{'id': 9, 'created_at': self.base.now.isoformat(),
+                                               'status': 'completed', 'conclusion': 'success'}]
+        self.base.snapshot['slots'] = {}
+        self.assertTrue(any('未完成' in i for i in self.base.current()['issues']))
+
+    def test_persisting_issue_is_repeated_daily_not_every_run(self):
+        now = self.base.now
+        first = {'issues': ['x'], 'financials': {}, 'issue_alert_times': {}}
+        current = {'issues': ['x'], 'financials': {}}
+        reasons = monitor.transition(current, {'issues': [], 'financials': {}}, now)
+        self.assertTrue(any('新增異常' in r for r in reasons))
+        later = {'issues': ['x'], 'financials': {}}
+        self.assertEqual([r for r in monitor.transition(later, current, now + dt.timedelta(hours=6)) if '異常' in r], [])
+        day_after = {'issues': ['x'], 'financials': {}}
+        reasons = monitor.transition(day_after, later, now + dt.timedelta(hours=25))
+        self.assertTrue(any(r.startswith('持續異常：x（已 25 小時）') for r in reasons))
 
 
 if __name__ == '__main__':

@@ -1,7 +1,10 @@
-requests>=2.31
-pandas>=2.0
-yfinance>=0.2.40
-feedparser>=6.0
-lxml>=5.0
+# Pinned 2026-10-19: unpinned installs silently moved the runner to new major
+# versions (pandas 3.x). Resolved on Python 3.11, the Actions runtime; upgrade deliberately.
+requests==2.34.2
+pandas==3.0.6
+numpy==2.4.6  # 2.5 dropped Python 3.11 (the Actions runtime)
+yfinance==1.7.0
+feedparser==6.0.14
+lxml==6.1.3
 exchange-calendars==4.13.2
-tzdata>=2025.2
+tzdata==2026.5

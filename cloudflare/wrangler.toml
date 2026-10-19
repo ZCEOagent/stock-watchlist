@@ -1,0 +1,19 @@
+name = "stock-watchlist-dispatcher"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+
+# Every 5 minutes (UTC). Slot times are Asia/Taipei and handled in src/schedule.js.
+[triggers]
+crons = ["*/5 * * * *"]
+
+[vars]
+GH_REPO = "ZCEOagent/stock-watchlist"
+GH_REF = "master"
+# Set to the deployment time so earlier slots today are not reported as missed.
+ACTIVE_FROM = ""
+# Optional extra Taiwan market closures (YYYY-MM-DD,YYYY-MM-DD); jobs also report "closed".
+TW_CLOSED_DATES = ""
+
+[[kv_namespaces]]
+binding = "RADAR_KV"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"   # wrangler kv namespace create RADAR_KV

@@ -1,26 +1,33 @@
 name: Taiwan Market Radar Digest
 
 on:
+  # Primary trigger: Cloudflare Worker dispatcher (cloudflare/), via workflow_dispatch.
+  # GitHub schedule measured 2026-09-30..10-19 at 3-5.5 h median delay and ~90% of
+  # triggers missing, so these crons are late backups only; the slot ledger makes a
+  # backup that arrives after the dispatched run finished exit without work.
   schedule:
-    # Asia/Taipei: daily 18:20; Monday 08:00; weekdays 08:17-22:47 every 30 minutes.
-    - cron: '20 10 * * *'
-    # Quote-only checks, Taiwan 09:02-13:32; off the top of the hour.
-    - cron: '2-57/5 1-4 * * 1-5'
-    - cron: '2-32/5 5 * * 1-5'
-    # Retry only a failed scheduled report; otherwise no data fetch and no message.
-    - cron: '35 * * * *'
-    - cron: '0 0 * * 1'
-    - cron: '17,47 0-14 * * 1-5'
+    - cron: '50 0 * * 1-5'   # intraday session backup (08:50 Taipei)
+    - cron: '20 10 * * *'    # daily digest backup (18:20)
+    - cron: '0 0 * * 1'      # Monday weekly backup (08:00)
   workflow_dispatch:
     inputs:
       mode:
         type: choice
-        options: [daily, weekly, events, retry, quotes]
+        options: [session, daily, weekly, events, retry, quotes]
         default: daily
       send:
         description: 'Send to the existing Telegram chat'
         type: boolean
         default: false
+      trigger:
+        description: 'scheduler = external dispatcher (routine delivery); manual = human test'
+        type: choice
+        options: [manual, scheduler]
+        default: manual
+      dispatch_id:
+        description: 'Set by the dispatcher; echoed in heartbeats'
+        required: false
+        default: ''
 
 permissions:
   contents: read
@@ -34,10 +41,15 @@ jobs:
   radar:
     # Never consume production state or send from a feature branch.
     if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
+    runs-on: ubuntu-24.04
+    # The intraday session polls 09:00-13:36 in one job; everything else is short.
+    timeout-minutes: ${{ (inputs.mode == 'session' || github.event.schedule == '50 0 * * 1-5') && 330 || 20 }}
     env:
       TZ: Asia/Taipei
+      RADAR_DISPATCH_ID: ${{ inputs.dispatch_id }}
+      RADAR_TRIGGER: ${{ github.event_name == 'workflow_dispatch' && inputs.trigger || github.event_name }}
+      HEARTBEAT_URL: ${{ secrets.HEARTBEAT_URL }}
+      HEARTBEAT_TOKEN: ${{ secrets.HEARTBEAT_TOKEN }}
       GH_TOKEN: ${{ github.token }}
       RADAR_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
     steps:
@@ -51,19 +63,19 @@ jobs:
       - name: Install the Bot dependencies
         run: pip install -r requirements.txt
       - uses: actions/cache/restore@v4
-        if: github.event.schedule != '2-57/5 1-4 * * 1-5' && github.event.schedule != '2-32/5 5 * * 1-5' && inputs.mode != 'quotes'
+        if: github.event.schedule != '50 0 * * 1-5' && inputs.mode != 'quotes' && inputs.mode != 'session'
         with:
           path: .runtime
           key: market-radar-history-${{ github.run_id }}
           restore-keys: radar-tw-
       - name: Validate original Bot and added reports
-        if: github.event_name == 'workflow_dispatch'
+        if: github.event_name == 'workflow_dispatch' && inputs.trigger != 'scheduler'
         run: python -m unittest discover -s tests -q
       - name: Restore public market history and delivery receipts
         run: |
           python -m market_radar.restore
       - name: Restore maintenance facts for full reports
-        if: github.event.schedule != '2-57/5 1-4 * * 1-5' && github.event.schedule != '2-32/5 5 * * 1-5' && inputs.mode != 'quotes'
+        if: github.event.schedule != '50 0 * * 1-5' && inputs.mode != 'quotes' && inputs.mode != 'session'
         run: python -m market_radar.restore --name market-radar-maintenance --destination .maintenance
       - name: Run radar
         env:
@@ -75,26 +87,40 @@ jobs:
           SCHEDULE: ${{ github.event.schedule }}
           INPUT_MODE: ${{ inputs.mode }}
           INPUT_SEND: ${{ inputs.send }}
+          INPUT_TRIGGER: ${{ inputs.trigger }}
         run: |
           mode=daily
           if [ "$EVENT_NAME" = workflow_dispatch ]; then
             mode="$INPUT_MODE"
-          elif [ "$SCHEDULE" = '2-57/5 1-4 * * 1-5' ] || [ "$SCHEDULE" = '2-32/5 5 * * 1-5' ]; then
-            mode=quotes
-          elif [ "$SCHEDULE" = '35 * * * *' ]; then
-            mode=retry
+          elif [ "$SCHEDULE" = '50 0 * * 1-5' ]; then
+            mode=session
           elif [ "$SCHEDULE" = '0 0 * * 1' ]; then
             mode=weekly
-          elif [ "$SCHEDULE" = '17,47 0-14 * * 1-5' ]; then
-            mode=events
           fi
-          if [ "$EVENT_NAME" = schedule ]; then
-            python -m market_radar.cli "$mode" --send --delivery-slot scheduled
+          slot_flag=manual
+          send_flag=
+          if [ "$EVENT_NAME" = schedule ] || [ "$INPUT_TRIGGER" = scheduler ]; then
+            slot_flag=scheduled
+            send_flag=--send
           elif [ "$INPUT_SEND" = true ]; then
-            python -m market_radar.cli "$mode" --send --delivery-slot manual
-          else
-            python -m market_radar.cli "$mode"
+            send_flag=--send
           fi
+          echo "mode=$mode delivery=$slot_flag send=${send_flag:-dry-run}"
+          if [ "$mode" = session ]; then
+            python -u -m market_radar.session $send_flag
+            exit $?
+          fi
+          hb_slot="radar-$mode"
+          if [ "$slot_flag" = scheduled ] && { [ "$mode" = daily ] || [ "$mode" = weekly ]; }; then
+            python -m market_radar.heartbeat --slot "$hb_slot" --status started
+          fi
+          status=0
+          python -m market_radar.cli "$mode" $send_flag --delivery-slot "$slot_flag" || status=$?
+          if [ "$slot_flag" = scheduled ] && { [ "$mode" = daily ] || [ "$mode" = weekly ]; }; then
+            if [ "$status" = 0 ]; then hb=completed; else hb=failed; fi
+            python -m market_radar.heartbeat --slot "$hb_slot" --status "$hb"
+          fi
+          exit "$status"
       - name: Preserve public data and delivery receipts even after a delivery failure
         if: always()
         uses: actions/upload-artifact@v4
