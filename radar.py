@@ -28,23 +28,40 @@ def market_context(universe, history):
             "label": "有效樣本20日報酬中位數／站上20日線比例（非官方指數，初篩用）"}
 
 
+def setup_distance(bars):
+    """Relative distance to the nearest setup this strategy can actually trigger.
+
+    The previous ranking took the 20 stocks closest to MA20 regardless of side
+    or trend; over 287 evaluations (2026-09-23..10-16) none passed the technical
+    gate, because breakout needs proximity to the 20-day high and every setup
+    needs close >= MA20. Rank by the nearest of: 20-day high (breakout), MA20
+    from above (pullback / consolidation support). Below MA20 sorts last.
+    """
+    close = bars[-1]["close"]
+    ma20 = mean(r["close"] for r in bars[-20:])
+    high20 = max(r["high"] for r in bars[-21:-1])
+    if close < ma20:
+        return None
+    return min(abs(close - high20), close - ma20) / close
+
+
 def shortlist(universe, history, forced_ids=()):
     ranked = []
     for item in universe:
         bars = history.get(item["stock_id"], [])
         if len(bars) < 21:
             continue
-        close = bars[-1]["close"]
         turnover = mean(r["close"] * r["volume"] for r in bars[-20:])
-        ma20 = mean(r["close"] for r in bars[-20:])
-        # Rank proximity, not today's absolute price change or number of MA crosses.
+        distance = setup_distance(bars)
+        # Rank setup proximity, not today's absolute price change or number of MA crosses.
         ranked.append((item["stock_id"] in forced_ids,
                        turnover >= config.RADAR_MIN_AVG_TURNOVER,
-                       -abs(close / ma20 - 1), item))
-    ranked.sort(key=lambda v: v[:3], reverse=True)
-    selected = [r[3] for r in ranked[:config.RADAR_CANDIDATE_LIMIT]]
+                       distance is not None,
+                       -(distance if distance is not None else 0), item))
+    ranked.sort(key=lambda v: v[:4], reverse=True)
+    selected = [r[4] for r in ranked[:config.RADAR_CANDIDATE_LIMIT]]
     selected_ids = {r["stock_id"] for r in selected}
-    selected.extend(r[3] for r in ranked if r[0] and r[3]["stock_id"] not in selected_ids)
+    selected.extend(r[4] for r in ranked if r[0] and r[4]["stock_id"] not in selected_ids)
     return selected
 
 
@@ -77,6 +94,19 @@ def verified_catalyst(evidence, as_of):
         return False
 
 
+def consolidation_box(bars, ma20, atr):
+    window = bars[-config.CONSOLIDATION_BARS:]
+    high, low, close = max(b["high"] for b in window), min(b["low"] for b in window), bars[-1]["close"]
+    width = high - low
+    recent = mean(b["volume"] for b in bars[-5:])
+    prior = mean(b["volume"] for b in bars[-25:-5])
+    return (width <= config.CONSOLIDATION_MAX_WIDTH_ATR * atr
+            and width <= config.CONSOLIDATION_MAX_WIDTH_PCT * close
+            and low >= ma20 - 0.5 * atr                       # resting on, not below, MA20
+            and close <= low + 0.5 * width                    # lower half: accept near support
+            and recent <= prior * config.CONSOLIDATION_MAX_VOLUME_RATIO)
+
+
 def technical_plan(rows, as_of):
     bars, errors = clean_bars(rows, as_of, ohlc=True)
     if errors or len(bars) < config.RADAR_MIN_HISTORY or bars[-1]["date"] != as_of:
@@ -99,14 +129,22 @@ def technical_plan(rows, as_of):
     if atr <= 0:
         return None, "波動資料不足"
     resistance = max(b["high"] for b in bars[-21:-1])
-    if abs(close - resistance) <= atr:
+    if consolidation_box(bars, ma20, atr):
+        # 整理承接: tight box resting on MA20, quiet volume, close in the lower half.
+        # Checked before breakout: a close near the box floor is a support entry,
+        # not a breakout entry above the box. Unvalidated starting definition
+        # (CONSOLIDATION_* in config); the same target and cost-adjusted R rules apply.
+        box_low = min(b["low"] for b in bars[-config.CONSOLIDATION_BARS:])
+        kind, trigger = "consolidation", box_low + 0.2 * atr
+        stop = box_low - 0.35 * atr
+    elif abs(close - resistance) <= atr:
         kind, trigger = "breakout", resistance
         stop = min(b["low"] for b in bars[-11:-1]) - 0.2 * atr
     elif bars[-1]["low"] <= ma20 + 0.5 * atr and close > bars[-1]["open"]:
         kind, trigger = "pullback", bars[-1]["high"]
         stop = min(b["low"] for b in bars[-6:]) - 0.2 * atr
     else:
-        return None, "尚未接近突破或回測觸發區"
+        return None, "尚未接近突破、回測或整理承接觸發區"
     # Independent historical resistance: never manufacture a 2R target.
     pivots = [bars[i]["high"] for i in range(2, len(bars)-21)
               if bars[i]["high"] >= max(b["high"] for b in bars[i-2:i+3])
@@ -134,7 +172,48 @@ def technical_plan(rows, as_of):
             "max_holding_sessions": config.RADAR_MAX_HOLD_SESSIONS}, None
 
 
+def confirmation(plan, latest, rows):
+    """Close-bar confirmation. Breakout/pullback need above-average volume; an
+    accumulation box is defined by quiet volume, so it needs a close above the
+    open (buyers absorbing at support) instead."""
+    if plan.get("kind") == "consolidation":
+        return latest["close"] > latest["open"]
+    return latest["volume"] >= mean(r["volume"] for r in rows[-21:-1])
+
+
+STAGES = {"early": "早期發現", "waiting": "等待確認", "ready": "準備進場"}
+TREND_OK_REASONS = ("尚未接近突破", "缺乏可驗證上方目標", "現有支撐壓力無法提供合格")
+
+
+def stage(output):
+    """Early discovery -> waiting -> ready. A label only; it never relaxes a gate.
+
+    ready:   a frozen plan with every gate passed, waiting or close-triggered
+             (intraday confirmation still required by execution.py).
+    waiting: the technical setup exists but another gate (catalyst, fundamentals,
+             chips, sector, market) is unconfirmed.
+    early:   trend aligned (close >= MA20, weekly MA rising) but price not yet
+             at a breakout/pullback/consolidation entry, or no qualifying target.
+    """
+    gates = output.get("gates") or {}
+    if output.get("plan") and output.get("status") in ("waiting", "triggered") and gates and all(gates.values()):
+        return "ready"
+    if output.get("status") in ("review", "expired", "invalid", "target"):
+        return None
+    if output.get("candidate_plan") or (output.get("plan") and gates.get("technical")):
+        return "waiting"
+    if any(r.startswith(TREND_OK_REASONS) for r in output.get("reasons", [])):
+        return "early"
+    return None
+
+
 def evaluate(item, rows, context, facts, catalyst, as_of, previous=None):
+    output = _evaluate(item, rows, context, facts, catalyst, as_of, previous)
+    output["stage"] = stage(output)
+    return output
+
+
+def _evaluate(item, rows, context, facts, catalyst, as_of, previous=None):
     sid = item["stock_id"]
     output = {"id": sid, "name": item["stock_name"], "sector": item.get("sector", ""),
               "as_of": as_of, "status": "unconfirmed", "reasons": [], "facts": facts,
@@ -211,7 +290,7 @@ def evaluate(item, rows, context, facts, catalyst, as_of, previous=None):
             output["status"] = "review" if elapsed >= config.RADAR_REVIEW_SESSIONS else "triggered"
     elif (active["entry_low"] < latest["close"] <= active["entry_high"]
           and net_rr(latest["close"], active["stop"], active["target"]) >= config.RADAR_MIN_RR
-          and latest["volume"] >= mean(r["volume"] for r in rows[-21:-1])):
+          and confirmation(active, latest, rows)):
         output["status"] = "triggered"
         output["triggered_on"] = as_of
     else:

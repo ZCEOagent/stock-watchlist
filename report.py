@@ -13,7 +13,7 @@ import datetime
 
 import config
 from market_clock import now_tw
-from radar import LABELS
+from radar import LABELS, STAGES
 
 
 def _market_meta(label, meta):
@@ -40,7 +40,8 @@ def _radar_html(radar):
         if catalyst.get("source_url", "").startswith("https://"):
             source = f'<a href="{html.escape(catalyst["source_url"], quote=True)}" rel="noopener" target="_blank">催化來源</a>'
         rows.append(f'<tr><td>{html.escape(item["id"])} {html.escape(item["name"])}</td>'
-                    f'<td>{LABELS.get(item["status"], "待確認")}</td><td>{html.escape(prices)}</td>'
+                    f'<td>{LABELS.get(item["status"], "待確認")}'
+                    f'{"｜" + STAGES[item["stage"]] if item.get("stage") in STAGES else ""}</td><td>{html.escape(prices)}</td>'
                     f'<td>{html.escape(reasons)} {source}</td>'
                     f'<td>{html.escape(item.get("expires_on", "—"))}</td></tr>')
     mode = "影子驗證（不推送波段訊號）" if radar.get("mode") != "live" else "收盤訊號通知"

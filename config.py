@@ -88,6 +88,13 @@ RADAR_MIN_HISTORY = 120
 RADAR_MIN_COVERAGE = 0.90
 RADAR_MIN_AVG_TURNOVER = 20_000_000  # NT$, close*shares 的近似值
 RADAR_MIN_RR = 2.0
+# 整理承接（consolidation acceptance）: unvalidated starting definition, not a tuned
+# parameter set. Box over the last N bars must be narrow in ATR and percent terms,
+# rest on MA20 and show volume no higher than the prior 20 bars.
+CONSOLIDATION_BARS = 10
+CONSOLIDATION_MAX_WIDTH_ATR = 3.0
+CONSOLIDATION_MAX_WIDTH_PCT = 0.10
+CONSOLIDATION_MAX_VOLUME_RATIO = 1.0
 RADAR_VALID_SESSIONS = 3
 RADAR_REVIEW_SESSIONS = 2
 RADAR_HOLD_SESSIONS = (2, 3)
