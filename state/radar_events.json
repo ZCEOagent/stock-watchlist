@@ -17048,5 +17048,68 @@
       "observed_close": 982.0
     },
     "event_id": "c13834ec238ba50539449495"
+  },
+  {
+    "id": "3673",
+    "as_of": "2026-10-19",
+    "status": "unconfirmed",
+    "previous_status": "unconfirmed",
+    "snapshot": {
+      "id": "3673",
+      "name": "TPK-KY",
+      "sector": "產業代碼26",
+      "as_of": "2026-10-19",
+      "status": "unconfirmed",
+      "reasons": [
+        "市場廣度未通過／待確認",
+        "有來源與時間的催化審核未通過／待確認"
+      ],
+      "facts": {
+        "fundamental_ok": true,
+        "chips_ok": true,
+        "revenue_yoy": 27.82,
+        "revenue_period": "2026-09",
+        "profit_period": "2026-06-30",
+        "chips_date": "2026-10-19",
+        "chip_net_5d": 1366157.0,
+        "source": "https://api.finmindtrade.com/api/v4/data",
+        "observed_on": "2026-10-19",
+        "notes": [
+          "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+        ],
+        "errors": [],
+        "provider_observed_on": "2026-10-08"
+      },
+      "catalyst": null,
+      "gates": {
+        "market": false,
+        "sector": true,
+        "fundamental": true,
+        "catalyst": false,
+        "technical": true,
+        "chips": true,
+        "relative_strength": true
+      },
+      "candidate_plan": {
+        "kind": "pullback",
+        "entry_low": 71.5,
+        "entry_high": 71.5043,
+        "stop": 67.7557,
+        "target": 80.6938,
+        "target_basis": "120日以上歷史轉折高點",
+        "atr": 3.7214,
+        "rr": 2.003,
+        "close": 71.3,
+        "volume_ratio": 0.44194668944072724,
+        "return20": 0.11406254768371582,
+        "holding_sessions": [
+          2,
+          3
+        ],
+        "max_holding_sessions": 3
+      },
+      "observed_close": 71.3
+    },
+    "event_id": "addff49da3ba696eddf244bb"
   }
 ]
