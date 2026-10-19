@@ -32,6 +32,11 @@ def evaluate_signals(events, histories, as_of, previous=None):
         bars = [b for b in histories.get(snap['id'], []) if b['date'] <= as_of]
         basis = next((b['close'] for b in bars if b['date'] == snap['as_of']), None)
         observed = snap.get('observed_close')
+        if (not bars or bars[-1]['date'] != as_of) and old.get('method') == VERSION \
+                and old.get('evaluated_on') == as_of and old.get('outcome', {}).get('status') != 'unconfirmed':
+            # Same-day rerun lost prices; the earlier evaluation used as_of bars, keep it.
+            records[key] = old
+            continue
         if not bars or bars[-1]['date'] != as_of:
             outcome = {'status': 'unconfirmed', 'reason': 'missing_or_stale_prices'}
         elif not observed or basis is None or abs(basis / observed - 1) > .005:

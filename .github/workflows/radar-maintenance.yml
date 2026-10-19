@@ -10,6 +10,10 @@ on:
         type: choice
         options: ['3', '25', '100']
         default: '100'
+      bootstrap:
+        description: 'First run only: allow empty state when no artifact exists (restore otherwise fails closed)'
+        type: boolean
+        default: false
 permissions:
   contents: read
   actions: read
@@ -25,6 +29,7 @@ jobs:
       TZ: Asia/Taipei
       GH_TOKEN: ${{ github.token }}
       RADAR_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+      RESTORE_FLAGS: ${{ inputs.bootstrap && '--bootstrap' || '' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -35,8 +40,8 @@ jobs:
       - run: pip install -r requirements.txt
       - name: Restore separate maintenance and existing verified facts
         run: |
-          python -m market_radar.restore
-          python -m market_radar.restore --name market-radar-maintenance --destination .maintenance
+          python -m market_radar.restore $RESTORE_FLAGS
+          python -m market_radar.restore --name market-radar-maintenance --destination .maintenance $RESTORE_FLAGS
       - name: Resume bounded maintenance
         env:
           RADAR_HOLDINGS_JSON: ${{ secrets.RADAR_HOLDINGS_JSON || '{}' }}

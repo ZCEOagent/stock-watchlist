@@ -28,6 +28,10 @@ on:
         description: 'Set by the dispatcher; echoed in heartbeats'
         required: false
         default: ''
+      bootstrap:
+        description: 'First run only: allow empty state when no artifact exists (restore otherwise fails closed)'
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -52,6 +56,8 @@ jobs:
       HEARTBEAT_TOKEN: ${{ secrets.HEARTBEAT_TOKEN }}
       GH_TOKEN: ${{ github.token }}
       RADAR_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+      # Restore fails closed (lost dedupe receipts / slot ledger); only a manual bootstrap may start empty.
+      RESTORE_FLAGS: ${{ inputs.bootstrap && '--bootstrap' || '' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -73,10 +79,10 @@ jobs:
         run: python -m unittest discover -s tests -q
       - name: Restore public market history and delivery receipts
         run: |
-          python -m market_radar.restore
+          python -m market_radar.restore $RESTORE_FLAGS
       - name: Restore maintenance facts for full reports
         if: github.event.schedule != '50 0 * * 1-5' && inputs.mode != 'quotes' && inputs.mode != 'session'
-        run: python -m market_radar.restore --name market-radar-maintenance --destination .maintenance
+        run: python -m market_radar.restore --name market-radar-maintenance --destination .maintenance $RESTORE_FLAGS
       - name: Run radar
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
