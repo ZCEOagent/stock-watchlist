@@ -143,6 +143,9 @@ def run_us(limit=None):
     history, quality = assess_market(universe, history, as_of, "symbol", threshold=config.RADAR_MIN_COVERAGE)
     write_json(f"{config.RUNTIME_CACHE_DIR}/us_quality.json", quality)
     if not quality["passed"]:
+        # Print reasons: 'stale'/'missing' for nearly all symbols means the provider has not
+        # published the as_of bar yet (observed 00:41-01:30 UTC), not a code fault.
+        print(f"美股品質拒絕原因：{quality['counts']}；預期行情日期 {as_of}", flush=True)
         raise RuntimeError(f"美股有效行情覆蓋率 {quality['coverage']:.1%}，未通過品質門檻；未覆蓋正式快取")
 
     print("正在計算技術指標並篩選...")

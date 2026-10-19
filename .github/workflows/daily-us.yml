@@ -1,8 +1,9 @@
 name: Daily US Close Report
 on:
   schedule:
-    # TW 21:17 / US next-day 06:37 Asia/Taipei; not an intraday scheduler.
-    - cron: "37 22 * * 1-5"
+    # Late backup only (primary: Cloudflare dispatcher). 11:00 Asia/Taipei, Tue-Sat:
+    # runs before ~01:40 UTC hit Yahoo's missing-latest-bar window (diagnosis section 5).
+    - cron: "0 3 * * 2-6"
   workflow_dispatch:
     inputs:
       us_limit:
