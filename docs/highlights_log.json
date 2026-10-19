@@ -4129,5 +4129,40 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-10-19",
+    "market": "tw",
+    "id": "7786",
+    "name": "東方風能",
+    "flagged_close": 125.0,
+    "flagged_change_pct": 9.65,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-19",
+    "market": "tw",
+    "id": "6657",
+    "name": "華安",
+    "flagged_close": 34.75,
+    "flagged_change_pct": 6.43,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-19",
+    "market": "tw",
+    "id": "8429",
+    "name": "金麗-KY",
+    "flagged_close": 6.22,
+    "flagged_change_pct": 5.96,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
   }
 ]
