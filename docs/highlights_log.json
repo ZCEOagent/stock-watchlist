@@ -4197,5 +4197,38 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-10-19",
+    "market": "us",
+    "id": "AMZN",
+    "name": "Amazon",
+    "flagged_close": 262.45,
+    "flagged_change_pct": 4.98,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-19",
+    "market": "us",
+    "id": "AMP",
+    "name": "Ameriprise Financial",
+    "flagged_close": 480.41,
+    "flagged_change_pct": -4.07,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-19",
+    "market": "us",
+    "id": "ES",
+    "name": "Eversource Energy",
+    "flagged_close": 64.48,
+    "flagged_change_pct": -3.55,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
