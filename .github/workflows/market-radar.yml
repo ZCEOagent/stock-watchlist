@@ -5,9 +5,11 @@ on:
   # GitHub schedule measured 2026-09-30..10-19 at 3-5.5 h median delay and ~90% of
   # triggers missing, so these crons are late backups only; the slot ledger makes a
   # backup that arrives after the dispatched run finished exit without work.
+  # No 18:20 digest backup: on 2026-10-20 a 10-19 18:20 cron delivered at 01:01 used
+  # the run-time date, sent "10-20" with 10-19 data and made the real 18:20 digest
+  # skip as already delivered. Backups here can never cross midnight (08:50/Mon 08:00).
   schedule:
     - cron: '50 0 * * 1-5'   # intraday session backup (08:50 Taipei)
-    - cron: '20 10 * * *'    # daily digest backup (18:20)
     - cron: '0 0 * * 1'      # Monday weekly backup (08:00)
   workflow_dispatch:
     inputs:

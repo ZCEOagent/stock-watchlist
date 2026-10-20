@@ -12,7 +12,12 @@ class SchedulingTests(unittest.TestCase):
             snapshot={'day':'2026-09-29','stocks':[],'scanned':0,'health':[],'price_dates':[]}
             with patch.object(cli.sources,'collect',return_value=({},[])),patch.object(cli.engine,'scan',return_value=snapshot),patch.object(cli.engine,'apply_swing_gate'),patch.object(cli.reports,'render',return_value='ok'),patch.object(cli.reports,'full_report',return_value='ok'),patch.object(cli.history,'backfill',return_value={}) as backfill,patch.object(cli.financials,'complete',return_value=({},{})) as complete:
                 cli.run(args)
-            backfill.assert_not_called()
+            # Only the expected session's official batch (<= 2 requests) may be fetched;
+            # the historical backlog and filings stay with background maintenance.
+            for call in backfill.call_args_list:
+                self.assertEqual(len(call.args[2]), 1)
+                self.assertLessEqual(call.kwargs.get('limit', 8), 2)
+            self.assertLessEqual(backfill.call_count, 1)
             complete.assert_not_called()
 
     def test_transport_failure_retries_later_same_day(self):
