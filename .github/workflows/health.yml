@@ -6,8 +6,10 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+# Read-only check: it must not share the report writers' group, where a queued run
+# replaces the single pending slot and could cancel a dispatched report waiting there.
 concurrency:
-  group: stock-report-writer
+  group: radar-health
   cancel-in-progress: false
 jobs:
   check:

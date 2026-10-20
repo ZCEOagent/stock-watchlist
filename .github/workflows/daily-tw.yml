@@ -1,9 +1,10 @@
 name: Daily TW Close Report
 on:
-  schedule:
-    # 14:17 初次收盤整理；21:17 複用行情，補查較晚更新的籌碼。
-    - cron: "17 6 * * 1-5"
-    - cron: "17 13 * * 1-5"
+  # No GitHub schedule: the Cloudflare dispatcher (cloudflare/) triggers 15:15 and 21:17
+  # Asia/Taipei and re-dispatches on failure. GitHub cron measured 4-8 h late; a late
+  # backup duplicated the full report and, sharing the writer group, could cancel a
+  # dispatched run waiting in the single pending slot. radar-monitor alerts if no run
+  # exists on a trading day by 16:00.
   workflow_dispatch:
     inputs:
       tw_limit:

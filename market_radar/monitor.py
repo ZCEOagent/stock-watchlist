@@ -34,8 +34,16 @@ def trading_day(day, path=CALENDAR):
     if not dates or not dates[0] <= day <= dates[-1]:
         return None
     return day in set(dates)
+# Hours since a workflow's latest run before "may have missed". Maintenance stays on
+# GitHub cron, which measured 30 of 89 gaps over 6 h (max 9.9 h); the old 6 h limit
+# alarmed for normal GitHub delay. Timely slots are watched by the Cloudflare Worker.
 WORKFLOWS = {'market-radar.yml': 48, 'daily-tw.yml': 96, 'daily-us.yml': 96,
-             'health.yml': 36, 'radar-maintenance.yml': 6}
+             'health.yml': 36, 'radar-maintenance.yml': 24}
+MAINTENANCE_MAX_AGE_HOURS = 24
+# Session state is uploaded only when the intraday job ends (~13:37), so before this
+# a missing same-day record means "not uploaded yet", not "did not run".
+INTRADAY_RECORD_DUE = dt.time(13, 50)
+TW_CLOSE_DUE = dt.time(16, 0)
 
 
 def api(path):
@@ -96,8 +104,8 @@ def include_maintenance(current, maintenance, now):
         current['issues'].append('缺少背景補件進度')
         return
     stamp = maintenance['fetched_at']
-    if (now-timestamp(stamp)).total_seconds() > 6*3600:
-        current['issues'].append('背景補件進度超過 6 小時未更新')
+    if (now-timestamp(stamp)).total_seconds() > MAINTENANCE_MAX_AGE_HOURS*3600:
+        current['issues'].append(f'背景補件進度超過 {MAINTENANCE_MAX_AGE_HOURS} 小時未更新')
         return
     if not current.get('snapshot_at') or timestamp(stamp) >= timestamp(current['snapshot_at']):
         current['financials'] = maintenance['financials']
@@ -114,7 +122,10 @@ def quote_coverage_issues(health, now, is_trading=None):
     same_day = bool(checked) and timestamp(checked).astimezone(TAIPEI).date() == local.date()
     if not same_day:
         # Previously returned [] here, so a day with zero intraday checks was silent.
-        # Only an unknown calendar or a known non-session day stays quiet.
+        # Only an unknown calendar or a known non-session day stays quiet, and before
+        # the session's state upload is due the record cannot exist yet.
+        if local.time() < INTRADAY_RECORD_DUE:
+            return []
         return ['交易日完全沒有盤中行情檢查紀錄（排程可能未觸發）'] if is_trading else []
     intraday = health.get('intraday', {})
     if not intraday.get('last_at'):
@@ -124,6 +135,16 @@ def quote_coverage_issues(health, now, is_trading=None):
     if max(tail,intraday.get('max_gap_seconds',0)) > 15*60:
         return ['當日盤中行情檢查有超過15分鐘空窗，無法保證及時提醒']
     return []
+
+
+def tw_close_issues(runs, now, is_trading=None):
+    """Second line behind the Worker: no daily-tw run created today on a trading day."""
+    local = now.astimezone(TAIPEI)
+    is_trading = trading_day(local.date().isoformat()) if is_trading is None else is_trading
+    if not is_trading or local.time() < TW_CLOSE_DUE:
+        return []
+    today = [r for r in runs if timestamp(r['created_at']).astimezone(TAIPEI).date() == local.date()]
+    return [] if today else ['今日台股收盤報告完全沒有執行（外部派送可能停擺）']
 
 
 def slot_issues(slots, now, is_trading=None):
@@ -183,6 +204,7 @@ def assess(snapshot, receipts, workflows, now):
         issues.append('有 Telegram 送達狀態不明的紀錄，需人工核對，未自動重送')
     issues.extend(quote_coverage_issues(snapshot.get('quote_health', {}),now))
     issues.extend(slot_issues(snapshot.get('slots', {}), now))
+    issues.extend(tw_close_issues(workflows.get('daily-tw.yml', []), now))
     financials = snapshot.get('completion', {}).get('financials', {})
     if not financials or not financials.get('eligible'):
         issues.append('缺少有效的財報核實進度')

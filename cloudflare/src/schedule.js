@@ -11,21 +11,26 @@ const WEEKDAYS = [1, 2, 3, 4, 5];
 
 // startBy / finishBy are minutes after the dispatch time.
 export const SLOTS = [
-  { name: 'radar-weekly', market: 'tw', days: [1], at: '07:40', workflow: 'market-radar.yml',
+  // Weekly research runs on a Monday holiday too (as the original cron did).
+  { name: 'radar-weekly', market: 'any', days: [1], at: '07:40', workflow: 'market-radar.yml',
     inputs: { mode: 'weekly', trigger: 'scheduler' }, startBy: 20, finishBy: 50, retryOnFailure: true },
   { name: 'intraday', market: 'tw', days: WEEKDAYS, at: '08:45', workflow: 'market-radar.yml',
     inputs: { mode: 'session', trigger: 'scheduler' }, startBy: 20, finishBy: 305, retryOnFailure: false,
     live: { from: '09:10', to: '13:30', maxSilenceMin: 12 } },
-  { name: 'tw-close', market: 'tw', days: WEEKDAYS, at: '14:17', workflow: 'daily-tw.yml',
-    inputs: { slot: 'tw-close' }, startBy: 20, finishBy: 150, retryOnFailure: true },
+  // Not 14:17: on 2026-10-20 the on-time run failed because TPEx's official daily batch
+  // first appeared between 14:52 and 14:54. 15:15 leaves margin; a failure is retried
+  // once after 15 minutes instead of 5.
+  { name: 'tw-close', market: 'tw', days: WEEKDAYS, at: '15:15', workflow: 'daily-tw.yml',
+    inputs: { slot: 'tw-close' }, startBy: 20, finishBy: 150, retryOnFailure: true, retryAfterMin: 15 },
   { name: 'radar-daily', market: 'any', days: [0, 1, 2, 3, 4, 5, 6], at: '18:20', workflow: 'market-radar.yml',
     inputs: { mode: 'daily', trigger: 'scheduler' }, startBy: 20, finishBy: 50, retryOnFailure: true },
   { name: 'tw-evening', market: 'tw', days: WEEKDAYS, at: '21:17', workflow: 'daily-tw.yml',
     inputs: { slot: 'tw-evening' }, startBy: 20, finishBy: 150, retryOnFailure: true },
   // Not 06:37: every US failure (6/6, 2026-10-01..17) started 00:41-01:30 UTC and every
   // success 01:48-03:09 UTC; Yahoo's latest US daily bar is unavailable in that window.
-  // 11:00 Taipei = 03:00 UTC, after the observed window under both EDT and EST.
-  { name: 'us-close', market: 'us', days: [2, 3, 4, 5, 6], at: '11:00', workflow: 'daily-us.yml',
+  // 11:30 Taipei = 03:30 UTC: 2 h after the window observed under EDT, ~1 h if it
+  // shifts one hour later with EST from 2026-11-01.
+  { name: 'us-close', market: 'us', days: [2, 3, 4, 5, 6], at: '11:30', workflow: 'daily-us.yml',
     inputs: { slot: 'us-close' }, startBy: 20, finishBy: 90, retryOnFailure: true },
 ];
 
@@ -122,7 +127,12 @@ export function decide(slot, day, nowMs, state, beats) {
   if (!ok.length && !started) {
     if (nowMs < finishBy) {
       const failures = state.dispatches.length;
-      if (failures) alert('dispatch_error', `${slot.name} 派送 workflow_dispatch 失敗，將每 5 分鐘重試（最多 6 次）。`);
+      if (failures) {
+        const status = state.dispatches[failures - 1].status;
+        const hint = { 401: 'GH_PAT 無效或已過期，請重新建立並上傳', 403: 'GH_PAT 缺少 Actions 讀寫權限',
+                       404: 'GH_PAT 未授權此 repo，或 workflow 檔名錯誤', 422: 'workflow 輸入參數或分支不符' }[status];
+        alert('dispatch_error', `${slot.name} 派送 workflow_dispatch 失敗（HTTP ${status}${hint ? '：' + hint : ''}），將每 5 分鐘重試（最多 6 次）。`);
+      }
       if (failures < 6) dispatch('scheduled');
     } else {
       alert('missed', `${slot.name}（${day} ${slot.at}）整段時窗都沒有派送或執行紀錄。`);
@@ -136,7 +146,9 @@ export function decide(slot, day, nowMs, state, beats) {
 
   if (has('failed') && !has('completed')) {
     alert('failed', `${slot.name} 回報失敗；詳情見 ${beats.last && beats.last.run_url || 'GitHub Actions'}。`);
-    if (slot.retryOnFailure && ok.length < MAX_DISPATCHES && nowMs < finishBy && !state.retriedFailure) {
+    const failedAt = beats.statuses.failed || nowMs;
+    const retryReady = nowMs >= failedAt + (slot.retryAfterMin || 0) * 60000;
+    if (slot.retryOnFailure && ok.length < MAX_DISPATCHES && nowMs < finishBy && !state.retriedFailure && retryReady) {
       state.retriedFailure = true;
       dispatch('failed');
     } else if (state.retriedFailure && nowMs >= finishBy) {
@@ -169,7 +181,8 @@ export function decide(slot, day, nowMs, state, beats) {
     }
   }
 
-  if (beats.last && beats.last.status === 'degraded' && !terminal) {
+  const inLive = !slot.live || (nowMs >= at(day, minutes(slot.live.from)) && nowMs <= at(day, minutes(slot.live.to)));
+  if (beats.last && beats.last.status === 'degraded' && !terminal && inLive) {
     const bucket = Math.floor(nowMs / (60 * 60000));
     const ratio = beats.last.valid_ratio;
     alert(`degraded:${bucket}`, `${slot.name} 連續多輪行情不足（有效快照比例 ${ratio ?? '未知'}）；失效行情不會產生提醒。`);

@@ -67,7 +67,8 @@ class MonitorTests(unittest.TestCase):
     def test_stale_missing_and_uncertain_are_not_healthy(self):
         self.snapshot['fetched_at'] = (self.now-dt.timedelta(days=3)).isoformat()
         current = monitor.assess(self.snapshot, {'uncertain': 1}, {}, self.now)
-        self.assertEqual(len(current['issues']), len(monitor.WORKFLOWS)+2)
+        # +3: stale snapshot, uncertain delivery, no daily-tw run on this trading day.
+        self.assertEqual(len(current['issues']), len(monitor.WORKFLOWS)+3)
         missing = monitor.assess(None, {}, self.runs, self.now)
         self.assertIn('找不到可讀取的市場快照', missing['issues'])
 
@@ -85,11 +86,16 @@ class MonitorTests(unittest.TestCase):
                      'financials':{'eligible':1800,'verified':1800,'pending':0}}
         monitor.include_maintenance(current,maintenance,self.now+dt.timedelta(minutes=2))
         self.assertTrue(any('補齊' in x for x in monitor.transition(current,previous,self.now)))
-        older=dict(maintenance,fetched_at=(self.now-dt.timedelta(hours=7)).isoformat())
+        # 7 h is normal GitHub cron delay for maintenance (measured max 9.9 h); 25 h is not.
+        delayed=dict(maintenance,fetched_at=(self.now-dt.timedelta(hours=7)).isoformat())
+        current=self.current()
+        monitor.include_maintenance(current,delayed,self.now)
+        self.assertFalse(any('補件進度' in x for x in current['issues']))
+        older=dict(maintenance,fetched_at=(self.now-dt.timedelta(hours=25)).isoformat())
         current=self.current()
         monitor.include_maintenance(current,older,self.now)
         self.assertEqual(current['financials']['pending'],1350)
-        self.assertTrue(any('6 小時' in x for x in current['issues']))
+        self.assertTrue(any('24 小時' in x for x in current['issues']))
 
     def test_unknown_delivery_is_not_retried(self):
         with tempfile.TemporaryDirectory() as folder:
@@ -172,6 +178,26 @@ class MonitorBlindSpotTests(unittest.TestCase):
         day_after = {'issues': ['x'], 'financials': {}}
         reasons = monitor.transition(day_after, later, now + dt.timedelta(hours=25))
         self.assertTrue(any(r.startswith('持續異常：x（已 25 小時）') for r in reasons))
+
+
+class MonitorFalseAlarmTests(unittest.TestCase):
+    """2026-10-20 audit: alarms that would fire on a healthy day."""
+    def test_intraday_record_not_expected_before_session_upload(self):
+        during = dt.datetime(2026, 10, 20, 3, 0, tzinfo=dt.timezone.utc)   # 11:00 Taipei, session running
+        stale = {'checked_at': '2026-10-19T13:31:00+08:00'}
+        self.assertEqual(monitor.quote_coverage_issues(stale, during, is_trading=True), [])
+        after = dt.datetime(2026, 10, 20, 6, 0, tzinfo=dt.timezone.utc)     # 14:00 Taipei
+        self.assertEqual(len(monitor.quote_coverage_issues(stale, after, is_trading=True)), 1)
+
+    def test_tw_close_missing_only_after_due_on_trading_day(self):
+        before = dt.datetime(2026, 10, 20, 7, 0, tzinfo=dt.timezone.utc)    # 15:00
+        after = dt.datetime(2026, 10, 20, 9, 0, tzinfo=dt.timezone.utc)     # 17:00
+        yesterday = [{'created_at': '2026-10-19T13:20:00Z'}]
+        today = [{'created_at': '2026-10-20T07:20:00Z'}]
+        self.assertEqual(monitor.tw_close_issues(yesterday, before, is_trading=True), [])
+        self.assertEqual(len(monitor.tw_close_issues(yesterday, after, is_trading=True)), 1)
+        self.assertEqual(monitor.tw_close_issues(today, after, is_trading=True), [])
+        self.assertEqual(monitor.tw_close_issues([], after, is_trading=False), [])
 
 
 if __name__ == '__main__':
