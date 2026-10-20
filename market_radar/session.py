@@ -106,7 +106,11 @@ def run(args, clock=now_tw, sleep=time.sleep, step=default_step, beat=heartbeat.
         requested = health.get('requested') or 0
         ratio = (health.get('snapshot_ok', health.get('valid', 0)) / requested) if requested else 0.0
         fresh_check = health.get('checked_at', '') >= now.isoformat()[:16]
-        degraded = (not fresh_check) or ratio < DEGRADED_RATIO
+        # After 13:30 the book stops updating, so snapshot age is meaningless: a correct
+        # closing quote is classified stale from ~13:32 and would raise a false
+        # "degraded" alarm every session. Post-close only a check that failed to run counts.
+        post_close = now.time() >= dt.time(13, 30)
+        degraded = (not fresh_check) or (not post_close and ratio < DEGRADED_RATIO)
         if failed and (mode == 'quotes' or degraded):
             stats['quote_errors'] += 1
         elif failed:

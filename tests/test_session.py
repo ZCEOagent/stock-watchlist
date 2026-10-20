@@ -149,6 +149,22 @@ class SessionTests(unittest.TestCase):
         self.assertEqual(self.entry()['quote_errors'], 1)
 
 
+class PostCloseTests(SessionTests):
+    def test_closing_review_does_not_raise_degraded_alarm(self):
+        # After 13:30 snapshots freeze; a correct closing quote must not look like an outage.
+        clock = FakeClock(TRADING_DAY.replace(hour=13, minute=20))
+        def step(mode, args):
+            self.modes.append((mode, clock()))
+            ok = 10 if clock().time() < dt.time(13, 30) else 0     # snapshot_ok collapses post-close
+            store = Store(args.state)
+            store.meta('watch-health', json.dumps(dict(checked_at=clock().isoformat(), requested=10,
+                                                       snapshot_ok=ok, valid=10)))
+            store.close()
+        self.assertEqual(self.run_session(clock, step=step), 0)
+        self.assertNotIn('degraded', [b[0] for b in self.beats])
+        self.assertEqual(self.entry()['status'], 'completed')
+
+
 class ScheduledReportGuardTests(unittest.TestCase):
     def test_completed_daily_slot_exits_before_any_source_request(self):
         with tempfile.TemporaryDirectory() as tmp:

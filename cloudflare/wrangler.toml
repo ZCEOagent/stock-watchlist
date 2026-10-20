@@ -10,10 +10,10 @@ crons = ["*/5 * * * *"]
 GH_REPO = "ZCEOagent/stock-watchlist"
 GH_REF = "master"
 # Set to the deployment time so earlier slots today are not reported as missed.
-ACTIVE_FROM = ""
+ACTIVE_FROM = "2026-10-20T10:54:00+08:00"
 # Optional extra Taiwan market closures (YYYY-MM-DD,YYYY-MM-DD); jobs also report "closed".
-TW_CLOSED_DATES = ""
+TW_CLOSED_DATES = "2026-10-26,2026-12-25"  # from state/calendar.json; jobs also report "closed"
 
 [[kv_namespaces]]
 binding = "RADAR_KV"
-id = "REPLACE_WITH_KV_NAMESPACE_ID"   # wrangler kv namespace create RADAR_KV
+id = "bcdb8da94d7d4943a04d37d5eece04b9"   # wrangler kv namespace create RADAR_KV

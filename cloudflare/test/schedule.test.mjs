@@ -42,15 +42,15 @@ test('not started by deadline: alert once and re-dispatch once', () => {
 
 test('dispatch API failure retries every tick and alerts once', () => {
   let state = { dispatches: [{ id: 'a', ok: false, status: 401 }], alerts: {} };
-  let r = decide(slot('tw-close'), DAY, tw('14:22'), state, null);
+  let r = decide(slot('tw-close'), DAY, tw('15:20'), state, null);
   assert.deepEqual(r.actions.map((a) => a.type).sort(), ['alert', 'dispatch']);
   state = r.state; state.dispatches.push({ id: 'b', ok: false });
-  r = decide(slot('tw-close'), DAY, tw('14:27'), state, null);
+  r = decide(slot('tw-close'), DAY, tw('15:25'), state, null);
   assert.deepEqual(r.actions.map((a) => a.type), ['dispatch']);
 });
 
 test('whole window missed is reported, not dispatched late', () => {
-  const r = decide(slot('tw-close'), DAY, tw('17:00'), null, null);
+  const r = decide(slot('tw-close'), DAY, tw('17:50'), null, null);
   assert.deepEqual(r.actions.map((a) => a.kind), ['missed']);
 });
 
@@ -84,7 +84,7 @@ test('quiet when everything completes', () => {
 test('failure triggers one retry dispatch for retryable slots only', () => {
   const state = { dispatches: [{ id: 'a', ok: true }], alerts: {} };
   const failed = beats({ started: 1, failed: 2 }, { status: 'failed' });
-  let r = decide(slot('tw-close'), DAY, tw('14:40'), state, failed);
+  let r = decide(slot('tw-close'), DAY, tw('15:50'), state, failed);
   assert.deepEqual(r.actions.map((a) => a.type).sort(), ['alert', 'dispatch']);
   r = decide(slot('intraday'), DAY, tw('13:40'), state, failed);
   assert.deepEqual(r.actions.map((a) => a.type), ['alert']);
@@ -92,7 +92,7 @@ test('failure triggers one retry dispatch for retryable slots only', () => {
 
 test('started but never finished is reported', () => {
   const state = { dispatches: [{ id: 'a', ok: true }], alerts: {} };
-  const r = decide(slot('tw-close'), DAY, tw('16:50'), state, beats({ started: 1 }, { status: 'started' }));
+  const r = decide(slot('tw-close'), DAY, tw('17:50'), state, beats({ started: 1 }, { status: 'started' }));
   assert.deepEqual(r.actions.map((a) => a.kind), ['not_finished']);
 });
 
@@ -112,11 +112,11 @@ test('plan skips TW slots on closed days and weekends, honors activation time', 
   const sat = plan(at('2026-10-24', minutes('08:45')), empty).actions;
   assert.equal(sat.filter((a) => a.slot === 'intraday' && a.day === '2026-10-24').length, 0);
   const closed = { ...empty, closedDays: new Set([DAY]) };
-  assert.equal(plan(tw('14:17'), closed).actions.filter((a) => a.slot === 'tw-close' && a.day === DAY).length, 0);
-  assert.equal(plan(tw('14:17'), empty, { closedDates: DAY }).actions.filter((a) => a.slot === 'tw-close' && a.day === DAY).length, 0);
-  const fresh = plan(tw('15:00'), empty, { activeFromMs: tw('14:55') }).actions;
+  assert.equal(plan(tw('15:15'), closed).actions.filter((a) => a.slot === 'tw-close' && a.day === DAY).length, 0);
+  assert.equal(plan(tw('15:15'), empty, { closedDates: DAY }).actions.filter((a) => a.slot === 'tw-close' && a.day === DAY).length, 0);
+  const fresh = plan(tw('18:00'), empty, { activeFromMs: tw('17:55') }).actions;
   assert.equal(fresh.filter((a) => a.kind === 'missed').length, 0);  // deployed after those slots
-  const noActivation = plan(tw('15:00'), empty).actions;
+  const noActivation = plan(tw('18:00'), empty).actions;
   assert.ok(noActivation.some((a) => a.kind === 'missed'));
 });
 
@@ -167,17 +167,50 @@ test('failed Telegram delivery keeps the alert pending for the next tick', async
   globalThis.fetch = async (url) => new Response(null, { status: url.includes('telegram') ? 500 : 204 });
   const kv = new FakeKV();
   await kv.put(`w:${DAY}:tw-close`, JSON.stringify({ dispatches: [{ id: 'a', ok: true }], alerts: {} }));
-  await tick(env(kv), tw('14:40'));
+  await tick(env(kv), tw('15:40'));
   const state = JSON.parse(kv.data.get(`w:${DAY}:tw-close`));
   assert.equal(state.alerts.not_started, undefined);
 });
 
-test('us-close is dispatched at 11:00 Taipei, outside the observed Yahoo window', () => {
+test('us-close is dispatched at 11:30 Taipei, outside the observed Yahoo window', () => {
   const us = slot('us-close');
   const wed = '2026-10-21';
   assert.equal(decide(us, wed, at(wed, minutes('06:37')), null, null).actions.length, 0);
-  const { actions } = decide(us, wed, at(wed, minutes('11:00')), null, null);
+  const { actions } = decide(us, wed, at(wed, minutes('11:30')), null, null);
   assert.equal(actions[0].type, 'dispatch');
   // 03:00 UTC: after every observed failure (00:41-01:30 UTC) and at the last observed success hour.
-  assert.equal(new Date(at(wed, minutes('11:00'))).toISOString(), '2026-10-21T03:00:00.000Z');
+  assert.equal(new Date(at(wed, minutes('11:30'))).toISOString(), '2026-10-21T03:30:00.000Z');
+});
+
+test('dispatch error alert names the HTTP status and the likely fix', () => {
+  const state = { dispatches: [{ id: 'a', ok: false, status: 401 }], alerts: {} };
+  const r = decide(slot('tw-close'), DAY, tw('15:20'), state, null);
+  const a = r.actions.find((x) => x.type === 'alert');
+  assert.match(a.text, /HTTP 401/);
+  assert.match(a.text, /GH_PAT/);
+});
+
+test('tw-close failure waits 15 minutes before the single retry', () => {
+  const state = { dispatches: [{ id: 'a', ok: true }], alerts: {} };
+  const failed = beats({ started: tw('15:16'), failed: tw('15:20') }, { status: 'failed' });
+  let r = decide(slot('tw-close'), DAY, tw('15:25'), state, failed);
+  assert.deepEqual(r.actions.map((a) => a.type), ['alert']);          // alert now, no immediate retry
+  r = decide(slot('tw-close'), DAY, tw('15:35'), r.state, failed);
+  assert.deepEqual(r.actions.map((a) => a.type), ['dispatch']);
+});
+
+test('degraded heartbeat after the live window does not alert', () => {
+  const state = { dispatches: [{ id: 'a', ok: true }], alerts: {} };
+  const r = decide(slot('intraday'), DAY, tw('13:40'), state,
+    beats({ started: 1 }, { status: 'degraded', received_at: new Date(tw('13:36')).toISOString() }));
+  assert.equal(r.actions.filter((a) => /^degraded/.test(a.kind)).length, 0);
+});
+
+test('weekly report still runs on a Monday market holiday', () => {
+  const monday = '2026-10-26';
+  const empty = { closedDays: new Set([monday]), state: () => null, beats: () => null };
+  const { actions } = plan(at(monday, minutes('07:40')), empty, { closedDates: monday });
+  assert.ok(actions.some((a) => a.slot === 'radar-weekly' && a.type === 'dispatch'));
+  const later = plan(at(monday, minutes('08:45')), empty, { closedDates: monday }).actions;
+  assert.equal(later.filter((a) => a.slot === 'intraday' && a.day === monday).length, 0);
 });
