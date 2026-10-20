@@ -9,6 +9,11 @@ from radar_data import EvidenceClient, adjusted_histories, summarize_evidence
 from performance import evaluate_signals, signal_snapshots
 
 
+def same_day_evaluation(prior, as_of):
+    """True when prior was evaluated on adjusted bars ending exactly at as_of."""
+    return bool(prior) and prior.get("as_of") == as_of and prior.get("observed_close") is not None
+
+
 def build_radar(universe, history, as_of, quality, persist=True):
     previous = read_json(config.RADAR_STATE_PATH, {})
     events = read_json(config.RADAR_EVENTS_PATH, [])
@@ -34,9 +39,20 @@ def build_radar(universe, history, as_of, quality, persist=True):
     adjusted, failures = adjusted_histories(list(enrichment.values()), history, as_of)
     client = EvidenceClient(as_of)
     updates = {}
+    preserved = []
     for item in selected:
         sid = item["stock_id"]
         prior = previous.get(sid)
+        if sid not in adjusted and same_day_evaluation(prior, as_of):
+            # A rerun for the same session lost its adjusted history (e.g. Yahoo's last bar
+            # not yet at as_of); keep the earlier valid evaluation instead of degrading it.
+            # Only an exact as_of match qualifies, so an older day never stands in for today.
+            reason = failures.get(sid, "還原資料不足")
+            preserved.append({"id": sid, "reason": reason})
+            updates[sid] = prior
+            result["items"].append({**prior, "reasons": list(prior.get("reasons", [])) +
+                                    [f"同日重跑還原行情失敗（{reason}），保留本日先前有效評估"]})
+            continue
         if sid not in adjusted:
             value = {"id": sid, "name": item["stock_name"], "as_of": as_of,
                      "status": "unconfirmed", "reasons": [failures.get(sid, "還原資料不足")], "facts": {}}
@@ -65,6 +81,9 @@ def build_radar(universe, history, as_of, quality, persist=True):
         event["event_id"] = hashlib.sha256(json.dumps(value, sort_keys=True, ensure_ascii=False).encode()).hexdigest()[:24]
         if event["event_id"] not in {e["event_id"] for e in events}:
             events.append(event)
+    if preserved:
+        result["coverage"]["preserved_same_day"] = preserved
+        print(f"雷達同日重跑：{len(preserved)} 檔還原行情失敗，保留先前有效評估：{preserved}", flush=True)
     selected_ids = {i["stock_id"] for i in selected}
     lookup = {i["stock_id"]: i for i in universe}
     for sid in set(forced + active_ids) - selected_ids:
