@@ -14,6 +14,26 @@ from . import notify
 from .store import Store
 
 UTC = dt.timezone.utc
+TAIPEI = ZoneInfo('Asia/Taipei')
+CALENDAR = Path(__file__).resolve().parent.parent / 'state' / 'calendar.json'
+# Slot ledger expectations (Asia/Taipei): which work must have finished by when.
+EXPECTED_SLOTS = (('intraday', dt.time(13, 50), '盤中長駐行情檢查'),
+                  ('radar-daily', dt.time(19, 15), '18:20 全市場摘要'))
+REALERT_HOURS = 24
+
+
+def trading_day(day, path=CALENDAR):
+    """True/False from the provider calendar committed by daily-tw; None if unknown.
+
+    The monitor job does not install pandas/exchange_calendars, so it reads the
+    same state/calendar.json that market_clock uses."""
+    try:
+        dates = json.loads(Path(path).read_text(encoding='utf-8')).get('dates', [])
+    except (OSError, ValueError):
+        return None
+    if not dates or not dates[0] <= day <= dates[-1]:
+        return None
+    return day in set(dates)
 WORKFLOWS = {'market-radar.yml': 48, 'daily-tw.yml': 96, 'daily-us.yml': 96,
              'health.yml': 36, 'radar-maintenance.yml': 6}
 
@@ -57,6 +77,8 @@ def read_snapshot(path):
         quote_row = db.execute("SELECT value FROM meta WHERE key='watch-health'").fetchone()
         if quote_row:
             snapshot['quote_health'] = json.loads(quote_row[0])
+        snapshot['slots'] = {k[len('slot:'):]: json.loads(v) for k, v in
+                             db.execute("SELECT key, value FROM meta WHERE key LIKE 'slot:%'")}
         snapshot['report_retry'] = bool(db.execute("SELECT value FROM meta WHERE key='report-retry' AND value != ''").fetchone())
         receipt_count, last_receipt = db.execute('SELECT count(*), max(sent_at) FROM receipts').fetchone()
         uncertain = db.execute("SELECT count(*) FROM meta WHERE key LIKE 'delivery:%' AND value IN ('sending','uncertain')").fetchone()[0]
@@ -83,15 +105,17 @@ def include_maintenance(current, maintenance, now):
     current['maintenance_history'] = maintenance.get('history', {})
 
 
-def quote_coverage_issues(health, now):
-    # A same-day check only exists after watch's trading-calendar guard passes.
-    # Do not infer an exchange session from weekdays alone or alarm on holidays.
-    local = now.astimezone(ZoneInfo('Asia/Taipei'))
-    checked = health.get('checked_at')
-    if not checked or timestamp(checked).astimezone(local.tzinfo).date() != local.date():
-        return []
+def quote_coverage_issues(health, now, is_trading=None):
+    local = now.astimezone(TAIPEI)
     if local.time() < dt.time(9,17):
         return []
+    is_trading = trading_day(local.date().isoformat()) if is_trading is None else is_trading
+    checked = health.get('checked_at')
+    same_day = bool(checked) and timestamp(checked).astimezone(TAIPEI).date() == local.date()
+    if not same_day:
+        # Previously returned [] here, so a day with zero intraday checks was silent.
+        # Only an unknown calendar or a known non-session day stays quiet.
+        return ['交易日完全沒有盤中行情檢查紀錄（排程可能未觸發）'] if is_trading else []
     intraday = health.get('intraday', {})
     if not intraday.get('last_at'):
         return ['未記錄到當日有效盤中行情檢查；盤後成功不代表盤中監控正常']
@@ -100,6 +124,26 @@ def quote_coverage_issues(health, now):
     if max(tail,intraday.get('max_gap_seconds',0)) > 15*60:
         return ['當日盤中行情檢查有超過15分鐘空窗，無法保證及時提醒']
     return []
+
+
+def slot_issues(slots, now, is_trading=None):
+    """Compare today's ledger with the work that should be finished by now."""
+    local = now.astimezone(TAIPEI)
+    day = local.date().isoformat()
+    is_trading = trading_day(day) if is_trading is None else is_trading
+    issues = []
+    for slot, deadline, label in EXPECTED_SLOTS:
+        if slot == 'intraday' and not is_trading:
+            continue
+        if local.time() < deadline:
+            continue
+        entry = (slots or {}).get(f'{day}:{slot}')
+        status = (entry or {}).get('status')
+        if status in ('completed', 'closed'):
+            continue
+        reason = '沒有執行紀錄' if not entry else f'狀態 {status}'
+        issues.append(f'今日{label}未完成（{reason}）')
+    return issues
 
 
 def assess(snapshot, receipts, workflows, now):
@@ -138,6 +182,7 @@ def assess(snapshot, receipts, workflows, now):
     if receipts.get('uncertain'):
         issues.append('有 Telegram 送達狀態不明的紀錄，需人工核對，未自動重送')
     issues.extend(quote_coverage_issues(snapshot.get('quote_health', {}),now))
+    issues.extend(slot_issues(snapshot.get('slots', {}), now))
     financials = snapshot.get('completion', {}).get('financials', {})
     if not financials or not financials.get('eligible'):
         issues.append('缺少有效的財報核實進度')
@@ -162,6 +207,19 @@ def transition(current, previous, now):
         reasons.append('新增異常：' + '；'.join(fresh))
     for issue in fresh:
         alerts[issue] = now.isoformat()
+    # A persisting fault used to be notified exactly once (health.yml failed 11+
+    # times from 10-14 with no repeat). Repeat daily with its age, never per run.
+    persisting = [issue for issue in sorted(set(current['issues']) & set((previous or {}).get('issues', [])))
+                  if issue in alerts and (now-timestamp(alerts[issue])).total_seconds() >= REALERT_HOURS*3600]
+    if persisting:
+        first = (previous or {}).get('issue_first_seen', {})
+        reasons.append('持續異常：' + '；'.join(
+            f"{issue}（已 {int((now-timestamp(first.get(issue, alerts[issue]))).total_seconds()//3600)} 小時）"
+            for issue in persisting))
+        for issue in persisting:
+            alerts[issue] = now.isoformat()
+    first_seen = dict((previous or {}).get('issue_first_seen', {}))
+    current['issue_first_seen'] = {issue: first_seen.get(issue, now.isoformat()) for issue in current['issues']}
     current['issue_alert_times'] = alerts
     current['unresolved_alert'] = bool(current['issues'] or (previous or {}).get('unresolved_alert')
                                        or (previous or {}).get('issues'))

@@ -9,7 +9,7 @@ import config
 from market_clock import last_completed_session, session_dates
 from storage import read_json
 
-from . import engine, notify, reports, sources, history, financials, watch, validation, execution
+from . import engine, notify, reports, sources, history, financials, watch, validation, execution, ledger
 from .store import Store
 from .maintenance import import_public
 
@@ -79,6 +79,11 @@ def run(args):
             args.delivery_slot = 'scheduled'
         scheduled = args.send and getattr(args,'delivery_slot','manual') == 'scheduled' and args.mode in ('daily','weekly')
         if scheduled:
+            # Dispatcher retries and late backup crons must not rescan a finished slot.
+            claimed, entry = ledger.claim(store, today, 'radar-' + args.mode, now)
+            if not claimed:
+                print(f"radar-{args.mode} already {entry['status']} today by run {entry.get('run_id')}; duplicate trigger exits.")
+                return
             store.meta('report-retry',json.dumps({'day':today,'mode':args.mode}))
         if args.mode == 'quotes':
             # Small quote-only path: no full-market downloads, scoring or backfill.
@@ -200,7 +205,14 @@ def run(args):
               f"source_failures={sum(not h['ok'] for h in health)}; delivery={'enabled' if args.send else 'dry-run'}")
         if scheduled:
             store.meta('report-retry','')
+            ledger.finish(store, today, 'radar-' + args.mode, dt.datetime.now(ZoneInfo('Asia/Taipei')),
+                          scanned=snapshot['scanned'], source_failures=sum(not h['ok'] for h in health))
         store.prune(today)
+    except Exception as exc:
+        if args.send and getattr(args,'delivery_slot','manual') == 'scheduled' and args.mode in ('daily','weekly'):
+            ledger.update(store, today, 'radar-' + args.mode, status='failed', error=type(exc).__name__,
+                          failed_at=dt.datetime.now(ZoneInfo('Asia/Taipei')).isoformat())
+        raise
     finally:
         try:
             (output/'execution.json').write_text(json.dumps(execution.summary(store),ensure_ascii=False,indent=2),encoding='utf-8')

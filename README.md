@@ -1,3 +1,5 @@
+> **2026-10-19 排程與行情修正（優先於下方所有排程說明）**：GitHub schedule 實測延遲 3–5.5 小時、大量漏跑，時效性工作改由 Cloudflare Worker 派送 `workflow_dispatch`；盤中改成單一長駐 job。診斷見 [docs/diagnosis-2026-10-19.md](docs/diagnosis-2026-10-19.md)，部署見 [cloudflare/README.md](cloudflare/README.md)。
+
 > 穩定性更新：官方批次行情、可續用快取、發布重試與集中告警，見 [RELIABILITY.md](RELIABILITY.md)。此文件優先於下方舊逐檔下載說明。
 
 > 第二階段更新：現行官方名冊、前瞻模擬績效、私人Telegram帳本與精簡通知，詳見 [PHASE2.md](PHASE2.md)。私人帳本需另行部署，尚非盤中交易服務。

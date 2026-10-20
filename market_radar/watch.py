@@ -4,9 +4,11 @@ import json
 import time
 import requests
 from market_clock import session_dates
-from . import sources, notify, reports, validation, execution
+from . import sources, notify, reports, validation, execution, quote
 
 URL = 'https://mis.twse.com.tw/stock/api/getStockInfo.jsp'
+RETRY_DELAYS = (1, 2)  # seconds between attempts of one batch; three attempts total
+last_fetch_stats = {}
 WATCH = {'2330': 'tse', '6274': 'otc', '3042': 'tse'}
 
 # Explicit user watchlist. Exchange membership is resolved from stored official roster.
@@ -35,23 +37,33 @@ def universe(store, now, holdings, cache=None):
     return result
 
 
-def fetch(watchlist=None):
+def fetch(watchlist=None, sleep=time.sleep):
     watchlist = WATCH if watchlist is None else watchlist
     result = []
     items = sorted(watchlist.items())
+    stats = dict(batches=0, failed_batches=0, retries=0)
     with requests.Session() as session:
         for start in range(0,len(items),50):
-            try:
-                response = session.get(URL, params={'ex_ch': '|'.join(f'{m}_{c}.tw' for c,m in items[start:start+50]),
-                                                   'json': '1', 'delay': '0'}, timeout=25)
-                response.raise_for_status()
-                data = response.json()
-                if data.get('rtcode') != '0000' or not isinstance(data.get('msgArray'), list):
-                    continue
-                result.extend(r for r in data['msgArray'] if isinstance(r,dict))
-            except (requests.RequestException, ValueError):
-                # Other batches can still contain valid holding risk observations.
-                continue
+            stats['batches'] += 1
+            for attempt in range(len(RETRY_DELAYS)+1):
+                try:
+                    response = session.get(URL, params={'ex_ch': '|'.join(f'{m}_{c}.tw' for c,m in items[start:start+50]),
+                                                       'json': '1', 'delay': '0'}, timeout=25)
+                    response.raise_for_status()
+                    data = response.json()
+                    if data.get('rtcode') != '0000' or not isinstance(data.get('msgArray'), list):
+                        raise ValueError('unexpected MIS payload')
+                    result.extend(r for r in data['msgArray'] if isinstance(r,dict))
+                    break
+                except (requests.RequestException, ValueError):
+                    # Other batches can still contain valid holding risk observations.
+                    if attempt == len(RETRY_DELAYS):
+                        stats['failed_batches'] += 1
+                        break
+                    stats['retries'] += 1
+                    sleep(RETRY_DELAYS[attempt])
+    last_fetch_stats.clear()
+    last_fetch_stats.update(stats)
     return result
 
 
@@ -87,6 +99,12 @@ def signals(row, now, watchlist=None):
 
 def valid_quote(row, now, watched):
     code = row.get('c')
+    if set(row.get('quote_reasons') or ()):
+        return False
+    if row.get('quote_source') == 'mis:trade' and now.time() < dt.time(13,30):
+        snapshot_age, _ = quote.ages(row, now)
+        if snapshot_age is None or not -5 <= snapshot_age <= quote.SNAPSHOT_MAX_AGE:
+            return False
     if code not in watched or row.get('ex') != watched[code] or sources.date(row.get('d')) != now.date().isoformat():
         return False
     try:
@@ -111,7 +129,9 @@ def check(store, now, token=None, chat=None, send=False, holdings=None, cache=No
     if cache is None and now.time() >= dt.time(13,30) and store.meta('watch-close:' + today) == 'checked':
         return 0
     watched = universe(store,now,holdings,cache)
-    rows = fetch(watched)
+    last_fetch_stats.clear()
+    rows = [r for r in (quote.normalize(r) for r in fetch(watched)) if r is not None]
+    fetch_stats = dict(last_fetch_stats)
     # Include elapsed I/O time; a quote received during the request is not future data.
     now += dt.timedelta(seconds=max(0,time.monotonic()-started))
     grouped = {}
@@ -225,10 +245,18 @@ def check(store, now, token=None, chat=None, send=False, holdings=None, cache=No
         elapsed = max(0,(now-dt.datetime.fromisoformat(previous)).total_seconds())
         intraday.update(checks=intraday.get('checks',0)+1,last_at=now.isoformat(),
                         max_gap_seconds=max(intraday.get('max_gap_seconds',0),elapsed))
+    classes = {}
+    for row in rows:
+        kind = quote.classify(row, now)
+        classes[kind] = classes.get(kind, 0) + 1
     store.meta('watch-health',json.dumps(dict(checked_at=now.isoformat(),session_date=today,
         intraday=intraday,requested=len(watched),valid=valid_count,missing=len(missing_codes),
-        duplicate_codes=duplicates,interval_seconds=gap)))
-    if not valid_count:
+        duplicate_codes=duplicates,interval_seconds=gap,quote_classes=classes,
+        snapshot_ok=classes.get('fresh',0)+classes.get('stale_trade',0),fetch=fetch_stats)))
+    # Illiquid names can lack a recent trade while the book is current; that is
+    # not a data outage. No current snapshot and no fresh trade at all is one.
+    snapshot_ok = classes.get('fresh',0)+classes.get('stale_trade',0)
+    if not valid_count and not (now.time() < dt.time(13,30) and snapshot_ok):
         raise ValueError('No valid watch quotes; inspection incomplete, not zero signals')
     if execution_error is not None:
         raise execution_error

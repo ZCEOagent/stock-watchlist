@@ -5,12 +5,14 @@ on:
     paths:
       - '**.py'
       - requirements.txt
+      - 'cloudflare/**'
+      - 'tests/**'
       - '.github/workflows/**'
 permissions:
   contents: read
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -18,3 +20,7 @@ jobs:
           python-version: '3.11'
       - run: pip install -r requirements.txt
       - run: python -m unittest discover -s tests -v
+      - name: Dispatcher / dead-man switch logic (Cloudflare Worker, node:test)
+        run: |
+          node --version
+          node --test cloudflare/test/*.test.mjs

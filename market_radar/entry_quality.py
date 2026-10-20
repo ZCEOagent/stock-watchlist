@@ -45,8 +45,9 @@ def inspect(store,item,row,now,record=True):
         blockers.append('ask_net_reward_risk_insufficient')
     day=now.date().isoformat()
     traded=dt.datetime.combine(now.date(),dt.time.fromisoformat(row['t']),tzinfo=now.tzinfo)
-    # Match actual quote clock, not scheduler start time. One day contributes once.
-    minute=traded.hour*60+traded.minute
+    # Cumulative volume belongs to the snapshot clock, not the last trade or scheduler start.
+    clock=dt.time.fromisoformat(row.get('snapshot_t') or row['t'])
+    minute=clock.hour*60+clock.minute
     history=store.history('entry-volume',row['c'])
     baseline={}
     for old in history:
@@ -81,7 +82,7 @@ def summary(store):
 def observe_volume(store,row,now):
     volume=number(row.get('v'))
     if volume is None or volume<=0:return
-    traded=dt.time.fromisoformat(row['t'])
+    traded=dt.time.fromisoformat(row.get('snapshot_t') or row['t'])
     minute=traded.hour*60+traded.minute
     day=now.date().isoformat()
     store.ingest({('quote','entry-volume'):[dict(code=row['c'],period=f'{day}:{minute}',date=day,minute=minute,volume=volume)]})

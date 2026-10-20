@@ -99,9 +99,13 @@ class SensitivityTests(unittest.TestCase):
             get=session.return_value.__enter__.return_value.get
             response=Mock()
             response.json.return_value=dict(rtcode='0000',msgArray=[dict(self.row,c='1050')])
-            get.side_effect=[requests.Timeout('timeout'),response]
-            self.assertEqual(watch.fetch(codes)[0]['c'],'1050')
-            self.assertEqual(get.call_count,2)
+            # First batch fails all three attempts; the second batch still returns.
+            get.side_effect=[requests.Timeout('timeout')]*3+[response]
+            sleeps=[]
+            self.assertEqual(watch.fetch(codes,sleep=sleeps.append)[0]['c'],'1050')
+            self.assertEqual(get.call_count,4)
+            self.assertEqual(sleeps,list(watch.RETRY_DELAYS))
+            self.assertEqual(watch.last_fetch_stats['failed_batches'],1)
     def test_uncertain_delivery_never_overwrites_original_evidence(self):
         import json
         from market_radar import reports

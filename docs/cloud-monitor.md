@@ -11,3 +11,8 @@ radar-monitor.yml 在上述工作結束後檢查結果，另於 UTC 01:41、07:4
 如監控本身或 GitHub 停機，依靠 GitHub Actions 失敗通知及人工查看；不能靠同一個停機平台自我保證告警。90 天監控 artifact 保存期過後，首次接手基準會重建。可在 Actions 手動執行，send=false 只驗證，send=true 啟用實際通知。乾跑不推進已通知狀態。
 
 這次取代本機的是檢查與通知；不配置雲端 AI 自動改碼、開 PR、合併或下單。需要修正時通知人工處理。確認雲端 send=true 執行成功且回執保存後，才暫停本機「台股 Radar 補件與運作追蹤」。
+
+## 2026-10-19 修正
+
+舊版的漏跑判斷看「最新一次 run 的時間」，結果被每小時空轉的 retry run 不斷重置；當天完全沒有盤中檢查時也不會告警。現在改為依時段帳本與交易日曆逐項比對，持續中的異常每 24 小時重發一次。這個監控本身仍跑在 GitHub 上，GitHub 停擺時要靠 Cloudflare Worker 的 heartbeat 檢查（`cloudflare/README.md`）。
+

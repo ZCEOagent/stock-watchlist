@@ -10,6 +10,14 @@ on:
         description: "測試數量；留空為正式全量執行。測試不更新網站或通知。"
         required: false
         default: ""
+      slot:
+        description: "Set by the Cloudflare dispatcher; heartbeat slot name"
+        required: false
+        default: ""
+      dispatch_id:
+        description: "Set by the Cloudflare dispatcher; echoed in heartbeats"
+        required: false
+        default: ""
 permissions:
   contents: write
 concurrency:
@@ -18,11 +26,16 @@ concurrency:
 jobs:
   build-report:
     if: github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 45
     env:
       RADAR_MODE: shadow
       PYTHONUNBUFFERED: '1'
+      RADAR_DISPATCH_ID: ${{ github.event.inputs.dispatch_id }}
+      RADAR_TRIGGER: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.dispatch_id != '' && 'scheduler' || github.event_name }}
+      HEARTBEAT_URL: ${{ secrets.HEARTBEAT_URL }}
+      HEARTBEAT_TOKEN: ${{ secrets.HEARTBEAT_TOKEN }}
+      HEARTBEAT_SLOT: ${{ github.event.inputs.slot || (github.event.schedule == '17 13 * * 1-5' && 'tw-evening' || 'tw-close') }}
       MARKET_LIMIT: ${{ github.event.inputs.tw_limit }}
     steps:
       - uses: actions/checkout@v4
@@ -38,6 +51,9 @@ jobs:
           restore-keys: radar-tw-
       - name: 安裝套件
         run: pip install -r requirements.txt
+      - name: Report start to the external dead-man switch
+        if: env.MARKET_LIMIT == ''
+        run: python -m market_radar.heartbeat --slot "$HEARTBEAT_SLOT" --status started
       - name: 驗證核心規則
         run: python -m unittest discover -s tests -v
       - name: 產生資料與報告
@@ -69,6 +85,13 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python notify.py --market tw --send --checkpoint-git
+      - name: Report finish to the external dead-man switch
+        if: always() && env.MARKET_LIMIT == ''
+        env:
+          JOB_STATUS: ${{ job.status }}
+        run: |
+          if [ "$JOB_STATUS" = success ]; then hb=completed; else hb=failed; fi
+          python -m market_radar.heartbeat --slot "$HEARTBEAT_SLOT" --status "$hb" --detail "$JOB_STATUS" || true
       - name: Preserve partial price and enrichment caches
         if: always() && env.MARKET_LIMIT == ''
         uses: actions/cache/save@v4
