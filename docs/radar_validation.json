@@ -1,6 +1,6 @@
 {
   "as_of": "2026-10-20",
-  "generated_at": "2026-10-20T07:23:46.348135+00:00",
+  "generated_at": "2026-10-20T13:23:16.496421+00:00",
   "mode": "shadow",
   "items": [
     {
@@ -15,24 +15,23 @@
         "fundamental": true,
         "catalyst": false,
         "technical": false,
-        "chips": false
+        "chips": true
       },
       "blockers": [
         "現有支撐壓力無法提供合格風險報酬",
         "市場廣度未通過／待確認",
         "族群強度或樣本數未通過／待確認",
         "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認",
-        "最新籌碼未通過／待確認"
+        "日週K／風險報酬未通過／待確認"
       ],
       "facts": {
         "fundamental_ok": true,
-        "chips_ok": false,
+        "chips_ok": true,
         "revenue_yoy": 88.65,
         "revenue_period": "2026-09",
         "profit_period": "2026-06-30",
-        "chips_date": "2026-10-19",
-        "chip_net_5d": null,
+        "chips_date": "2026-10-20",
+        "chip_net_5d": 6340462.0,
         "source": "https://api.finmindtrade.com/api/v4/data",
         "observed_on": "2026-10-20",
         "notes": [
@@ -58,24 +57,23 @@
         "fundamental": true,
         "catalyst": false,
         "technical": false,
-        "chips": false
+        "chips": true
       },
       "blockers": [
         "缺乏可驗證上方目標，待人工情境評估",
         "市場廣度未通過／待確認",
         "族群強度或樣本數未通過／待確認",
         "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認",
-        "最新籌碼未通過／待確認"
+        "日週K／風險報酬未通過／待確認"
       ],
       "facts": {
         "fundamental_ok": true,
-        "chips_ok": false,
+        "chips_ok": true,
         "revenue_yoy": 17.08,
         "revenue_period": "2026-09",
         "profit_period": "2026-06-30",
-        "chips_date": "2026-10-19",
-        "chip_net_5d": null,
+        "chips_date": "2026-10-20",
+        "chip_net_5d": 1885037.0,
         "source": "https://api.finmindtrade.com/api/v4/data",
         "observed_on": "2026-10-20",
         "notes": [
@@ -101,7 +99,7 @@
         "fundamental": false,
         "catalyst": false,
         "technical": false,
-        "chips": false
+        "chips": true
       },
       "blockers": [
         "尚未接近突破或回測觸發區",
@@ -109,17 +107,16 @@
         "族群強度或樣本數未通過／待確認",
         "基本面未通過／待確認",
         "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認",
-        "最新籌碼未通過／待確認"
+        "日週K／風險報酬未通過／待確認"
       ],
       "facts": {
         "fundamental_ok": false,
-        "chips_ok": false,
+        "chips_ok": true,
         "revenue_yoy": 209.55,
         "revenue_period": "2026-09",
         "profit_period": "2026-06-30",
-        "chips_date": "2026-10-19",
-        "chip_net_5d": null,
+        "chips_date": "2026-10-20",
+        "chip_net_5d": 738109.0,
         "source": "https://api.finmindtrade.com/api/v4/data",
         "observed_on": "2026-10-20",
         "notes": [
@@ -145,24 +142,23 @@
         "fundamental": true,
         "catalyst": false,
         "technical": false,
-        "chips": false
+        "chips": true
       },
       "blockers": [
         "日週K趨勢尚未配合",
         "市場廣度未通過／待確認",
         "族群強度或樣本數未通過／待確認",
         "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認",
-        "最新籌碼未通過／待確認"
+        "日週K／風險報酬未通過／待確認"
       ],
       "facts": {
         "fundamental_ok": true,
-        "chips_ok": false,
+        "chips_ok": true,
         "revenue_yoy": 32.86,
         "revenue_period": "2026-09",
         "profit_period": "2026-06-30",
-        "chips_date": "2026-10-19",
-        "chip_net_5d": null,
+        "chips_date": "2026-10-20",
+        "chip_net_5d": 26622935.0,
         "source": "https://api.finmindtrade.com/api/v4/data",
         "observed_on": "2026-10-20",
         "notes": [
@@ -204,8 +200,8 @@
         "revenue_yoy": 42.91,
         "revenue_period": "2026-09",
         "profit_period": "2026-06-30",
-        "chips_date": "2026-10-19",
-        "chip_net_5d": null,
+        "chips_date": "2026-10-20",
+        "chip_net_5d": -2100925.0,
         "source": "https://api.finmindtrade.com/api/v4/data",
         "observed_on": "2026-10-20",
         "notes": [
@@ -231,24 +227,23 @@
         "fundamental": true,
         "catalyst": false,
         "technical": false,
-        "chips": false
+        "chips": true
       },
       "blockers": [
         "日週K趨勢尚未配合",
         "市場廣度未通過／待確認",
         "族群強度或樣本數未通過／待確認",
         "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認",
-        "最新籌碼未通過／待確認"
+        "日週K／風險報酬未通過／待確認"
       ],
       "facts": {
         "fundamental_ok": true,
-        "chips_ok": false,
+        "chips_ok": true,
         "revenue_yoy": 9.16,
         "revenue_period": "2026-09",
         "profit_period": "2026-06-30",
-        "chips_date": "2026-10-19",
-        "chip_net_5d": null,
+        "chips_date": "2026-10-20",
+        "chip_net_5d": 309124.0,
         "source": "https://api.finmindtrade.com/api/v4/data",
         "observed_on": "2026-10-20",
         "notes": [
@@ -274,23 +269,22 @@
         "fundamental": true,
         "catalyst": false,
         "technical": false,
-        "chips": false
+        "chips": true
       },
       "blockers": [
         "尚未接近突破或回測觸發區",
         "市場廣度未通過／待確認",
         "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認",
-        "最新籌碼未通過／待確認"
+        "日週K／風險報酬未通過／待確認"
       ],
       "facts": {
         "fundamental_ok": true,
-        "chips_ok": false,
+        "chips_ok": true,
         "revenue_yoy": 93.29,
         "revenue_period": "2026-09",
         "profit_period": "2026-06-30",
-        "chips_date": "2026-10-19",
-        "chip_net_5d": null,
+        "chips_date": "2026-10-20",
+        "chip_net_5d": 122842.0,
         "source": "https://api.finmindtrade.com/api/v4/data",
         "observed_on": "2026-10-20",
         "notes": [
@@ -332,8 +326,8 @@
         "revenue_yoy": -61.86,
         "revenue_period": "2026-09",
         "profit_period": "2026-06-30",
-        "chips_date": "2026-10-19",
-        "chip_net_5d": null,
+        "chips_date": "2026-10-20",
+        "chip_net_5d": -17758.0,
         "source": "https://api.finmindtrade.com/api/v4/data",
         "observed_on": "2026-10-20",
         "notes": [
@@ -359,24 +353,23 @@
         "fundamental": false,
         "catalyst": false,
         "technical": false,
-        "chips": false
+        "chips": true
       },
       "blockers": [
         "日週K趨勢尚未配合",
         "市場廣度未通過／待確認",
         "基本面未通過／待確認",
         "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認",
-        "最新籌碼未通過／待確認"
+        "日週K／風險報酬未通過／待確認"
       ],
       "facts": {
         "fundamental_ok": false,
-        "chips_ok": false,
+        "chips_ok": true,
         "revenue_yoy": -5.33,
         "revenue_period": "2026-09",
         "profit_period": "2026-06-30",
-        "chips_date": "2026-10-19",
-        "chip_net_5d": null,
+        "chips_date": "2026-10-20",
+        "chip_net_5d": 3651710.0,
         "source": "https://api.finmindtrade.com/api/v4/data",
         "observed_on": "2026-10-20",
         "notes": [
@@ -444,7 +437,7 @@
         "fundamental": false,
         "catalyst": false,
         "technical": false,
-        "chips": false
+        "chips": true
       },
       "blockers": [
         "日週K趨勢尚未配合",
@@ -452,17 +445,16 @@
         "族群強度或樣本數未通過／待確認",
         "基本面未通過／待確認",
         "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認",
-        "最新籌碼未通過／待確認"
+        "日週K／風險報酬未通過／待確認"
       ],
       "facts": {
         "fundamental_ok": false,
-        "chips_ok": false,
+        "chips_ok": true,
         "revenue_yoy": -21.53,
         "revenue_period": "2026-09",
         "profit_period": "2026-06-30",
-        "chips_date": "2026-10-19",
-        "chip_net_5d": null,
+        "chips_date": "2026-10-20",
+        "chip_net_5d": 864728.0,
         "source": "https://api.finmindtrade.com/api/v4/data",
         "observed_on": "2026-10-20",
         "notes": [
@@ -488,24 +480,23 @@
         "fundamental": true,
         "catalyst": false,
         "technical": false,
-        "chips": false
+        "chips": true
       },
       "blockers": [
         "尚未接近突破或回測觸發區",
         "市場廣度未通過／待確認",
         "族群強度或樣本數未通過／待確認",
         "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認",
-        "最新籌碼未通過／待確認"
+        "日週K／風險報酬未通過／待確認"
       ],
       "facts": {
         "fundamental_ok": true,
-        "chips_ok": false,
+        "chips_ok": true,
         "revenue_yoy": 2.42,
         "revenue_period": "2026-09",
         "profit_period": "2026-06-30",
-        "chips_date": "2026-10-19",
-        "chip_net_5d": null,
+        "chips_date": "2026-10-20",
+        "chip_net_5d": 1029514.0,
         "source": "https://api.finmindtrade.com/api/v4/data",
         "observed_on": "2026-10-20",
         "notes": [
@@ -531,24 +522,23 @@
         "fundamental": true,
         "catalyst": false,
         "technical": false,
-        "chips": false
+        "chips": true
       },
       "blockers": [
         "日週K趨勢尚未配合",
         "市場廣度未通過／待確認",
         "族群強度或樣本數未通過／待確認",
         "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認",
-        "最新籌碼未通過／待確認"
+        "日週K／風險報酬未通過／待確認"
       ],
       "facts": {
         "fundamental_ok": true,
-        "chips_ok": false,
+        "chips_ok": true,
         "revenue_yoy": 31.86,
         "revenue_period": "2026-09",
         "profit_period": "2026-06-30",
-        "chips_date": "2026-10-19",
-        "chip_net_5d": null,
+        "chips_date": "2026-10-20",
+        "chip_net_5d": 35919000.0,
         "source": "https://api.finmindtrade.com/api/v4/data",
         "observed_on": "2026-10-20",
         "notes": [
@@ -574,7 +564,7 @@
         "fundamental": false,
         "catalyst": false,
         "technical": false,
-        "chips": false
+        "chips": true
       },
       "blockers": [
         "日週K趨勢尚未配合",
@@ -582,17 +572,16 @@
         "族群強度或樣本數未通過／待確認",
         "基本面未通過／待確認",
         "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認",
-        "最新籌碼未通過／待確認"
+        "日週K／風險報酬未通過／待確認"
       ],
       "facts": {
         "fundamental_ok": false,
-        "chips_ok": false,
+        "chips_ok": true,
         "revenue_yoy": -3.78,
         "revenue_period": "2026-09",
         "profit_period": "2026-06-30",
-        "chips_date": "2026-10-19",
-        "chip_net_5d": null,
+        "chips_date": "2026-10-20",
+        "chip_net_5d": 309656.0,
         "source": "https://api.finmindtrade.com/api/v4/data",
         "observed_on": "2026-10-20",
         "notes": [
@@ -618,7 +607,7 @@
         "fundamental": false,
         "catalyst": false,
         "technical": false,
-        "chips": false
+        "chips": true
       },
       "blockers": [
         "尚未接近突破或回測觸發區",
@@ -626,17 +615,16 @@
         "族群強度或樣本數未通過／待確認",
         "基本面未通過／待確認",
         "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認",
-        "最新籌碼未通過／待確認"
+        "日週K／風險報酬未通過／待確認"
       ],
       "facts": {
         "fundamental_ok": false,
-        "chips_ok": false,
+        "chips_ok": true,
         "revenue_yoy": -30.62,
         "revenue_period": "2026-09",
         "profit_period": "2026-06-30",
-        "chips_date": "2026-10-19",
-        "chip_net_5d": null,
+        "chips_date": "2026-10-20",
+        "chip_net_5d": 627615.0,
         "source": "https://api.finmindtrade.com/api/v4/data",
         "observed_on": "2026-10-20",
         "notes": [
@@ -662,7 +650,7 @@
         "fundamental": false,
         "catalyst": false,
         "technical": false,
-        "chips": false
+        "chips": true
       },
       "blockers": [
         "尚未接近突破或回測觸發區",
@@ -670,17 +658,16 @@
         "族群強度或樣本數未通過／待確認",
         "基本面未通過／待確認",
         "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認",
-        "最新籌碼未通過／待確認"
+        "日週K／風險報酬未通過／待確認"
       ],
       "facts": {
         "fundamental_ok": false,
-        "chips_ok": false,
+        "chips_ok": true,
         "revenue_yoy": 14.02,
         "revenue_period": "2026-09",
         "profit_period": null,
-        "chips_date": "2026-10-19",
-        "chip_net_5d": null,
+        "chips_date": "2026-10-20",
+        "chip_net_5d": 12948780.0,
         "source": "https://api.finmindtrade.com/api/v4/data",
         "observed_on": "2026-10-20",
         "notes": [
@@ -749,24 +736,23 @@
         "fundamental": false,
         "catalyst": false,
         "technical": false,
-        "chips": false
+        "chips": true
       },
       "blockers": [
         "日週K趨勢尚未配合",
         "市場廣度未通過／待確認",
         "基本面未通過／待確認",
         "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認",
-        "最新籌碼未通過／待確認"
+        "日週K／風險報酬未通過／待確認"
       ],
       "facts": {
         "fundamental_ok": false,
-        "chips_ok": false,
+        "chips_ok": true,
         "revenue_yoy": -17.07,
         "revenue_period": "2026-09",
         "profit_period": "2026-06-30",
-        "chips_date": "2026-10-19",
-        "chip_net_5d": null,
+        "chips_date": "2026-10-20",
+        "chip_net_5d": 240909.0,
         "source": "https://api.finmindtrade.com/api/v4/data",
         "observed_on": "2026-10-20",
         "notes": [
@@ -792,24 +778,23 @@
         "fundamental": true,
         "catalyst": false,
         "technical": false,
-        "chips": false
+        "chips": true
       },
       "blockers": [
         "現有支撐壓力無法提供合格風險報酬",
         "市場廣度未通過／待確認",
         "族群強度或樣本數未通過／待確認",
         "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認",
-        "最新籌碼未通過／待確認"
+        "日週K／風險報酬未通過／待確認"
       ],
       "facts": {
         "fundamental_ok": true,
-        "chips_ok": false,
+        "chips_ok": true,
         "revenue_yoy": 8.34,
         "revenue_period": "2026-09",
         "profit_period": "2026-06-30",
-        "chips_date": "2026-10-19",
-        "chip_net_5d": null,
+        "chips_date": "2026-10-20",
+        "chip_net_5d": 5882041.0,
         "source": "https://api.finmindtrade.com/api/v4/data",
         "observed_on": "2026-10-20",
         "notes": [
@@ -852,8 +837,8 @@
         "revenue_yoy": 6.52,
         "revenue_period": "2026-09",
         "profit_period": null,
-        "chips_date": "2026-10-19",
-        "chip_net_5d": null,
+        "chips_date": "2026-10-20",
+        "chip_net_5d": -5532721.0,
         "source": "https://api.finmindtrade.com/api/v4/data",
         "observed_on": "2026-10-20",
         "notes": [
@@ -873,8 +858,8 @@
     "sector": 14,
     "catalyst": 20,
     "technical": 20,
-    "chips": 20,
-    "fundamental": 10
+    "fundamental": 10,
+    "chips": 5
   },
   "approved_by_this_process": 0,
   "notice": "沿用既有資料與審核結果；本程序不核准催化、不產生交易，也不代表即時行情或已驗證勝率。"
