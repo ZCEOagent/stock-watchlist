@@ -58,7 +58,54 @@ class EvidenceClient:
                 "chips": self.fetch("TaiwanStockInstitutionalInvestorsBuySell", stock_id, 40)}
 
 
-def adjusted_histories(universe, raw_history, as_of):
+def _adjusted_cache_path(as_of):
+    return Path(config.RUNTIME_CACHE_DIR) / "adjusted" / f"{as_of}.json"
+
+
+def _reuse_same_day(cached, sid, raw_history, as_of):
+    """Earlier successful fetch for the SAME as_of, still matching today's official close."""
+    bars = cached.get(sid)
+    try:
+        if not bars or bars[-1]["date"] != as_of:
+            return None
+        if abs(float(bars[-1]["close"]) / raw_history[sid][-1]["close"] - 1) > 0.005:
+            return None
+    except (KeyError, IndexError, TypeError, ValueError, ZeroDivisionError):
+        return None
+    return bars
+
+
+def adjusted_histories(universe, raw_history, as_of, persist=True):
+    """Same-day reuse wrapper around Yahoo adjusted history.
+
+    Measured 2026-09-24..10-17: all seven runs where every candidate failed with
+    "還原行情過期" started 00:01-02:28 Taipei; no run outside that window did. Yahoo
+    temporarily lacks the latest Taiwan daily bar then. A later run for the same
+    as_of therefore reuses bars already fetched and verified for that exact as_of
+    (cached under .runtime, kept by actions/cache). Never reuses a different
+    as_of, so stale prices cannot pose as current ones.
+    """
+    path = _adjusted_cache_path(as_of)
+    cached = read_json(path, {}) if path.exists() else {}
+    result, issues = _fetch_adjusted(universe, raw_history, as_of)
+    reused = []
+    for sid in list(issues):
+        bars = _reuse_same_day(cached, sid, raw_history, as_of)
+        if bars is not None:
+            result[sid] = bars
+            reused.append(sid)
+            del issues[sid]
+    if reused:
+        print(f"還原行情：{len(reused)} 檔沿用同一交易日 {as_of} 稍早已驗證的資料（Yahoo 本次未提供）", flush=True)
+    if persist and result:
+        write_json(path, {**cached, **{sid: bars for sid, bars in result.items() if sid not in reused}})
+        for old in path.parent.glob("*.json"):
+            if old.stem < (date.fromisoformat(as_of) - timedelta(days=10)).isoformat():
+                old.unlink(missing_ok=True)
+    return result, issues
+
+
+def _fetch_adjusted(universe, raw_history, as_of):
     """Rebase Yahoo adjusted OHLC to the current raw close; cross-check providers.
 
 Not a point-in-time historical database. Store daily decisions for forward

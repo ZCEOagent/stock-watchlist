@@ -171,3 +171,13 @@ test('failed Telegram delivery keeps the alert pending for the next tick', async
   const state = JSON.parse(kv.data.get(`w:${DAY}:tw-close`));
   assert.equal(state.alerts.not_started, undefined);
 });
+
+test('us-close is dispatched at 11:00 Taipei, outside the observed Yahoo window', () => {
+  const us = slot('us-close');
+  const wed = '2026-10-21';
+  assert.equal(decide(us, wed, at(wed, minutes('06:37')), null, null).actions.length, 0);
+  const { actions } = decide(us, wed, at(wed, minutes('11:00')), null, null);
+  assert.equal(actions[0].type, 'dispatch');
+  // 03:00 UTC: after every observed failure (00:41-01:30 UTC) and at the last observed success hour.
+  assert.equal(new Date(at(wed, minutes('11:00'))).toISOString(), '2026-10-21T03:00:00.000Z');
+});

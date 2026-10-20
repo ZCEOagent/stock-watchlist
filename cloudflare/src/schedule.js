@@ -22,7 +22,10 @@ export const SLOTS = [
     inputs: { mode: 'daily', trigger: 'scheduler' }, startBy: 20, finishBy: 50, retryOnFailure: true },
   { name: 'tw-evening', market: 'tw', days: WEEKDAYS, at: '21:17', workflow: 'daily-tw.yml',
     inputs: { slot: 'tw-evening' }, startBy: 20, finishBy: 150, retryOnFailure: true },
-  { name: 'us-close', market: 'us', days: [2, 3, 4, 5, 6], at: '06:37', workflow: 'daily-us.yml',
+  // Not 06:37: every US failure (6/6, 2026-10-01..17) started 00:41-01:30 UTC and every
+  // success 01:48-03:09 UTC; Yahoo's latest US daily bar is unavailable in that window.
+  // 11:00 Taipei = 03:00 UTC, after the observed window under both EDT and EST.
+  { name: 'us-close', market: 'us', days: [2, 3, 4, 5, 6], at: '11:00', workflow: 'daily-us.yml',
     inputs: { slot: 'us-close' }, startBy: 20, finishBy: 90, retryOnFailure: true },
 ];
 
