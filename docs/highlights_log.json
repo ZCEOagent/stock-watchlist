@@ -4164,5 +4164,38 @@
       "爆量",
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-10-20",
+    "market": "tw",
+    "id": "6129",
+    "name": "普誠",
+    "flagged_close": 14.75,
+    "flagged_change_pct": 9.67,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-20",
+    "market": "tw",
+    "id": "2923",
+    "name": "鼎固-KY",
+    "flagged_close": 24.55,
+    "flagged_change_pct": -7.71,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-20",
+    "market": "tw",
+    "id": "2380",
+    "name": "虹光",
+    "flagged_close": 16.6,
+    "flagged_change_pct": -6.74,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
