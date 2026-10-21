@@ -4230,5 +4230,39 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-10-20",
+    "market": "us",
+    "id": "DVA",
+    "name": "DaVita",
+    "flagged_close": 175.35,
+    "flagged_change_pct": -6.23,
+    "tags": [
+      "爆量",
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-20",
+    "market": "us",
+    "id": "MMM",
+    "name": "3M",
+    "flagged_close": 171.37,
+    "flagged_change_pct": 5.78,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-20",
+    "market": "us",
+    "id": "GM",
+    "name": "General Motors",
+    "flagged_close": 77.09,
+    "flagged_change_pct": -6.84,
+    "tags": [
+      "爆量"
+    ]
   }
 ]
