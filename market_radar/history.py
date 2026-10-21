@@ -88,3 +88,17 @@ def backfill(store, companies, days, limit=8):
             store.meta(f'history:{market}:{day}', 'ok')
             fetched += 1
     return {'fetched_days': fetched, 'cached_days': cached, 'failed_days': failed, 'pending_days': len(pending)-fetched}
+
+
+def ensure_current(store, companies, as_of):
+    """Fetch the expected session's official batch quotes if not stored yet.
+
+    Measured 2026-10-20: the TWSE OpenAPI STOCK_DAY_ALL used by the digest still
+    served 2026-10-19 at 22:01, while the official batch (MI_INDEX / TPEx
+    dailyQuotes) served 2026-10-20 from ~14:55. The digest only had current
+    listed prices because GitHub-scheduled maintenance happened to run at 17:57.
+    Two requests make the 18:20 digest independent of that timing. Failure is
+    reported and leaves prices as they were; nothing older is relabeled current.
+    """
+    return backfill(store, companies, [as_of], limit=2)
+

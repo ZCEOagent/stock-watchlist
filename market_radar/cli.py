@@ -150,6 +150,9 @@ def run(args):
         companies = [r for (_, kind), rows in feeds.items() if kind == 'universe' for r in rows]
         as_of = last_completed_session('tw')
         days = session_dates((dt.date.fromisoformat(as_of)-dt.timedelta(days=65)).isoformat(), as_of)[-30:]
+        current_prices = history.ensure_current(store, companies, as_of)
+        if current_prices.get('failed_days'):
+            print(f"Official batch quotes for {as_of} not available yet: {current_prices}", flush=True)
         history_health = history.status(store, companies, days)
         automatic, financial_health = financials.cached(store, companies, stamp)
         # Verified same-filing facts take precedence over optional manual supplements.
