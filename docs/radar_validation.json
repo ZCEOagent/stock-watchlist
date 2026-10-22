@@ -1,12 +1,55 @@
 {
-  "as_of": "2026-10-21",
-  "generated_at": "2026-10-21T13:23:01.113939+00:00",
+  "as_of": "2026-10-22",
+  "generated_at": "2026-10-22T07:22:42.902948+00:00",
   "mode": "shadow",
   "items": [
     {
-      "code": "9939",
-      "name": "宏全",
-      "as_of": "2026-10-21",
+      "code": "8112",
+      "name": "至上",
+      "as_of": "2026-10-22",
+      "status": "unconfirmed",
+      "cache_quality_passed": true,
+      "gates": {
+        "market": false,
+        "sector": false,
+        "fundamental": true,
+        "catalyst": false,
+        "technical": false,
+        "chips": false
+      },
+      "blockers": [
+        "日週K趨勢尚未配合",
+        "市場廣度未通過／待確認",
+        "族群強度或樣本數未通過／待確認",
+        "有來源與時間的催化審核未通過／待確認",
+        "日週K／風險報酬未通過／待確認",
+        "最新籌碼未通過／待確認"
+      ],
+      "facts": {
+        "fundamental_ok": true,
+        "chips_ok": false,
+        "revenue_yoy": 233.54,
+        "revenue_period": "2026-09",
+        "profit_period": "2026-06-30",
+        "chips_date": "2026-10-21",
+        "chip_net_5d": null,
+        "source": "https://api.finmindtrade.com/api/v4/data",
+        "observed_on": "2026-10-22",
+        "notes": [
+          "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+        ],
+        "errors": [],
+        "provider_observed_on": "2026-10-08"
+      },
+      "catalyst": null,
+      "reference_plan": null,
+      "automated_only": true,
+      "manual_review_required": true
+    },
+    {
+      "code": "1709",
+      "name": "和益",
+      "as_of": "2026-10-22",
       "status": "unconfirmed",
       "cache_quality_passed": true,
       "gates": {
@@ -15,24 +58,68 @@
         "fundamental": true,
         "catalyst": false,
         "technical": false,
-        "chips": true
+        "chips": false
+      },
+      "blockers": [
+        "尚未接近突破或回測觸發區",
+        "市場廣度未通過／待確認",
+        "有來源與時間的催化審核未通過／待確認",
+        "日週K／風險報酬未通過／待確認",
+        "最新籌碼未通過／待確認"
+      ],
+      "facts": {
+        "fundamental_ok": true,
+        "chips_ok": false,
+        "revenue_yoy": 6.61,
+        "revenue_period": "2026-09",
+        "profit_period": "2026-06-30",
+        "chips_date": "2026-10-21",
+        "chip_net_5d": null,
+        "source": "https://api.finmindtrade.com/api/v4/data",
+        "observed_on": "2026-10-22",
+        "notes": [
+          "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+        ],
+        "errors": [],
+        "provider_observed_on": "2026-10-08"
+      },
+      "catalyst": null,
+      "reference_plan": null,
+      "automated_only": true,
+      "manual_review_required": true
+    },
+    {
+      "code": "2014",
+      "name": "中鴻",
+      "as_of": "2026-10-22",
+      "status": "unconfirmed",
+      "cache_quality_passed": true,
+      "gates": {
+        "market": false,
+        "sector": true,
+        "fundamental": false,
+        "catalyst": false,
+        "technical": false,
+        "chips": false
       },
       "blockers": [
         "日週K趨勢尚未配合",
         "市場廣度未通過／待確認",
+        "基本面未通過／待確認",
         "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認"
+        "日週K／風險報酬未通過／待確認",
+        "最新籌碼未通過／待確認"
       ],
       "facts": {
-        "fundamental_ok": true,
-        "chips_ok": true,
-        "revenue_yoy": 3.6,
+        "fundamental_ok": false,
+        "chips_ok": false,
+        "revenue_yoy": -5.33,
         "revenue_period": "2026-09",
         "profit_period": "2026-06-30",
         "chips_date": "2026-10-21",
-        "chip_net_5d": 564332.0,
+        "chip_net_5d": null,
         "source": "https://api.finmindtrade.com/api/v4/data",
-        "observed_on": "2026-10-21",
+        "observed_on": "2026-10-22",
         "notes": [
           "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
         ],
@@ -45,9 +132,9 @@
       "manual_review_required": true
     },
     {
-      "code": "5269",
-      "name": "祥碩",
-      "as_of": "2026-10-21",
+      "code": "6499",
+      "name": "益安",
+      "as_of": "2026-10-22",
       "status": "unconfirmed",
       "cache_quality_passed": true,
       "gates": {
@@ -59,7 +146,7 @@
         "chips": true
       },
       "blockers": [
-        "日週K趨勢尚未配合",
+        "尚未接近突破或回測觸發區",
         "市場廣度未通過／待確認",
         "族群強度或樣本數未通過／待確認",
         "基本面未通過／待確認",
@@ -69,266 +156,13 @@
       "facts": {
         "fundamental_ok": false,
         "chips_ok": true,
-        "revenue_yoy": -30.02,
+        "revenue_yoy": 513.14,
         "revenue_period": "2026-09",
         "profit_period": "2026-06-30",
-        "chips_date": "2026-10-21",
-        "chip_net_5d": 139568.0,
+        "chips_date": "2026-10-22",
+        "chip_net_5d": 264055.0,
         "source": "https://api.finmindtrade.com/api/v4/data",
-        "observed_on": "2026-10-21",
-        "notes": [
-          "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-        ],
-        "errors": [],
-        "provider_observed_on": "2026-10-09"
-      },
-      "catalyst": null,
-      "reference_plan": null,
-      "automated_only": true,
-      "manual_review_required": true
-    },
-    {
-      "code": "1440",
-      "name": "南紡",
-      "as_of": "2026-10-21",
-      "status": "unconfirmed",
-      "cache_quality_passed": true,
-      "gates": {
-        "market": false,
-        "sector": true,
-        "fundamental": false,
-        "catalyst": false,
-        "technical": false,
-        "chips": true
-      },
-      "blockers": [
-        "尚未接近突破或回測觸發區",
-        "市場廣度未通過／待確認",
-        "基本面未通過／待確認",
-        "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認"
-      ],
-      "facts": {
-        "fundamental_ok": false,
-        "chips_ok": true,
-        "revenue_yoy": -0.57,
-        "revenue_period": "2026-09",
-        "profit_period": "2026-06-30",
-        "chips_date": "2026-10-21",
-        "chip_net_5d": 949362.0,
-        "source": "https://api.finmindtrade.com/api/v4/data",
-        "observed_on": "2026-10-21",
-        "notes": [
-          "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-        ],
-        "errors": [],
-        "provider_observed_on": "2026-10-09"
-      },
-      "catalyst": null,
-      "reference_plan": null,
-      "automated_only": true,
-      "manual_review_required": true
-    },
-    {
-      "code": "1304",
-      "name": "台聚",
-      "as_of": "2026-10-21",
-      "status": "unconfirmed",
-      "cache_quality_passed": true,
-      "gates": {
-        "market": false,
-        "sector": true,
-        "fundamental": false,
-        "catalyst": false,
-        "technical": false,
-        "chips": false
-      },
-      "blockers": [
-        "尚未接近突破或回測觸發區",
-        "市場廣度未通過／待確認",
-        "基本面未通過／待確認",
-        "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認",
-        "最新籌碼未通過／待確認"
-      ],
-      "facts": {
-        "fundamental_ok": false,
-        "chips_ok": false,
-        "revenue_yoy": 3.89,
-        "revenue_period": "2026-09",
-        "profit_period": "2026-06-30",
-        "chips_date": "2026-10-21",
-        "chip_net_5d": -229604.0,
-        "source": "https://api.finmindtrade.com/api/v4/data",
-        "observed_on": "2026-10-21",
-        "notes": [
-          "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-        ],
-        "errors": [],
-        "provider_observed_on": "2026-10-08"
-      },
-      "catalyst": null,
-      "reference_plan": null,
-      "automated_only": true,
-      "manual_review_required": true
-    },
-    {
-      "code": "1325",
-      "name": "恆大",
-      "as_of": "2026-10-21",
-      "status": "unconfirmed",
-      "cache_quality_passed": true,
-      "gates": {
-        "market": false,
-        "sector": true,
-        "fundamental": false,
-        "catalyst": false,
-        "technical": false,
-        "chips": false
-      },
-      "blockers": [
-        "尚未接近突破或回測觸發區",
-        "市場廣度未通過／待確認",
-        "基本面未通過／待確認",
-        "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認",
-        "最新籌碼未通過／待確認"
-      ],
-      "facts": {
-        "fundamental_ok": false,
-        "chips_ok": false,
-        "revenue_yoy": -30.27,
-        "revenue_period": "2026-09",
-        "profit_period": "2026-06-30",
-        "chips_date": "2026-10-21",
-        "chip_net_5d": -108856.0,
-        "source": "https://api.finmindtrade.com/api/v4/data",
-        "observed_on": "2026-10-21",
-        "notes": [
-          "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-        ],
-        "errors": [],
-        "provider_observed_on": "2026-10-09"
-      },
-      "catalyst": null,
-      "reference_plan": null,
-      "automated_only": true,
-      "manual_review_required": true
-    },
-    {
-      "code": "3312",
-      "name": "弘憶股",
-      "as_of": "2026-10-21",
-      "status": "unconfirmed",
-      "cache_quality_passed": true,
-      "gates": {
-        "market": false,
-        "sector": true,
-        "fundamental": true,
-        "catalyst": false,
-        "technical": false,
-        "chips": true
-      },
-      "blockers": [
-        "日週K趨勢尚未配合",
-        "市場廣度未通過／待確認",
-        "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認"
-      ],
-      "facts": {
-        "fundamental_ok": true,
-        "chips_ok": true,
-        "revenue_yoy": 25.6,
-        "revenue_period": "2026-09",
-        "profit_period": "2026-06-30",
-        "chips_date": "2026-10-21",
-        "chip_net_5d": 135428.0,
-        "source": "https://api.finmindtrade.com/api/v4/data",
-        "observed_on": "2026-10-21",
-        "notes": [
-          "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-        ],
-        "errors": [],
-        "provider_observed_on": "2026-10-08"
-      },
-      "catalyst": null,
-      "reference_plan": null,
-      "automated_only": true,
-      "manual_review_required": true
-    },
-    {
-      "code": "2478",
-      "name": "大毅",
-      "as_of": "2026-10-21",
-      "status": "unconfirmed",
-      "cache_quality_passed": true,
-      "gates": {
-        "market": false,
-        "sector": true,
-        "fundamental": true,
-        "catalyst": false,
-        "technical": false,
-        "chips": false
-      },
-      "blockers": [
-        "現有支撐壓力無法提供合格風險報酬",
-        "市場廣度未通過／待確認",
-        "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認",
-        "最新籌碼未通過／待確認"
-      ],
-      "facts": {
-        "fundamental_ok": true,
-        "chips_ok": false,
-        "revenue_yoy": 29.82,
-        "revenue_period": "2026-09",
-        "profit_period": "2026-06-30",
-        "chips_date": "2026-10-21",
-        "chip_net_5d": -8537924.0,
-        "source": "https://api.finmindtrade.com/api/v4/data",
-        "observed_on": "2026-10-21",
-        "notes": [
-          "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-        ],
-        "errors": [],
-        "provider_observed_on": "2026-10-09"
-      },
-      "catalyst": null,
-      "reference_plan": null,
-      "automated_only": true,
-      "manual_review_required": true
-    },
-    {
-      "code": "1409",
-      "name": "新纖",
-      "as_of": "2026-10-21",
-      "status": "unconfirmed",
-      "cache_quality_passed": true,
-      "gates": {
-        "market": false,
-        "sector": true,
-        "fundamental": true,
-        "catalyst": false,
-        "technical": false,
-        "chips": false
-      },
-      "blockers": [
-        "尚未接近突破或回測觸發區",
-        "市場廣度未通過／待確認",
-        "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認",
-        "最新籌碼未通過／待確認"
-      ],
-      "facts": {
-        "fundamental_ok": true,
-        "chips_ok": false,
-        "revenue_yoy": 11.66,
-        "revenue_period": "2026-09",
-        "profit_period": "2026-06-30",
-        "chips_date": "2026-10-21",
-        "chip_net_5d": -8274018.0,
-        "source": "https://api.finmindtrade.com/api/v4/data",
-        "observed_on": "2026-10-21",
+        "observed_on": "2026-10-22",
         "notes": [
           "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
         ],
@@ -341,9 +175,52 @@
       "manual_review_required": true
     },
     {
-      "code": "2014",
-      "name": "中鴻",
-      "as_of": "2026-10-21",
+      "code": "7765",
+      "name": "中華資安",
+      "as_of": "2026-10-22",
+      "status": "unconfirmed",
+      "cache_quality_passed": true,
+      "gates": {
+        "market": false,
+        "sector": false,
+        "fundamental": true,
+        "catalyst": false,
+        "technical": false,
+        "chips": false
+      },
+      "blockers": [
+        "現有支撐壓力無法提供合格風險報酬",
+        "市場廣度未通過／待確認",
+        "族群強度或樣本數未通過／待確認",
+        "有來源與時間的催化審核未通過／待確認",
+        "日週K／風險報酬未通過／待確認",
+        "最新籌碼未通過／待確認"
+      ],
+      "facts": {
+        "fundamental_ok": true,
+        "chips_ok": false,
+        "revenue_yoy": 31.41,
+        "revenue_period": "2026-09",
+        "profit_period": "2026-06-30",
+        "chips_date": "2026-10-21",
+        "chip_net_5d": null,
+        "source": "https://api.finmindtrade.com/api/v4/data",
+        "observed_on": "2026-10-22",
+        "notes": [
+          "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+        ],
+        "errors": [],
+        "provider_observed_on": "2026-10-06"
+      },
+      "catalyst": null,
+      "reference_plan": null,
+      "automated_only": true,
+      "manual_review_required": true
+    },
+    {
+      "code": "2646",
+      "name": "星宇航空",
+      "as_of": "2026-10-22",
       "status": "unconfirmed",
       "cache_quality_passed": true,
       "gates": {
@@ -352,25 +229,69 @@
         "fundamental": false,
         "catalyst": false,
         "technical": false,
-        "chips": true
+        "chips": false
       },
       "blockers": [
         "日週K趨勢尚未配合",
         "市場廣度未通過／待確認",
         "基本面未通過／待確認",
         "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認"
+        "日週K／風險報酬未通過／待確認",
+        "最新籌碼未通過／待確認"
       ],
       "facts": {
         "fundamental_ok": false,
-        "chips_ok": true,
-        "revenue_yoy": -5.33,
+        "chips_ok": false,
+        "revenue_yoy": 68.89,
         "revenue_period": "2026-09",
         "profit_period": "2026-06-30",
         "chips_date": "2026-10-21",
-        "chip_net_5d": 718703.0,
+        "chip_net_5d": null,
         "source": "https://api.finmindtrade.com/api/v4/data",
-        "observed_on": "2026-10-21",
+        "observed_on": "2026-10-22",
+        "notes": [
+          "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+        ],
+        "errors": [],
+        "provider_observed_on": "2026-10-12"
+      },
+      "catalyst": null,
+      "reference_plan": null,
+      "automated_only": true,
+      "manual_review_required": true
+    },
+    {
+      "code": "4736",
+      "name": "泰博",
+      "as_of": "2026-10-22",
+      "status": "unconfirmed",
+      "cache_quality_passed": true,
+      "gates": {
+        "market": false,
+        "sector": false,
+        "fundamental": true,
+        "catalyst": false,
+        "technical": false,
+        "chips": false
+      },
+      "blockers": [
+        "缺乏可驗證上方目標，待人工情境評估",
+        "市場廣度未通過／待確認",
+        "族群強度或樣本數未通過／待確認",
+        "有來源與時間的催化審核未通過／待確認",
+        "日週K／風險報酬未通過／待確認",
+        "最新籌碼未通過／待確認"
+      ],
+      "facts": {
+        "fundamental_ok": true,
+        "chips_ok": false,
+        "revenue_yoy": 7.08,
+        "revenue_period": "2026-09",
+        "profit_period": "2026-06-30",
+        "chips_date": "2026-10-21",
+        "chip_net_5d": null,
+        "source": "https://api.finmindtrade.com/api/v4/data",
+        "observed_on": "2026-10-22",
         "notes": [
           "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
         ],
@@ -383,121 +304,37 @@
       "manual_review_required": true
     },
     {
-      "code": "3022",
-      "name": "威強電",
-      "as_of": "2026-10-21",
+      "code": "1310",
+      "name": "台苯",
+      "as_of": "2026-10-22",
       "status": "unconfirmed",
       "cache_quality_passed": true,
       "gates": {
         "market": false,
-        "sector": false,
-        "fundamental": true,
-        "catalyst": false,
-        "technical": false,
-        "chips": true
-      },
-      "blockers": [
-        "日週K趨勢尚未配合",
-        "市場廣度未通過／待確認",
-        "族群強度或樣本數未通過／待確認",
-        "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認"
-      ],
-      "facts": {
-        "fundamental_ok": true,
-        "chips_ok": true,
-        "revenue_yoy": 75.87,
-        "revenue_period": "2026-09",
-        "profit_period": "2026-06-30",
-        "chips_date": "2026-10-21",
-        "chip_net_5d": 193580.0,
-        "source": "https://api.finmindtrade.com/api/v4/data",
-        "observed_on": "2026-10-21",
-        "notes": [
-          "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-        ],
-        "errors": [],
-        "provider_observed_on": "2026-10-08"
-      },
-      "catalyst": null,
-      "reference_plan": null,
-      "automated_only": true,
-      "manual_review_required": true
-    },
-    {
-      "code": "8114",
-      "name": "振樺電",
-      "as_of": "2026-10-21",
-      "status": "unconfirmed",
-      "cache_quality_passed": true,
-      "gates": {
-        "market": false,
-        "sector": false,
-        "fundamental": true,
-        "catalyst": false,
-        "technical": false,
-        "chips": true
-      },
-      "blockers": [
-        "日週K趨勢尚未配合",
-        "市場廣度未通過／待確認",
-        "族群強度或樣本數未通過／待確認",
-        "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認"
-      ],
-      "facts": {
-        "fundamental_ok": true,
-        "chips_ok": true,
-        "revenue_yoy": 44.6,
-        "revenue_period": "2026-09",
-        "profit_period": "2026-06-30",
-        "chips_date": "2026-10-21",
-        "chip_net_5d": 172426.0,
-        "source": "https://api.finmindtrade.com/api/v4/data",
-        "observed_on": "2026-10-21",
-        "notes": [
-          "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-        ],
-        "errors": [],
-        "provider_observed_on": "2026-10-07"
-      },
-      "catalyst": null,
-      "reference_plan": null,
-      "automated_only": true,
-      "manual_review_required": true
-    },
-    {
-      "code": "9910",
-      "name": "豐泰",
-      "as_of": "2026-10-21",
-      "status": "unconfirmed",
-      "cache_quality_passed": true,
-      "gates": {
-        "market": false,
-        "sector": false,
+        "sector": true,
         "fundamental": false,
         "catalyst": false,
         "technical": false,
-        "chips": true
+        "chips": false
       },
       "blockers": [
         "日週K趨勢尚未配合",
         "市場廣度未通過／待確認",
-        "族群強度或樣本數未通過／待確認",
         "基本面未通過／待確認",
         "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認"
+        "日週K／風險報酬未通過／待確認",
+        "最新籌碼未通過／待確認"
       ],
       "facts": {
         "fundamental_ok": false,
-        "chips_ok": true,
-        "revenue_yoy": -4.76,
+        "chips_ok": false,
+        "revenue_yoy": 13.11,
         "revenue_period": "2026-09",
         "profit_period": "2026-06-30",
         "chips_date": "2026-10-21",
-        "chip_net_5d": 5355432.0,
+        "chip_net_5d": null,
         "source": "https://api.finmindtrade.com/api/v4/data",
-        "observed_on": "2026-10-21",
+        "observed_on": "2026-10-22",
         "notes": [
           "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
         ],
@@ -512,7 +349,7 @@
     {
       "code": "9941",
       "name": "裕融",
-      "as_of": "2026-10-21",
+      "as_of": "2026-10-22",
       "status": "unconfirmed",
       "cache_quality_passed": true,
       "gates": {
@@ -521,24 +358,25 @@
         "fundamental": true,
         "catalyst": false,
         "technical": false,
-        "chips": true
+        "chips": false
       },
       "blockers": [
         "日週K趨勢尚未配合",
         "市場廣度未通過／待確認",
         "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認"
+        "日週K／風險報酬未通過／待確認",
+        "最新籌碼未通過／待確認"
       ],
       "facts": {
         "fundamental_ok": true,
-        "chips_ok": true,
+        "chips_ok": false,
         "revenue_yoy": 5.13,
         "revenue_period": "2026-09",
         "profit_period": "2026-06-30",
         "chips_date": "2026-10-21",
-        "chip_net_5d": 1688145.0,
+        "chip_net_5d": null,
         "source": "https://api.finmindtrade.com/api/v4/data",
-        "observed_on": "2026-10-21",
+        "observed_on": "2026-10-22",
         "notes": [
           "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
         ],
@@ -551,9 +389,9 @@
       "manual_review_required": true
     },
     {
-      "code": "6204",
-      "name": "艾華",
-      "as_of": "2026-10-21",
+      "code": "2211",
+      "name": "長榮鋼",
+      "as_of": "2026-10-22",
       "status": "unconfirmed",
       "cache_quality_passed": true,
       "gates": {
@@ -575,13 +413,54 @@
       "facts": {
         "fundamental_ok": false,
         "chips_ok": false,
-        "revenue_yoy": -6.01,
+        "revenue_yoy": -17.07,
         "revenue_period": "2026-09",
         "profit_period": "2026-06-30",
         "chips_date": "2026-10-21",
-        "chip_net_5d": -78359.0,
+        "chip_net_5d": null,
         "source": "https://api.finmindtrade.com/api/v4/data",
-        "observed_on": "2026-10-21",
+        "observed_on": "2026-10-22",
+        "notes": [
+          "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+        ],
+        "errors": [],
+        "provider_observed_on": "2026-10-09"
+      },
+      "catalyst": null,
+      "reference_plan": null,
+      "automated_only": true,
+      "manual_review_required": true
+    },
+    {
+      "code": "6561",
+      "name": "是方",
+      "as_of": "2026-10-22",
+      "status": "unconfirmed",
+      "cache_quality_passed": true,
+      "gates": {
+        "market": false,
+        "sector": true,
+        "fundamental": true,
+        "catalyst": false,
+        "technical": false,
+        "chips": true
+      },
+      "blockers": [
+        "日週K趨勢尚未配合",
+        "市場廣度未通過／待確認",
+        "有來源與時間的催化審核未通過／待確認",
+        "日週K／風險報酬未通過／待確認"
+      ],
+      "facts": {
+        "fundamental_ok": true,
+        "chips_ok": true,
+        "revenue_yoy": 10.66,
+        "revenue_period": "2026-09",
+        "profit_period": "2026-06-30",
+        "chips_date": "2026-10-22",
+        "chip_net_5d": 129332.0,
+        "source": "https://api.finmindtrade.com/api/v4/data",
+        "observed_on": "2026-10-22",
         "notes": [
           "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
         ],
@@ -594,9 +473,9 @@
       "manual_review_required": true
     },
     {
-      "code": "6743",
-      "name": "安普新",
-      "as_of": "2026-10-21",
+      "code": "2731",
+      "name": "雄獅",
+      "as_of": "2026-10-22",
       "status": "unconfirmed",
       "cache_quality_passed": true,
       "gates": {
@@ -605,30 +484,31 @@
         "fundamental": true,
         "catalyst": false,
         "technical": false,
-        "chips": true
+        "chips": false
       },
       "blockers": [
         "日週K趨勢尚未配合",
         "市場廣度未通過／待確認",
         "族群強度或樣本數未通過／待確認",
         "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認"
+        "日週K／風險報酬未通過／待確認",
+        "最新籌碼未通過／待確認"
       ],
       "facts": {
         "fundamental_ok": true,
-        "chips_ok": true,
-        "revenue_yoy": 23.8,
+        "chips_ok": false,
+        "revenue_yoy": 11.4,
         "revenue_period": "2026-09",
         "profit_period": "2026-06-30",
         "chips_date": "2026-10-21",
-        "chip_net_5d": 71776.0,
+        "chip_net_5d": null,
         "source": "https://api.finmindtrade.com/api/v4/data",
-        "observed_on": "2026-10-21",
+        "observed_on": "2026-10-22",
         "notes": [
           "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
         ],
         "errors": [],
-        "provider_observed_on": "2026-10-10"
+        "provider_observed_on": "2026-10-09"
       },
       "catalyst": null,
       "reference_plan": null,
@@ -636,67 +516,9 @@
       "manual_review_required": true
     },
     {
-      "code": "3290",
-      "name": "東浦",
-      "as_of": "2026-10-21",
-      "status": "unconfirmed",
-      "cache_quality_passed": true,
-      "gates": {},
-      "blockers": [
-        "還原日K缺漏或歷史不足"
-      ],
-      "facts": {},
-      "catalyst": null,
-      "reference_plan": null,
-      "automated_only": true,
-      "manual_review_required": true
-    },
-    {
-      "code": "3029",
-      "name": "零壹",
-      "as_of": "2026-10-21",
-      "status": "unconfirmed",
-      "cache_quality_passed": true,
-      "gates": {
-        "market": false,
-        "sector": false,
-        "fundamental": true,
-        "catalyst": false,
-        "technical": false,
-        "chips": true
-      },
-      "blockers": [
-        "尚未接近突破或回測觸發區",
-        "市場廣度未通過／待確認",
-        "族群強度或樣本數未通過／待確認",
-        "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認"
-      ],
-      "facts": {
-        "fundamental_ok": true,
-        "chips_ok": true,
-        "revenue_yoy": 38.64,
-        "revenue_period": "2026-09",
-        "profit_period": "2026-06-30",
-        "chips_date": "2026-10-21",
-        "chip_net_5d": 1294826.0,
-        "source": "https://api.finmindtrade.com/api/v4/data",
-        "observed_on": "2026-10-21",
-        "notes": [
-          "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-        ],
-        "errors": [],
-        "provider_observed_on": "2026-10-07"
-      },
-      "catalyst": null,
-      "reference_plan": null,
-      "automated_only": true,
-      "manual_review_required": true
-    },
-    {
-      "code": "5434",
-      "name": "崇越",
-      "as_of": "2026-10-21",
+      "code": "2492",
+      "name": "華新科",
+      "as_of": "2026-10-22",
       "status": "unconfirmed",
       "cache_quality_passed": true,
       "gates": {
@@ -717,55 +539,13 @@
       "facts": {
         "fundamental_ok": true,
         "chips_ok": false,
-        "revenue_yoy": 26.42,
+        "revenue_yoy": 53.93,
         "revenue_period": "2026-09",
         "profit_period": "2026-06-30",
         "chips_date": "2026-10-21",
-        "chip_net_5d": -193042.0,
+        "chip_net_5d": null,
         "source": "https://api.finmindtrade.com/api/v4/data",
-        "observed_on": "2026-10-21",
-        "notes": [
-          "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
-        ],
-        "errors": [],
-        "provider_observed_on": "2026-10-12"
-      },
-      "catalyst": null,
-      "reference_plan": null,
-      "automated_only": true,
-      "manual_review_required": true
-    },
-    {
-      "code": "2610",
-      "name": "華航",
-      "as_of": "2026-10-21",
-      "status": "unconfirmed",
-      "cache_quality_passed": true,
-      "gates": {
-        "market": false,
-        "sector": false,
-        "fundamental": true,
-        "catalyst": false,
-        "technical": false,
-        "chips": true
-      },
-      "blockers": [
-        "日週K趨勢尚未配合",
-        "市場廣度未通過／待確認",
-        "族群強度或樣本數未通過／待確認",
-        "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認"
-      ],
-      "facts": {
-        "fundamental_ok": true,
-        "chips_ok": true,
-        "revenue_yoy": 31.86,
-        "revenue_period": "2026-09",
-        "profit_period": "2026-06-30",
-        "chips_date": "2026-10-21",
-        "chip_net_5d": 24826619.0,
-        "source": "https://api.finmindtrade.com/api/v4/data",
-        "observed_on": "2026-10-21",
+        "observed_on": "2026-10-22",
         "notes": [
           "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
         ],
@@ -778,9 +558,9 @@
       "manual_review_required": true
     },
     {
-      "code": "2731",
-      "name": "雄獅",
-      "as_of": "2026-10-21",
+      "code": "3059",
+      "name": "華晶科",
+      "as_of": "2026-10-22",
       "status": "unconfirmed",
       "cache_quality_passed": true,
       "gates": {
@@ -789,25 +569,284 @@
         "fundamental": true,
         "catalyst": false,
         "technical": false,
-        "chips": true
+        "chips": false
       },
       "blockers": [
         "日週K趨勢尚未配合",
         "市場廣度未通過／待確認",
         "族群強度或樣本數未通過／待確認",
         "有來源與時間的催化審核未通過／待確認",
-        "日週K／風險報酬未通過／待確認"
+        "日週K／風險報酬未通過／待確認",
+        "最新籌碼未通過／待確認"
       ],
       "facts": {
         "fundamental_ok": true,
-        "chips_ok": true,
-        "revenue_yoy": 11.4,
+        "chips_ok": false,
+        "revenue_yoy": 0.33,
         "revenue_period": "2026-09",
         "profit_period": "2026-06-30",
         "chips_date": "2026-10-21",
-        "chip_net_5d": 244118.0,
+        "chip_net_5d": null,
         "source": "https://api.finmindtrade.com/api/v4/data",
-        "observed_on": "2026-10-21",
+        "observed_on": "2026-10-22",
+        "notes": [
+          "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+        ],
+        "errors": [],
+        "provider_observed_on": "2026-10-08"
+      },
+      "catalyst": null,
+      "reference_plan": null,
+      "automated_only": true,
+      "manual_review_required": true
+    },
+    {
+      "code": "6165",
+      "name": "浪凡",
+      "as_of": "2026-10-22",
+      "status": "unconfirmed",
+      "cache_quality_passed": true,
+      "gates": {
+        "market": false,
+        "sector": false,
+        "fundamental": true,
+        "catalyst": false,
+        "technical": false,
+        "chips": false
+      },
+      "blockers": [
+        "日週K趨勢尚未配合",
+        "市場廣度未通過／待確認",
+        "族群強度或樣本數未通過／待確認",
+        "有來源與時間的催化審核未通過／待確認",
+        "日週K／風險報酬未通過／待確認",
+        "最新籌碼未通過／待確認"
+      ],
+      "facts": {
+        "fundamental_ok": true,
+        "chips_ok": false,
+        "revenue_yoy": 3.08,
+        "revenue_period": "2026-09",
+        "profit_period": "2026-06-30",
+        "chips_date": "2026-10-21",
+        "chip_net_5d": null,
+        "source": "https://api.finmindtrade.com/api/v4/data",
+        "observed_on": "2026-10-22",
+        "notes": [
+          "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+        ],
+        "errors": [],
+        "provider_observed_on": "2026-10-07"
+      },
+      "catalyst": null,
+      "reference_plan": null,
+      "automated_only": true,
+      "manual_review_required": true
+    },
+    {
+      "code": "1504",
+      "name": "東元",
+      "as_of": "2026-10-22",
+      "status": "unconfirmed",
+      "cache_quality_passed": true,
+      "gates": {
+        "market": false,
+        "sector": false,
+        "fundamental": true,
+        "catalyst": false,
+        "technical": false,
+        "chips": false
+      },
+      "blockers": [
+        "日週K趨勢尚未配合",
+        "市場廣度未通過／待確認",
+        "族群強度或樣本數未通過／待確認",
+        "有來源與時間的催化審核未通過／待確認",
+        "日週K／風險報酬未通過／待確認",
+        "最新籌碼未通過／待確認"
+      ],
+      "facts": {
+        "fundamental_ok": true,
+        "chips_ok": false,
+        "revenue_yoy": 13.68,
+        "revenue_period": "2026-09",
+        "profit_period": "2026-06-30",
+        "chips_date": "2026-10-21",
+        "chip_net_5d": null,
+        "source": "https://api.finmindtrade.com/api/v4/data",
+        "observed_on": "2026-10-22",
+        "notes": [
+          "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+        ],
+        "errors": [],
+        "provider_observed_on": "2026-10-07"
+      },
+      "catalyst": null,
+      "reference_plan": null,
+      "automated_only": true,
+      "manual_review_required": true
+    },
+    {
+      "code": "2535",
+      "name": "達欣工",
+      "as_of": "2026-10-22",
+      "status": "unconfirmed",
+      "cache_quality_passed": true,
+      "gates": {
+        "market": false,
+        "sector": false,
+        "fundamental": true,
+        "catalyst": false,
+        "technical": false,
+        "chips": false
+      },
+      "blockers": [
+        "日週K趨勢尚未配合",
+        "市場廣度未通過／待確認",
+        "族群強度或樣本數未通過／待確認",
+        "有來源與時間的催化審核未通過／待確認",
+        "日週K／風險報酬未通過／待確認",
+        "最新籌碼未通過／待確認"
+      ],
+      "facts": {
+        "fundamental_ok": true,
+        "chips_ok": false,
+        "revenue_yoy": 21.57,
+        "revenue_period": "2026-09",
+        "profit_period": "2026-06-30",
+        "chips_date": "2026-10-21",
+        "chip_net_5d": null,
+        "source": "https://api.finmindtrade.com/api/v4/data",
+        "observed_on": "2026-10-22",
+        "notes": [
+          "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+        ],
+        "errors": [],
+        "provider_observed_on": "2026-10-12"
+      },
+      "catalyst": null,
+      "reference_plan": null,
+      "automated_only": true,
+      "manual_review_required": true
+    },
+    {
+      "code": "2707",
+      "name": "晶華",
+      "as_of": "2026-10-22",
+      "status": "unconfirmed",
+      "cache_quality_passed": true,
+      "gates": {
+        "market": false,
+        "sector": false,
+        "fundamental": true,
+        "catalyst": false,
+        "technical": false,
+        "chips": false
+      },
+      "blockers": [
+        "日週K趨勢尚未配合",
+        "市場廣度未通過／待確認",
+        "族群強度或樣本數未通過／待確認",
+        "有來源與時間的催化審核未通過／待確認",
+        "日週K／風險報酬未通過／待確認",
+        "最新籌碼未通過／待確認"
+      ],
+      "facts": {
+        "fundamental_ok": true,
+        "chips_ok": false,
+        "revenue_yoy": 9.16,
+        "revenue_period": "2026-09",
+        "profit_period": "2026-06-30",
+        "chips_date": "2026-10-21",
+        "chip_net_5d": null,
+        "source": "https://api.finmindtrade.com/api/v4/data",
+        "observed_on": "2026-10-22",
+        "notes": [
+          "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+        ],
+        "errors": [],
+        "provider_observed_on": "2026-10-08"
+      },
+      "catalyst": null,
+      "reference_plan": null,
+      "automated_only": true,
+      "manual_review_required": true
+    },
+    {
+      "code": "6715",
+      "name": "嘉基",
+      "as_of": "2026-10-22",
+      "status": "unconfirmed",
+      "cache_quality_passed": true,
+      "gates": {
+        "market": false,
+        "sector": true,
+        "fundamental": false,
+        "catalyst": false,
+        "technical": false,
+        "chips": false
+      },
+      "blockers": [
+        "尚未接近突破或回測觸發區",
+        "市場廣度未通過／待確認",
+        "基本面未通過／待確認",
+        "有來源與時間的催化審核未通過／待確認",
+        "日週K／風險報酬未通過／待確認",
+        "最新籌碼未通過／待確認"
+      ],
+      "facts": {
+        "fundamental_ok": false,
+        "chips_ok": false,
+        "revenue_yoy": 40.94,
+        "revenue_period": "2026-09",
+        "profit_period": "2026-06-30",
+        "chips_date": "2026-10-21",
+        "chip_net_5d": null,
+        "source": "https://api.finmindtrade.com/api/v4/data",
+        "observed_on": "2026-10-22",
+        "notes": [
+          "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
+        ],
+        "errors": [],
+        "provider_observed_on": "2026-10-09"
+      },
+      "catalyst": null,
+      "reference_plan": null,
+      "automated_only": true,
+      "manual_review_required": true
+    },
+    {
+      "code": "2753",
+      "name": "八方雲集",
+      "as_of": "2026-10-22",
+      "status": "unconfirmed",
+      "cache_quality_passed": true,
+      "gates": {
+        "market": false,
+        "sector": false,
+        "fundamental": true,
+        "catalyst": false,
+        "technical": false,
+        "chips": false
+      },
+      "blockers": [
+        "日週K趨勢尚未配合",
+        "市場廣度未通過／待確認",
+        "族群強度或樣本數未通過／待確認",
+        "有來源與時間的催化審核未通過／待確認",
+        "日週K／風險報酬未通過／待確認",
+        "最新籌碼未通過／待確認"
+      ],
+      "facts": {
+        "fundamental_ok": true,
+        "chips_ok": false,
+        "revenue_yoy": 8.36,
+        "revenue_period": "2026-09",
+        "profit_period": "2026-06-30",
+        "chips_date": "2026-10-21",
+        "chip_net_5d": null,
+        "source": "https://api.finmindtrade.com/api/v4/data",
+        "observed_on": "2026-10-22",
         "notes": [
           "營收年增與最新稅後盈餘只作基本面初篩；財報期末日不是公告日。"
         ],
@@ -821,12 +860,12 @@
     }
   ],
   "blocked_gate_counts": {
-    "market": 19,
-    "catalyst": 19,
-    "technical": 19,
-    "sector": 8,
-    "fundamental": 7,
-    "chips": 6
+    "market": 20,
+    "sector": 11,
+    "catalyst": 20,
+    "technical": 20,
+    "chips": 18,
+    "fundamental": 6
   },
   "approved_by_this_process": 0,
   "notice": "沿用既有資料與審核結果；本程序不核准催化、不產生交易，也不代表即時行情或已驗證勝率。"

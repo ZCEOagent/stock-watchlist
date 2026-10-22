@@ -4330,5 +4330,38 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-10-22",
+    "market": "tw",
+    "id": "4304",
+    "name": "勝昱",
+    "flagged_close": 18.15,
+    "flagged_change_pct": 10.0,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-22",
+    "market": "tw",
+    "id": "3693",
+    "name": "營邦",
+    "flagged_close": 647.0,
+    "flagged_change_pct": -9.89,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-22",
+    "market": "tw",
+    "id": "6834",
+    "name": "天二科技",
+    "flagged_close": 130.0,
+    "flagged_change_pct": -9.72,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
