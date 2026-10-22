@@ -7,6 +7,7 @@ from storage import read_json, write_json
 from radar import market_context, shortlist, evaluate
 from radar_data import EvidenceClient, adjusted_histories, summarize_evidence
 from performance import evaluate_signals, signal_snapshots
+from market_radar.handoff import candidate_ids
 
 
 def same_day_evaluation(prior, as_of):
@@ -25,9 +26,11 @@ def build_radar(universe, history, as_of, quality, persist=True):
         raise ValueError("watchlist.json 必須是四碼代號字串陣列")
     active_ids = [sid for sid, value in previous.items() if value.get("plan") and value.get("status") in ("waiting", "triggered", "review", "unconfirmed")]
     context = market_context(universe, history)
-    selected = shortlist(universe, history, set(forced + active_ids))
+    handed_off = candidate_ids('.radar/state.sqlite', as_of)
+    selected = shortlist(universe, history, set(forced + active_ids + handed_off))
     result = {"as_of": as_of, "mode": config.RADAR_MODE, "context": context,
-              "items": [], "coverage": {"market_valid": len(history), "deep_review": len(selected)},
+              "items": [], "coverage": {"market_valid": len(history), "deep_review": len(selected),
+                                        "daily_candidate_handoff": handed_off},
               "notice": "收盤研究／影子驗證；尚無即時報價確認，不代表實際持倉或已成交。"}
     if not quality["passed"]:
         result["notice"] = "資料覆蓋不足，本次不產生或推進波段訊號；保留前次有效資料。"
@@ -86,7 +89,7 @@ def build_radar(universe, history, as_of, quality, persist=True):
         print(f"雷達同日重跑：{len(preserved)} 檔還原行情失敗，保留先前有效評估：{preserved}", flush=True)
     selected_ids = {i["stock_id"] for i in selected}
     lookup = {i["stock_id"]: i for i in universe}
-    for sid in set(forced + active_ids) - selected_ids:
+    for sid in set(forced + active_ids + handed_off) - selected_ids:
         result["items"].append({"id": sid, "name": lookup.get(sid, {}).get("stock_name", sid),
                                 "status": "unconfirmed", "as_of": as_of,
                                 "reasons": ["指定／原追蹤股票行情缺漏或過期，保留原計畫待確認"]})
