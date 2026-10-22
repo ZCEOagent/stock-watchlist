@@ -21,6 +21,7 @@ on:
         default: ""
 permissions:
   contents: write
+  actions: read
 concurrency:
   group: stock-report-writer
   cancel-in-progress: false
@@ -57,6 +58,12 @@ jobs:
         run: python -m market_radar.heartbeat --slot "$HEARTBEAT_SLOT" --status started
       - name: 驗證核心規則
         run: python -m unittest discover -s tests -v
+      - name: Restore public daily candidates for deep evaluation
+        if: env.MARKET_LIMIT == ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RADAR_DEFAULT_BRANCH: master
+        run: python -m market_radar.restore
       - name: 產生資料與報告
         env:
           FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
