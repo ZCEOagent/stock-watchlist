@@ -1,6 +1,6 @@
 {
   "as_of": "2026-10-22",
-  "generated_at": "2026-10-23T07:16:16.491776+00:00",
+  "generated_at": "2026-10-23T13:21:22.035272+00:00",
   "mode": "shadow",
   "items": [
     {
@@ -815,8 +815,8 @@
       "manual_review_required": true
     },
     {
-      "code": "6855",
-      "name": "數泓科",
+      "code": "8102",
+      "name": "傑霖科技",
       "as_of": "2026-10-22",
       "status": "unconfirmed",
       "cache_quality_passed": true,
@@ -831,8 +831,8 @@
       "manual_review_required": true
     },
     {
-      "code": "8102",
-      "name": "傑霖科技",
+      "code": "6855",
+      "name": "數泓科",
       "as_of": "2026-10-22",
       "status": "unconfirmed",
       "cache_quality_passed": true,
