@@ -37,6 +37,38 @@ class SessionTests(unittest.TestCase):
         self.beats = []
         self.modes = []
 
+    def test_start_refreshes_exceptional_closure_before_polling(self):
+        import market_clock
+        clock = FakeClock(TRADING_DAY.replace(hour=9))
+        # Yesterday's restored calendar says open; a new provider calendar excludes it.
+        with patch.object(market_clock, '_tw_sessions', ['2026-10-19', '2026-10-20']), \
+                patch.object(session, 'refresh_tw_sessions') as refresh, \
+                patch.object(session, 'default_step') as step:
+            def updated():
+                market_clock._tw_sessions = ['2026-10-18', '2026-10-20']
+            refresh.side_effect = updated
+            self.assertEqual(session.start(self.args, clock=clock, beat=self.beat), 0)
+            refresh.assert_called_once_with()
+            step.assert_not_called()
+        self.assertEqual(self.beats[-1][0], 'closed')
+
+    def test_calendar_refresh_failure_blocks_stale_calendar(self):
+        clock = FakeClock(TRADING_DAY.replace(hour=9))
+        with patch.object(session, 'refresh_tw_sessions', side_effect=RuntimeError('provider failed')), \
+                patch.object(session, 'run') as run:
+            self.assertEqual(session.start(self.args, clock=clock, beat=self.beat), 1)
+            run.assert_not_called()
+        self.assertEqual(self.beats[-1][0], 'failed')
+        self.assertEqual(self.beats[-1][2]['detail'], 'calendar_refresh_failed')
+
+    def test_start_continues_after_successful_refresh(self):
+        clock = FakeClock(TRADING_DAY.replace(hour=9))
+        calls = []
+        with patch.object(session, 'refresh_tw_sessions', side_effect=lambda: calls.append('refresh')), \
+                patch.object(session, 'run', side_effect=lambda *a, **kw: calls.append('run') or 0):
+            self.assertEqual(session.start(self.args, clock=clock, beat=self.beat), 0)
+        self.assertEqual(calls, ['refresh', 'run'])
+
     def tearDown(self):
         self.tmp.cleanup()
 
