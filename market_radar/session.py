@@ -15,7 +15,7 @@ import json
 import time
 from zoneinfo import ZoneInfo
 
-from market_clock import session_dates
+from market_clock import session_dates, refresh_tw_sessions
 from . import cli, heartbeat, ledger
 from .store import Store
 
@@ -141,6 +141,22 @@ def run(args, clock=now_tw, sleep=time.sleep, step=default_step, beat=heartbeat.
     return 0 if ok else 1
 
 
+def start(args, clock=now_tw, beat=heartbeat.send):
+    """Refresh exceptional closures before consulting the restored calendar.
+
+    Never poll using yesterday's calendar when the provider cannot be checked.
+    The existing monitor receives a failed heartbeat instead of a false closure.
+    """
+    try:
+        refresh_tw_sessions()
+    except Exception as exc:
+        now = clock()
+        beat(SLOT, 'failed', now, detail='calendar_refresh_failed')
+        print(f'Trading calendar refresh failed ({type(exc).__name__}); no polling performed.')
+        return 1
+    return run(args, clock=clock, beat=beat)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--state', default='.radar/state.sqlite')
@@ -149,7 +165,7 @@ def main():
     parser.add_argument('--maintenance-state', default='.maintenance/state.sqlite')
     parser.add_argument('--send', action='store_true')
     args = parser.parse_args()
-    raise SystemExit(run(args))
+    raise SystemExit(start(args))
 
 
 if __name__ == '__main__':
