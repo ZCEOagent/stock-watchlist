@@ -4363,5 +4363,38 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-10-22",
+    "market": "us",
+    "id": "MRNA",
+    "name": "Moderna",
+    "flagged_close": 202.63,
+    "flagged_change_pct": -17.57,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-22",
+    "market": "us",
+    "id": "VST",
+    "name": "Vistra Corp.",
+    "flagged_close": 140.83,
+    "flagged_change_pct": -9.81,
+    "tags": [
+      "均線同步"
+    ]
+  },
+  {
+    "date": "2026-10-22",
+    "market": "us",
+    "id": "IR",
+    "name": "Ingersoll Rand",
+    "flagged_close": 74.11,
+    "flagged_change_pct": -6.26,
+    "tags": [
+      "均線同步"
+    ]
   }
 ]
