@@ -4396,5 +4396,36 @@
     "tags": [
       "均線同步"
     ]
+  },
+  {
+    "date": "2026-10-23",
+    "market": "us",
+    "id": "CCI",
+    "name": "Crown Castle",
+    "flagged_close": 85.97,
+    "flagged_change_pct": 9.06,
+    "tags": [
+      "爆量"
+    ]
+  },
+  {
+    "date": "2026-10-23",
+    "market": "us",
+    "id": "CRWD",
+    "name": "CrowdStrike",
+    "flagged_close": 257.57,
+    "flagged_change_pct": 8.25,
+    "tags": []
+  },
+  {
+    "date": "2026-10-23",
+    "market": "us",
+    "id": "GL",
+    "name": "Globe Life",
+    "flagged_close": 154.79,
+    "flagged_change_pct": -8.09,
+    "tags": [
+      "爆量"
+    ]
   }
 ]
